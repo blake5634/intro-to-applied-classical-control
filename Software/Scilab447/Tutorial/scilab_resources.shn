@@ -1,0 +1,116 @@
+<nh>\documentclass{article}
+<s>\documentclass{seminar}
+<*nhs>
+\usepackage{graphicx}
+\usepackage{graphpap}
+\usepackage{hyperref}
+
+<s>\newpagestyle{BHstyle}{\sl U. of Washington \hfil EE447 \hfil \thepage}{Hannaford \hfil \today}
+<s>\pagestyle{headings}
+<s>\slidepagestyle{BHstyle}
+<s>\addtolength\oddsidemargin{3cm}
+
+\title{Scilab Tutorials and Resources}
+
+
+<*hn>
+\usepackage{fancyhdr}
+
+
+% Make table rows deeper
+%\renewcommand\arraystretch{2.0}% Vertical Row size, 1.0 is for standard spacing)
+
+
+%\usepackage{lineno}
+%\linenumbers
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%5
+%
+%  Set Up Margins
+\input{templates/pagedim.tex}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%
+%         Page format Mods HERE
+%
+%Mod's to page size for this document
+\addtolength\textwidth{0cm}
+\addtolength\oddsidemargin{0cm}
+\addtolength\headsep{0cm}
+\addtolength\textheight{0cm}
+%\linespread{0.894}   % 0.894 = 6 lines per inch, 1 = "single",  1.6 = "double"
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%% HEADER / FOOTER
+\pagestyle{fancy}
+%%%%%  Page header/footer fields for "NSF Style" proposal
+%%%%%  \chead will be changed with each section
+\lhead{\small\sc EE447}
+\rhead{}
+\chead{\large\bf Scilab Tutorials}
+\lfoot{Hannaford, U. of Washington}
+\rfoot{Sept 2017}
+\cfoot{\thepage}
+%\renewcommand\headrulewidth{1pt}
+%\renewcommand\footrulewidth{1pt}
+
+
+% \renewcommand{\rmdefault}{pcr}  % set courier (pcr) font.   Others:    pnc - New Century Schoolbook, ppl - Palatino,
+% \renewcommand{\rmdefault}{phv}  % set helvetica (phv) font  Others:   pbk - Bookman   pag - Avante Garde  bch - Charter
+% \renewcommand{\rmdefault}{ptm}  % set Times (ptm) font
+
+
+\linespread{1.0}
+
+<*>
+\begin{document}
+
+
+%  Table row height
+\renewcommand\arraystretch{1.0}% Vertical Row size, 1.0 is for standard spacing)
+
+
+<s>\begin{slide}
+\section*{Resources For Scilab  }
+\begin{itemize}
+    \item \href{https://www.scilab.org/en/content/download/849/7901/file/Scilab_beginners.pdf}{Scilab For Beginners}
+    
+    A detailed step by step introduction to Scilab from the 
+    \href{https://www.scilab.org/resources/documentation/tutorials}{Official Scilab Tutorials Page}
+    
+    \item \href{https://www.scilab.org/en/content/download/247/1702/file/introscilab.pdf}{Introduction to Scilab}
+    
+    More of a user manual. Covers the same ground in more detail. 
+
+    \item \href{http://www.earth.northwestern.edu/people/seth/Educational/Scilab/scilabtutorial.pdf}{Scilab Mini Textbook}
+    
+    By Prof. Satish Annigeri, northwestern University.
+    
+    \item \href{https://wiki.scilab.org/Tutorials?action=AttachFile&do=get&target=Scilab4Matlab.pdf}{Intro to Scilab for Matlab Users}  by Eike Rietsch
+\end{itemize}
+
+
+
+<s>\end{slide}
+<s>\begin{slide}
+
+\section*{ Scilab Videos }
+\begin{itemize}
+\item \href{https://www.youtube.com/channel/UCqA_1fcaSWKGpYBOfNuPGzw/feed}{Scilab Tutorials Channel}
+
+Some pretty well produced videos on working with Scilab. 
+
+\item \href{https://www.youtube.com/watch?v=cS6d9Q5SWpg}{Wordless Scilab Tutorial} 8:54
+
+\item \href{https://www.youtube.com/watch?v=mY7EBULfJzY}{Plotting Tutorial }  11:31
+
+\item \href{https://www.youtube.com/user/ScilabChannel/videos}{The Official Scilab Video Channel}
+
+\item \href{https://www.youtube.com/watch?v=5u-7p741kVM}{Advanced PID Tuning with Scilab  (Industry Research Lecture)} 22:33 
+\end{itemize}
+<s>\end{slide}
+<s>\begin{slide}
+
+<s>\end{slide}
+<*>
+\end{document}
+

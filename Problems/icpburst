@@ -1,6 +1,13 @@
 #$! /bin/bash
+#
+#  brake up ICP solutions into individual files
+#   so that they can be given out after each week's
+#   work. 
+#
+#   Note: page ranges below might change or get out
+#    of date with respect to the file.
 
-f=icp_book_447.n.pdf
+f=icp_book_447_SOLUTIONS.pdf
 
 pdftk $f cat 1-5   output   icp447_01_soln.pdf
 pdftk $f cat 6-11  output   icp447_02_soln.pdf

@@ -1,0 +1,220 @@
+// smart root locus
+//  New: improved Kmax algorithm
+//  B. Hannaford EE447    Nov '13
+
+//  Revision 1 - bug fixes   21-Nov-13
+
+//  Rev 3      - Add drawing perf specs  21-Nov
+ 
+clear ;
+xdel(winsid());   // close all graphics windows which might be open
+s=%s;     j=%i;
+
+//exec('evans447.sci',-1);  // load the better evans function
+
+// Set the K-range mode you want:
+//      1 = new auto K-range algorithm
+//      0 = manual (set manKmax below)
+//     -1 = old evans alg.
+AUTOK = 1;       //  set -1, 0, or 1
+
+manKmax = 10000;    // manual K-max formode 0
+
+
+epsilon = 0.01;  // how far from zeros to evaluate K 
+
+/////////////////////////////////////////////////////////////////////////
+/////// ( enter your problem below)  /////////////// 
+
+// (you must define the numberator (n) and demominator (d) of  CPH(s))
+
+np = 200;
+//dp = real((s+0.5+2*j)*(s+0.5-2*j));
+dp = (s+2)*(s+5);
+//nc = real((s+2+j*0.7)*(s+2-j*0.7))
+nc = (s+20)*(s+22)
+
+dc = s;
+
+n = nc*np;
+d = dc*dp;
+
+//(only the last one counts!)
+
+np = 3.0;
+dp = real((s+1.2)*(s+0.2+j)*(s+0.2-j));
+
+nc = real((s+0.1+.1*j)*(s+0.1-0.1*j))
+dc = s;
+
+n = nc*np;
+d = dc*dp;
+
+///////////////////////   Your performance Specs
+PLOTSPECS = 1;      // set to 0 to NOT plot the specs
+ 
+Ts =   4.0;
+Ts2 =  0.0;    //  set Ts2=0 if not needed
+POS = 1.01;    //  5% overshoot
+wn =   0.0;      //  set wn = 0.0 if not needed
+ 
+
+
+// source: wikipedia: "Overshoot_(signal)"
+a = log(POS-1)^2;
+zeta_d = sqrt(a/(%pi^2+a));
+theta = acos(zeta_d);
+
+
+
+////////////// (may tweak these scale factors for aesthetics) //////
+// Plotting Range (relative to pole/zero cluster size)
+pscalex =  3;
+pscaley =  4; 
+
+
+/////////////////////////////////////////////////////////////////////////
+/////////////////////////////////////////////////////////////
+//   Root Locus only (define your system above this)
+//
+// get all the poles and zeros for plot scaling
+//  "evans" should do this automatically but doesn't do well
+
+////////////////////////////////////////////////////////
+//  LOOP GAIN
+// oltf = Open Loop Transfer Function (CPH(s))
+oltf = syslin('c',n/d);
+
+pole_list = roots(oltf(3));
+zero_list = roots(oltf(2));
+ 
+features = cat(2,roots(oltf(3))',roots(oltf(2))')
+
+// Use the plant poles to scale the RL (ignore pp)
+x1 = pscalex * min(real(features));
+//x2 = pscalex * max(real(roots(pltf(3))));
+
+// right boundary of RL plot
+x2 = -0.1*x1; // usually better than automatic
+
+y2 = pscaley * max(imag(features));
+y1 = -y2;
+
+if(y2 == 0) then
+    y2 = 1*pscaley; y1 = -y2;
+end
+ 
+
+printf("x1-2: %f %f y1-2: %f %f\n", x1,x2,y1,y2)
+ 
+// r = size scale for pole-zero cluster
+r = max(abs(y2-y1),abs(x2-x1));
+printf("r factor: %f\n",r);
+
+ndiff = degree(d)-degree(n);  // ndiff = np-nz
+
+//  PLOT ROOT LOCUS
+
+if(AUTOK < 0) then          //  use the old scilab evans algorithm
+evans(oltf)
+else 
+    if (AUTOK == 0) then    // set Kmax manually
+    evans447(oltf, manKmax)      //  "evans447" is slightly modified to eliminate 
+                    //  the annoying legend box 
+//////////////////////////////////////////////////////  auto-K
+else   // new auto k-range algorithm
+// separate tricks for a few cases
+  Kmax = 0;
+  //  No zeros
+  if(degree(n)==0) then  // case of no zeros
+      // first asymptote angle (any will do)
+      th = 3.14159/ndiff;
+      // find a point outside the pole-zero cluster
+      // first get real-axis asymptote
+      sigma_a = (sum(pole_list)-sum(zero_list))/ndiff;
+      // now find a point out on the asymptote 
+      s1 = sigma_a + 10*r*cos(th) + j*10*r*sin(th); // 10x farther out
+      CPHs = abs(horner(n,s1)/horner(d,s1)); // horner = eval polynomial
+      Kmax = 1/CPHs; // apply magnitude condition
+  else if (degree(n) > 0) then  // we have at least one zero
+          for(i=1:length(zero_list)) do  // for each zero
+              if(abs(imag(zero_list(i))) < r/100) then // 'REAL' zero
+                   // check to the right:
+                   rcount = 0; // how many poles/zeros to the right
+                   for(j=1:length(features)) do
+                       if(real(features(j)) > real(zero_list(i))) then
+                           rcount = rcount + 1;
+                       end
+                       if(modulo(rcount,2)==1) then   // RL is RIGHT of zero
+                          s1 = zero_list(i) + epsilon*r;
+                       else                           // RL is to LEFT of zero
+                          s1 = zero_list(i) - epsilon*r;
+                       end 
+                   end
+                else   // we have a COMPLEX zero
+                     s1 = zero_list(i) + epsilon*r; // go a little away
+                end
+                CPHs = abs(horner(n,s1)/horner(d,s1)); // horner = evaluate polynom
+                printf ("CPH = %f\n",CPHs)
+                if (1/CPHs > Kmax) then Kmax = 1/CPHs;
+                  end
+              end
+       end // of zeros list
+  end 
+  printf("Kmax: %f \n",Kmax)
+  evans447(oltf, Kmax);
+end   
+
+end
+//
+
+
+if(PLOTSPECS==1) then
+sp_thk = 3;
+sp_col = 5;
+
+//  plot the performance regions
+  // Ts:
+  sigma_st = log(0.02)/Ts;
+  xv = [sigma_st; sigma_st]
+  yv = [pscaley*y1; pscaley*y2] ;
+  xsegs(xv,yv,1);
+  e = gce(); // get handle to lines
+  e.thickness= sp_thk;
+  e.segs_color=sp_col;
+  // %OS
+  xv = [0, 0; r*cos(%pi-theta),  r*cos(%pi-theta)]
+  yv = [0, 0; r*sin(%pi-theta), -r*sin(%pi-theta)]
+  xsegs(xv,yv,[1 2]);
+  e = gce(); // get handle to lines
+  e.thickness= sp_thk;
+  e.segs_color=sp_col;
+  if(Ts2 > 0.0) then
+     sigma_st2 = log(0.02)/Ts2;
+     // Second Ts line:
+     xv = [sigma_st2; sigma_st2]
+     yv = [pscaley*y1; pscaley*y2] ;
+     xsegs(xv,yv,1);
+     e = gce(); // get handle to lines
+  e.thickness= sp_thk;
+  e.segs_color=sp_col;
+  end
+ 
+  if(wn > 0.0) then
+     xset("color", sp_col)
+     xarc(-wn,wn, 2*wn, 2*wn, 64*80, 64*200);
+     e = gce(); // get handle to lines
+     e.thickness= sp_thk;
+     xset("color",1)
+  end
+  
+end
+
+a1=get("current_axes");//get the handle of the newly created axes
+a1.data_bounds=[x1,y1 ; x2,y2]; 
+// plot the radial lines
+sgrid;
+ 
+// end!
+
+ 
