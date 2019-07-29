@@ -1,5 +1,4 @@
 
-
 ## Introduction to Applied Classical Control
 
 ### Blake Hannaford
@@ -7,7 +6,7 @@
 
 (Initial Github distribution: August 2019. )
 
-![Control Engineering Workflow](file:://Book/figs01/01115.png)
+![Control Engineering Workflow](https://beagle.ee.washington.edu/blake/intro-to-applied-classical-control/blob/master/Book/figs01/01115.png)
 
 This book evolved from a set of course notes from teaching EE447,
 a 10-week course on mostly classical control in the Department of Electrical and Computer Engineering at the University of Washington. My aim in the course was to enable ECE students (mostly Seniors in the Control and Robotics or Energy Systems concentrations) to  master the minimal set of concepts needed to apply  classical control design methods to basic control problems and implement a computer based controller.
