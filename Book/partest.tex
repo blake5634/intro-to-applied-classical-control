@@ -1,0 +1,42 @@
+% test file for parcheck
+%
+%
+\chapter{Frequency Response and 2nd Order Systems}
+
+This chapter starts with fairly detailed analaysis of second order linear systems and the concepts of magnitude and frequency of steady state sinusoidal response.  Computer techniques easily create highly accurate frequency response plots.   We then develop quick techniques for hand drawing reasonably accurate frequency responses. 
+
+\section{Problem Statement and Learning Objectives
+
+\section{The basic 2nd order dynamical system}
+
+A dynamical system is said to be ``second order" if the highest power of $s$ in its denominator  is 2.  An example of such a system is
+
+\[
+G(s) = \frac1{(s+a)(s+b)} = \frac {1}{s^2 + (a+b)s+ab}
+\]
+
+%  special math case of unmatched left bracket 
+\[
+u(t) = \left \{ \begin{array}{cc} 0 & t< 0 \\ 1 & t >= 0 \end{array} \right .
+\]
+
+% normal use of \left 
+\begin{enumerate}
+  \item  $|G(j\omega)| \approx 1$
+  \item  $|G(j\omega)| \approx \left | \frac{p}{p+jp}    \right | = \frac{1}{\sqrt{2}}$
+  \item  $|G(j\omega)| \approx \left | \frac{p}{j\omega} \right | = \frac{1}{\omega}$
+\end{enumerate}
+
+
+
+
+   }    % random extra  
+ 
+$-a$ and $-b$ are roots of the polynomial in the denominator.  When $s=-a$, the denominator = 0 and 
+\[
+G(-a) = G(-b) = \infty
+\]
+
+Because $G(s)$ goes up to infinity at these locations, $a,b$,  in the complex plane, we call $-a$ and $-b$ ``poles" of the transfer function 
+$G(s)$. 
+

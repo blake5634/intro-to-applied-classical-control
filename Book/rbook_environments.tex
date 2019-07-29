@@ -1,0 +1,52 @@
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%
+%  Example environment
+%
+\newcounter{Example}[chapter]
+
+\newenvironment{Example}
+% begin
+{\refstepcounter{Example}\newpage
+ \begin{boxedminipage}{\textwidth} % \linenumbers
+    {\bf Example \thechapter.\theExample}\\
+}
+% end
+{\vspace{0.1in}\end{boxedminipage}
+\vspace{0.4in} }
+
+\newenvironment{ExampleCont}
+% begin
+{
+ \begin{boxedminipage}{\textwidth}\linenumbers
+    {\bf Example \thechapter.\theExample \hspace{4pt} cont.}\\
+}
+% end
+{\vspace{0.1in}\end{boxedminipage}
+\vspace{0.4in} }
+
+
+\newenvironment{ExampleSmall}
+% begin
+{\refstepcounter{Example}
+\vspace{0.2in}
+ \begin{boxedminipage}{\textwidth}
+    {\bf Example \thechapter.\theExample}\\
+}
+% end
+{\vspace{0.05in}\end{boxedminipage}
+\vspace{0.25in} }
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+	%<*>
+\def\bq{\begin{equation}}
+\def\eq{\end{equation}}
+
+% Symbol defs for equations
+\def\ef{\mathcal{E}}
+\def\fl{\mathcal{F}}
+
+% Laplace Transform
+\newcommand{\sL}{\mathcal{L}}

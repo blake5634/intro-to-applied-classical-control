@@ -1,0 +1,36 @@
+\documentclass[12pt,a4paper]{article}
+\begin{document}
+\thispagestyle{empty}
+\begin{center}
+\begin{tabular}{|c|c|}
+\hline
+\multicolumn{2}{|c|}{\bf Table of Laplace Transforms}\\
+\hline
+$ f(t)$ { for} $t \geq 0$ &  ${\cal L}(f)$\\
+\hline
+&\\[1mm]
+$1$      & $\displaystyle \frac{1}{s}$\\[5mm]
+$e^{at}$ & $\displaystyle \frac{1}{s-a}$\\[5mm]
+$t^n$    & $\displaystyle \frac{n!}{s^{n+1}}$ ($n = 0,1, \ldots$)\\[5mm]
+$\sin at$ & $\displaystyle \frac{a}{s^2 + a^2}$\\[5mm]
+$\cos at$ & $\displaystyle \frac{s}{s^2 + a^2}$\\[5mm]
+$\sinh at$ & $\displaystyle \frac{a}{s^2 - a^2}$\\[5mm]
+$\cosh at$ & $\displaystyle \frac{s}{s^2 - a^2}$\\[5mm]
+$H_a(t)$ & $\displaystyle \frac{e^{-as}}{s}$\\[5mm]
+$\delta(t-a)$ & $\displaystyle e^{-as}$\\[5mm]
+$f'(t)$ & $s{\cal L}(f)-f(0)$\\[5mm]
+$f''(t)$ & $s^2{\cal L}(f)-sf(0)-f'(0)$
+\\[6mm]
+\hline
+\end{tabular}
+\end{center}
+where 
+\[
+H_a(t)=\left\{\begin{array}{ll}0&t \le a\\1&t>a\end{array}\right.
+\]
+
+\noindent{\bf First shift theorem:} If ${\cal L}(f(t))=F(s)$ then
+\[ {\cal L}\left(e^{at}f(t)\right)=F(s-a).\]
+{\bf Third shift theorem:} If ${\cal L}(f(t))=F(s)$ then
+\[ {\cal L}\left(H_a(t)f(t-a)\right)=e^{-as}F(s).\]
+\end{document}

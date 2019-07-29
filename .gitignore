@@ -1,0 +1,9 @@
+*.bbl
+*.aux
+*.log
+*.pdf
+*.ps
+*.bak
+*.cfg
+*backup*
+*.sce

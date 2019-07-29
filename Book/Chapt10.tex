@@ -1,0 +1,672 @@
+%
+%
+%
+
+\chapter{Search and Optimization with Scilab}
+
+\section{Problem Statement and Learning Objectives}
+
+The problem of this chapter is to find a good set of PID control parameters ($K_P,K_I,K_D$) by searching the 3D space created by those values.
+A key aspect of this search is careful definition of ``good".  We will focus on  the following aspects of performance
+{\it when the system has a step input}.
+with 
+\begin{itemize}
+\item  $T_S$ (settling time)
+\item $\%OS$ (percent overshoot)
+\item $SSE$ (Steady State Error)
+\item $Cu_{max}$, the amount of effort applied by the controller to the plant (related to energy consumption).
+\end{itemize}
+
+In each case we will find the controller which achieves response closest to the desired value.  We will introduce and use a set of routines for Scilab which simply search a 3D space by nested iteration.
+
+Upon completing this chapter, the succesful student will be able to
+
+\begin{itemize}
+  \item Take an initial rough design of PID parameters, and, using a specific computational tool, refine it to achieve one or more performance specifications without simplifying assumptions.
+  \item Manage the trade-off between accuracy and computation time to get results in an efficient manner.
+\end{itemize}
+
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%  Scilab
+\section{Design with Scilab}
+
+%\begin{frame}
+%\frametitle{Design with Scilab}
+
+%\end{frame}  %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+
+%%%%** Section 2.1
+\subsection{Polynomials in Scilab}\label{ScilabPolynomials}
+%\begin{frame}[containsverbatim]
+%\frametitle{Polynomials in Scilab}
+
+First, we have to define the letter 's' as a symbolic variable:
+
+\begin{verbatim}
+ --> s = %s     // %s is a prestored polynomial variable named 's'
+\end{verbatim}
+
+
+%\end{frame}  %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+%\begin{frame}[containsverbatim]
+%
+ Now, polynomials are entered as an expression, for example:
+%
+\[
+ X = s^4 + 62s^3 - 5742s^2 + 689s + 27.2
+\]
+
+\begin{verbatim}
+    -->   x = s^4 + 62*s^3 + 5742*s^2 +  689*s +  27.2
+\end{verbatim}
+
+
+ Note that you must use {\tt *} to designate multiplication.
+
+%\end{frame}  %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%\begin{frame}[containsverbatim]
+
+OR, if you know the roots you could enter:
+
+\begin{verbatim}
+
+           --> X =  (s+5)*(s+27)*(s+2-6*j)*(s+2+6*j)
+\end{verbatim}
+
+However, for later use in some Scilab functions, we neeed to remove the imaginary part explicitly even though we know that complex conjugate poles always work out to real coefficients.   To prevent these problems, always use the {\tt real()} operator on CC poles:
+
+\begin{verbatim}
+
+           --> X =  (s+5)*(s+27)*real( (s+2-6*j)*(s+2+6*j) )
+\end{verbatim}
+
+or, if you keep your CC poles in second order form you can work with them as shown below:
+
+\begin{verbatim}
+                 --> X =  (s+5)*(s+27)*(s^2+4*s+40)
+\end{verbatim}
+
+
+%\end{frame}  %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+%%%%** Section 2.2
+\subsection{Overview}
+%\begin{frame}
+
+We will use a set of Scilab scripts to search the three dimensional space defined by
+\[
+K_P,K_I, K_D
+\]
+for the ``best" design.
+
+
+%\end{frame}  %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+%\begin{frame}
+
+
+{\bf Performance Criteria}
+
+
+
+We will look at the most common performance criteria, and one additional criterion: control effort
+\begin{itemize}
+  \item Settling Time, $T_S$
+  \item Percent Overshoot, $\%OS$
+  \item Steady State Error, $SSE$.
+  \item Control Effort, $cu$.
+  \item Gain Margin, $gm$.
+\end{itemize}
+
+%\end{frame}  %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+%\begin{frame}
+
+
+We supply a set of Scilab functions which can analyze a step response and determine $T_S$ and $\%OS$.  The functions are
+\begin{itemize}
+  \item {\tt ts = settletime(t,y)}
+  \item {\tt o = overshoot(t,y)}
+  \item {\tt sse }
+  \item {\tt Cu  }
+  \item Gain margin is computed by the {\tt scilab} function {\tt margins()}.
+\end{itemize}
+
+Steady state error is approximated by the final value in the step response, and we compute maximum control effort by simulating the system again using the equation in Section \ref{CtlEff}.	%<h>
+
+
+
+%\end{frame}  %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+
+%%%%** Section 2.3
+\subsection{Performance Functions}
+%\begin{frame}
+
+The scilab script {\tt stepperf.sce} contains several functions which compute the performance measures from the step response.
+
+
+{\bf Settling Time: $T_S$}
+
+Settling time ($T_S$) is the time from the start of step input until the response stays within 2\% of its final value
+(not necessarily the {\it desired} final value if SSE is non zero).	%<h>
+
+{\bf Percent Overshoot: $POS$}
+
+$POS$ is the percentage by which the step response exceeds its final value.
+
+
+{\bf Steady State Error: $SSE$}
+
+$SSE$ is the difference between the final value of the step response and the amplitude of the input step (usually 1.0).
+
+{\bf Actuator Effort: $U_{MAX}$}
+
+Actuator effort (same as control effort) is the amount of output from your actuator which is given to the plant.  A controller design must achieve its step response specs without requiring excessive output from its actuator.   By including actuator effort into the cost function, we make sure that the controller we design is practical.   The measure of actuator effort will be the peak value during the simulation time, $\max{u(t)}$.	%<h>
+
+% Actuator effort  is the amount of output from your actuator.
+%\[
+%\max{u(t)}
+%\]
+
+{\bf Gain Margin: $gm$}
+
+Gain Margin is described in Section \ref{GainPhaseMargins}.   In brief, if a system has gain margin $GM$ (usually expressed in $dB$), then the magnitude of the loop gain ($|CPH(s)|$) can be increased by that amount of gain while still remaining stable.  For example, for a gain margin of $20dB$, we can add $+19dB$ of gain to $CPH(s)$ and the system will still be stable (but the new gain margin will be only $1dB$).
+
+
+%\end{frame}  %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+We will specify a target or `desired value' for each performance measure, for example $T_{sd} = 0.25$ means we set a goal to find a design with a settling time of $0.25$sec.  We will measure how good is our design by minimizing the difference between our design's performance and the desired value, in this case
+\[
+|(T_s - T_{sd}|
+\]
+If we only care about settling time, then our goal is to minimize this quantity.
+However, we have defined multiple performance specifications or criteria above and sometimes they may conflict.  For example,
+
+
+%%%%** Section 2.4
+\subsection{Weights}
+%\begin{frame}
+
+We need a  way to combine the different performance measures into a single `cost'.  We can define `cost' as the absolute difference between the performance and
+our specs. We will adjust the system to minimize cost, but different performance criteria may conflict with each other\footnote{A classic example: Powerful cars (good/low performance-cost) get bad gas milage (bad/high gas cost).}.
+For example, what if we get really good settling time, but horrible overshoot?  We need a score which potentially combines all four of our measures in to a single number.   We will use a combined score as follows:	%<h>
+
+% Let's combine these scores into one
+
+\[
+S = w_1 \times |T_s-T_{sd})| + w_2 \times |\%OS-\%OS_d| + w_3 \times |SSE-SSE_d| + w_4 \times (\max(u(t))) + w_5\times |gm-gm_d|
+\]
+where $w_i$ are weights which add up to 1.  We define the {\it weight vector} to be
+\[
+w = \begin{bmatrix} w_1 \\ w_2 \\ w_3 \\ w_4 \\w_5 \end{bmatrix}
+\]
+There is one remaining problem with this scheme which is that the different performance measures have different numerical values and units which can mess up the weights.   For example, since $Ts$ might be only 0.2, if all weights are equal, it would not count much in the final score if $\max(u(t)) = 2000$.  To equalize the influence of each performance criterion, we will normalize the difference as follows:
+
+
+\[
+S = w_1 \times |T_s-T_{sd}|/T_{sd} + w_2 \times |\%OS-\%OS_d|/\%OS_d + w_3 \times |SSE-SSE_d|/SSE_d + w_4 \times \max(u(t))/u_{max} + w_5\times |gm-gm_d|/gm_d
+\]
+
+Generally all the specifications will be given as inputs to the design problem.
+$u_{max}$ must be set by the actuator (motors, hydraulics, etc) specification.  Alternatively, if the actuator is not specified yet, we can experiment to see what kind of actuator is necessary for a give set of specs.
+
+The result, $S$, can be viewed as a `Cost' of a given design, which is zero when all the specifications are met.
+
+Now the question is which weights to choose?    This is another difficult question.  However, since we are searching the entire design space, we do not necessarily have to choose a single weight scheme.   We could define several and find the best design for each weight vector in a single pass through the space.  In our approach, we keep track of several weighting schemes simultaneously:
+\vspace{0.1in}
+
+\begin{center}
+\begin{tabular}{|l|c|c|c|c|} \hline
+Scheme Name	&   $ w_1$	& $w_2$	& $w_3$ & $w_4$ \\ \hline
+Settling Time  &   1    &  0    &   0   &  0  \\ \hline
+Overshoot      &   0    &  1    &   0   &  0  \\ \hline
+Steady State Error &  0  &  0    &   1   &  0  \\ \hline
+Control Effort   &  0  &  0     &   0   &  1  \\ \hline
+Balanced        &   0.25 & 0.25 & 0.25 & 0.25 \\ \hline
+\end{tabular}
+\end{center}
+
+
+%\end{frame}  %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+
+%\end{frame}  %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+
+
+%%%%** Section 2.5
+\subsection{Gain Space Searching and Optimization}\label{searchrange}
+%\begin{frame}
+
+
+As an example, consider a controller having two parameters, $P_1, P_2$.  For each point $\{P_1 , P_2 \}$, there is a certain step response and a certain resulting cost.  In Figure \ref{CostFunc}, the two values, $P_1, P_2$ form a plane, and we can represent the cost at each point in the third axis.   In the illustration, the point $\{m,n\}$ represents the lowest value of cost over the whole plane.  A simple function like a parabola can usually be easily optimized, however the cost function for step responses is not so simple, and is not known analytically.
+
+Our strategy will be to
+\begin{enumerate}
+  \item Choose initial values for the three gains $K_P, K_I, K_D$.
+  \item Define a range of each value to search.
+  \item Define how many discrete values to search for each gain, $Nvals$
+  \item Try every combination of values and find those which produce the ``best" step response.
+\end{enumerate}
+
+%\end{frame}  %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%\begin{frame}
+%\frametitle{Example}
+
+%%%%** Figure 9
+\begin{figure}\centering
+\includegraphics[width = 3.5in]{figs09/00648.png}
+\caption{Idealized cost function which has a minimum (optimum) at $P_1=m, P_2=n$.}\label{CostFunc}
+\end{figure}
+
+
+
+
+%\end{frame}  %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+%\begin{frame}[containsverbatim]
+
+	%<*h>
+In our PID control design problem, the three parameters could be thought of as forming a 3 dimensional space.  Each controller is a single point in that space.
+
+The simplest optimization method is to discretize the parameters and search all of the possible combinations.
+When the space of all parameter values gets very large, it can be too computationally expensive to try all the possible points in parameter space.  In this case special algorithms are used or mathematical assumptions are made to speed the process.
+In our PID control design however we have only a 3 dimensional parameter space and simulation of step responses is sufficiently fast that we can do the brute-force exhaustive search in a reasonable time:
+	%<*>
+
+
+\begin{verbatim}
+for Kp = kmin:dk:kmax,
+    for Ki = kimin:dki:kimax,
+        for Kd = kdmin:dkd:kdmax,
+
+               *** simulation and optimization code here
+
+        end;
+    end;
+end;
+\end{verbatim}
+
+
+
+%\end{frame}  %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%\begin{frame}
+
+
+The algorithm will loop through a set of values for each of the three gains and keep track of which one produced the highest performance by each of the weight schemes.
+
+{\bf Search Range}  We will define our search range in terms of the center value and a multiplicative range $r$. If our nominal value is $K_0$, then
+\[
+K_{min} = K_0/\sqrt{r} \qquad  K_{max} = \sqrt{r}\times K_0
+\]
+  With this scheme,
+\bq\label{ranger}
+K_{max} = rK_{min}
+\eq
+
+
+This method is illustrated below with respect to the nominal (center) value.	%<h>
+\begin{center}
+\includegraphics[width=50mm]{figs11/00615a.png}
+\end{center}
+
+Other search range methods are possible but  note that this approach will never generate negative gain values (which are not allowed for PID controllers anyway).	%<h>
+
+
+%\end{frame}  %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%\begin{frame}
+
+
+It can be tricky to know a good initial value for the gains $K_p,K_i, K_D$.   Depending on the problem they can range from much less than 1 to hundreds.   One computer-only approach, is to start your search over a wide range and then narrow it down on subsequent searches.  However this takes many optimization runs to find a good answer.   A better approach is to do a rough manual PID design (Section \ref{manualPIDdesign}).  The result of your manual design is a good starting point.
+
+{\bf Search size} Next we choose how many discrete values we will try within the search range for each of the three gains, $Nvals$.  The number of simulations we must run is then $Nvals^3$.    My computer can   do about 500-1000 simulations per minute in Scilab.	%<h>
+
+%
+%
+%\begin{itemize}
+%  \item What should initial of $K_p,K_i, K_D$ values be?
+%  \item How many values of each parameter?  ($Nvals$).
+%  \item Search size = $Nvals^3$.
+%  \item My computer:  about 2000 simulations per minute.
+%  \item Speed depends on the particular plant and controller
+%\end{itemize}
+%
+	%<*>
+
+%\end{frame}  %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%%%%** Section 2.6
+\subsection{Range Saturation}
+
+%\begin{frame}
+% <s>\frametitle{Range Saturation}
+One way this scheme can fail is if an optimium exists outside the range of parameters that you specify.  In this case, the algorithm is likely to find a value at the extreme of its search range.  If the algorithm reports a value at the extreme of its range, this fact is annouced for you in the output and it is then a good idea to run the simulation again, centering on the extreme of the output range.   The algorithm will indicate that its best weighted performance score was found at the edge of its ``box" by printing, for example, {\tt kp min}.  This would mean that the value of $K_P$ which yielded the best value was at the edge of the search space.	%<h>
+
+
+%%%%** Figure 10
+\begin{figure}\centering
+\includegraphics[width=4.5in]{figs10/00649a.png}
+\caption{Search range does not contain the true optimum of the function and finds a minimum in one corner.}\label{rangesat}
+\end{figure}
+
+
+Figure \ref{rangesat} shows a two-dimensional example in which the search has saturated its range at $P_{1max}$ and $P_{2min}$.  The actual best design is outside the search range and the search only found the closest point it could.   Clearly we should move the search range to the lower right and run again.   Note that we have made an assumption about the cost function in doing this, what is that assumption?	%<h>
+
+
+%\end{frame}   %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+
+%%%%** Section 3
+\section{Using the Scilab packages}
+
+%\begin{frame}
+I have supplied three Scilab files:
+\begin{itemize}
+  \item {\tt setup.sce}
+This file contains code to initialize the simulation.  In here you define your system, define your specifications (requirements), and your initial values and search ranges.  Make a new copy of this, with a new name, for each problem you work on.	%<h>
+  \item {\tt stepperf.sce}
+This file contains functions to evaluate $T_S$ and $\%OS$.	%<h>
+  \item {\tt optigain$N$.sce}
+  This file searches for the best design according to different weight schemes and saves the best ones.  All ``best" designs are plotted at the end of the search.  This function takes on the order of minutes to complete ($N$ is the current version number).
+\end{itemize}
+
+%\end{frame}   %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+
+
+%%%%** Section 3.1
+\subsection{optivis.sce}
+
+%\begin{frame}
+An experiental script is available to visualize the search space to make it easier to narrow your search.  {\tt optivis.sce} can be substituted for {\tt optigain2.sce} in your startup script to experiment with this feature.	%<h>
+
+{\tt optivis.sce }
+
+\begin{itemize}
+    \item Visualize the search space
+    \item help to locate good start point(?)
+    \item still experimental
+\end{itemize}
+
+
+
+%%%%** Section 4
+\section{Solving Design Problems}
+
+%\begin{frame}
+%\frametitle{Solving Design Problems}
+
+Here is the procedure to use these tools to solve a design problem.
+First, collect your information:
+\begin{itemize}
+  \item  Plant model (in the form of a Scilab ``syslin()"). (Know the poles and zeros of your plant)
+  \item  Required step response specs:  \% Overshoot, Settling Time (2\%), SSE (usually 0), and Gain Margin.
+  \item  For Control effort, you need the Actuator Effort normalization constant, $u_{max}$ (sometimes also called $cu_{max}$.   If you don't care about actuator effort, set the constant to a really huge number.
+\end{itemize}
+
+Then follow these steps:	%<h>
+
+\begin{enumerate}
+  \item Copy the file {\tt setup.sce} to a new file such as {\tt setup\_problem5.sce}.
+  \item open the new file in a text editor
+  \item Set the simulation time where it says {\tt tmax = }.
+This is how long the step response will be simulated and it should be about 5 times your desired settling time: $tmax \approx 5T_{sd}$.
+  \item Enter the transfer function of the system you wish to control (plant) (not your PID controller) under the comment {\tt //plant transfer function}.
+  \item Identify the highest frequency pole or zero in your plant.  Multiply it by 20 and set the {\tt pp} variable to that value. This is the controller normalization pole, $\rho$.
+  \item Edit the desired performance specs below their comment.  Note that 5\% overshoot should be entered 1.05, and gain margin should be entered in $dB$.
+  \item Enter {\tt nvals}.  This is the number of values which will be tried of each parameter.
+Note that the total search time will be proportional to {\tt nvals}$^3$ so keep this below 10 until you get a feel for how long the searches take.
+  \item Enter {\tt scale\_range}.  This is the range, $r$, from Equation \ref{ranger}.
+  \item Save your file.
+  \item Within scilab type {\tt exec('setup\_problem5.sce');} (or click on the SciNotes ``save-and-run" icon
+  \includegraphics[width=0.2in]{figs10/save_run_icon.png}) and this will initiate the search.
+\end{enumerate}
+
+
+%%%%** Section 5
+\section{Description of Software Operation}
+
+%\begin{frame}
+Please refer to the code listings for each script file.  You may want to open them in the Scilab editor so you can see good syntax highlighting (Figure \ref{syntax}).
+
+
+%%%%** Figure 11
+\begin{figure}\centering
+\includegraphics[width=4.75in]{figs09/sce_listing.png}
+\caption{Code listing from the scilab editor (SciNotes) showing how syntax highlighting makes the code easier to read.}\label{syntax}
+\end{figure}
+
+%\end{frame}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%    Text handout only
+	%<*h>
+
+\subsection{setup.sce}
+After clearing the graphics windows and clearing all Scilab variables, we define two functions ({\tt getf()} and {\tt geti()}) which are just simple ways of getting user input from the keyboard for use later.
+
+Then we have some code which looks for a stored file ({\tt simrate\_optigain}) which tells how fast they simulations are running on the current machine.  This is used to predict runtime for the user.
+
+Next, after setting up $s, j, H=1$, we define the plant transfer function.  Edit your numerator and denominator polynomials here (see Section \ref{ScilabPolynomials}).
+
+After that
+we enter specifications for $T_S$({\tt tsd}), $\%OS$ ({\tt pod}), etc.   We also enter our maximum actuator output ($cu_{max})$.
+
+$T_{max}$ and $dt$ are set next because they depend on the details of the problem.  For example, if the expected $T_S$ is $0.1sec$, we should not simulate for 10 minutes.   Typically, set this to about 4-5 times the $T_S$ specification.   Set $dt$ to have at least 100 simulation steps during the $0-T{max}$ interval.
+
+
+Next we enter the number of values we should search.  The more values ({\tt nvals}) that we select, the more accurate our result.  However computation time is proportional to {\tt nvals}$^3$.
+This is followed by the center of the search ranges in terms of the three gains, $K_P, K_I, K_D$.
+Finally, we  enter the {\tt scale\_range} factor ($r$) described in Section \ref{searchrange}.
+
+
+
+\subsection{optigain.sce}
+This code starts by setting up the time vector, {\tt t}, and storing the start time of the simulation run (in seconds).
+
+The function {\tt [ts, po, cu, gm, y] = costPID(plant, Kp, Ki, Kd)} accepts the plant and the three PID controller parameters, and returns the settling time, {\tt ts},  the percent overshoot, {\tt po}, the max control effort, {\tt cu}, the gain margin {\tt gm}, and the step response, {\tt y}.   {\tt y} is a vector of the same length as {\tt t} which contains the output of the control system with a unit step input, $Y(t)$.  This will be used to evaluate how good each controller is in the search.
+
+After definition of {\tt costPID()} (we will return to it shortly), we set up weight schemes so that we can store the ``best" controller by several different definitions.  Each weight scheme has a name such as ``Overshoot".
+
+After we initialize the storage and set up the limits for each parameter, we start searching in the ``Main Loop".
+Three {\tt for} loops iterate through the 3D parameter space. For each point, we have values of {\tt Kp, Ki, Kd} to test with {\tt costPID()}.
+
+Now we go back to go through the workings of {\tt costPID}.   After generating the new controller and the new loopgain ($CPH(s)$), we use the scilab {\tt g\_margin()} function to get the gain margin from the loop gain.
+Sometimes the combination of gains we have picked results in an unstable system.
+There is no point in simulating and evaluating the responses if the system is going to go unstable (because the gains have moved closed loop poles into the right half plane).
+For each set of gains, {\tt costPID}
+first determines stability by getting the characteristic polynomial, solving the roots, and then checking for any positive real parts.  The characteristic polynomial (denominator) can be taken from the system by using the index 3 ({\tt denom = sys(3)}).  If there are any poles with positive real parts, the simulation step is skipped and flag values are returned for performance measures.
+Assuming the system is stable, then the system and control effort are simulated ({\tt csim()}) and the performance measures are computed.
+
+Now we return back from {\tt costPID} to the ``Main Loop".   If the system was stable, the different weighted scores are compared with the stored best ones and if better they replace the previous value so that the best controller (i.e. best set of values for $K_p, K_I, K_D$) is saved for each different weighted score.
+
+Finally, the results are printed and plotted for the user.
+
+
+\subsection{stepperf.sce}
+This file contains a set of  functions to compute  two performance measures from the step response, settling time, and overshoot.  They are called by {\tt optigain.sce}.
+
+
+
+
+
+
+
+
+
+%%%%** Section 6
+\section{Example Design}
+
+
+(This problem is Example 9.5 from Nice, page 483).  The output of this example was generated before the control effort and gain margin computations were added to {\tt optigain.sce}.
+
+
+{\bf Problem: }
+Design a PID controller for a system where the plant is:
+
+\[
+P(s) = \frac{(s+8)}{(s+3)(s+6)(s+10)}
+\]
+
+Step response must have
+\[
+T_S = 0.55 \mathrm{(sec)} \qquad  \%OS = 20\% \qquad    SSE = 0
+\]
+
+
+{\bf Solution Procedure}
+
+Edit {\tt setup.sce} to input the plant and the performance specfications above.  Probably you should rename {\tt setup.sce} so that you can keep this problem around.    Set the initial values of $K_P= K_I=K_D=1$
+(note {\tt K1, K2, K3 } are used in the code instead of $K_P, K_I, K_D$). Set {\tt Nvals = 10}. (the code actually searches 11 values each).
+
+{\bf Search 1}
+
+From the Scilab console, enter  {\tt --> exec('setup.sce',-1)}  This runs the script and the -1 suppresses junky output.
+The script will call {\tt optigainN.sce} to perform the search of $11^3 = 1331$ systems having different values of the three gains and finds the combination of gains that gives the best step response for each weight scheme.
+
+At the end of the search the five best step responses are ploted automatically and the gains are reported on the console.
+
+
+
+The results are pretty horrible!   This is because we have just picked arbitrary initial gains.  Let's focus on the ``Balanced" result (which looks the best anyway). On the console we get:
+
+
+\begin{verbatim}
+[       Balanced] Kp: 3.2  Ki: 0.3  Kd:  2.024
+Overshoot: 16.1 percent   Settling Time:  2.23
+  Search boundary reached:  Kp max Ki min
+\end{verbatim}
+
+
+Note the last line ``Search boundary reached."  This means that the best value is on at least one {\it edge} of the search space.  This implies we need to change the range to look outside.
+
+
+
+{\bf Search 2}
+Let's re-search starting with the current best ``Balanced" values.
+
+\[
+K_P = 3.2\quad K_I = 0.3 \quad K_D = 2.024
+\]
+
+Let's also search over a larger range:  scale\_range = 100.
+
+
+This time we get
+
+
+\begin{verbatim}
+[       Balanced] Kp: 32.0  Ki: 1.2  Kd: 16.232
+Overshoot:  6.5 percent   Settling Time:  0.55
+  Search boundary reached:  Kp max
+\end{verbatim}
+
+Note we are still ``maxing out" on $K_P$.
+
+
+{\bf Search 3} Let's start over with the new ``best'' gain values, namely the ``Balanced" result.
+
+
+Next we get:
+\begin{verbatim}
+[       Balanced] Kp: 26.6  Ki: 3.7  Kd: 162.000
+Overshoot:  8.9 percent   Settling Time:  0.55
+  Search boundary reached:  Kd max
+\end{verbatim}
+
+
+{\bf Search 4}  We need to get bigger on $K_D$, so let's search again at this value, but narrow the search range to 20.
+
+
+This time we note that the ``SSE" step response is the ``nicest" looking even though it ignores $\%OS$ and $T_S$!  Let's continue to search around that optimum:
+
+
+\begin{verbatim}
+[            SSE] Kp: 1147.6  Ki: 16.5  Kd: 36.224
+Overshoot:  7.2 percent   Settling Time:  0.12
+  Search boundary reached:  Kp max Ki max Kd min
+\end{verbatim}
+
+Note there still seems to be room to go higher on $K_P, K_I$.
+
+{\bf Search 5}   Let's simply start again at these new values.  Note that this re-centers the search space around the curent optimum.
+
+This time the ``Overshoot" step response looks the best.  The only problem is the $SSE$ is about 5\%.  Note that the $SSE$ result has a $K_I$ value which is higher
+
+
+\begin{verbatim}
+[Overshoot =  1.20] Kp: 744.2  Ki: 45.7  Kd:  8.095
+Overshoot: 20.0 percent   Settling Time:  0.28
+  Search boundary reached:  Kd min
+
+[            SSE] Kp: 5132.2  Ki: 73.8  Kd: 23.474
+Overshoot: 54.0 percent   Settling Time:  0.30
+  Search boundary reached:  Kp max Ki max
+\end{verbatim}
+
+
+{\bf Search 6}  Let's this time increase the $K_I$ (because the SSE output improves SSI and has a bigger $K_I$).   Lets start with
+\begin{verbatim}
+    Kp = 744  Ki = 73,8  Kd = 8.9
+\end{verbatim}
+
+Bingo!!
+
+The ``Balanced" response meets our specs quite well (Figure \ref{FinalDesignSim}).   The ``Overshoot" design is pretty good as well.
+Complete output:
+
+\begin{verbatim}
+
+[     Ts = 0.550] Kp: 482.5  Ki: 79.4  Kd: 14.915
+Overshoot:  3.1 percent   Settling Time:  0.55
+
+
+[Overshoot =  1.20] Kp: 1114.6  Ki: 205.2  Kd: 14.915
+Overshoot: 20.0 percent   Settling Time:  0.23
+
+
+[            SSE] Kp: 166.4  Ki: 299.5  Kd: 24.686
+Overshoot:  0.0 percent   Settling Time:  0.98
+  Search boundary reached:  Kp min
+
+
+[       Balanced] Kp: 798.5  Ki: 330.9  Kd:  5.143
+Overshoot: 23.7 percent   Settling Time:  0.55
+  Search boundary reached:  Ki max Kd min
+
+Search Time:  2 minutes.  N = 1000
+
+\end{verbatim}
+
+
+%%%%** Figure 12
+\begin{figure}\centering
+\includegraphics[width=4.5in]{figs10/final_design_step_respa.png}
+\caption{Simulation result of final design.}\label{FinalDesignSim}
+\end{figure}
+ %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+
+% \section{Summary of Notation}
+
