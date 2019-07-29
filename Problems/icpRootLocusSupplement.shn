@@ -1,0 +1,226 @@
+<nh>\documentclass{article}
+<s>\documentclass{beamer}
+<*nhs>
+\usepackage{graphicx}
+\usepackage{array}
+\usepackage{multirow}
+
+
+<*>
+\newcommand{\EEcourse}{EE447 }
+\newcommand{\Num}{7}     % replace this with the week number
+\newcommand{\Numm}{6}  % replace with X-1
+
+
+\title{\EEcourse: In Class Problem Set \Num \\Root Locus Problems}
+\author{Blake Hannaford}
+<s>\institute{University of Washington}
+\date{\today}
+
+
+<*hn>
+\usepackage{fancyhdr}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%5
+%
+%  Set Up Margins
+\input{templates/pagedim.tex}
+%\input{~blake/templates/pagedim.tex}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%  Correct top margin when using pdflatex
+%         (uncomment for pdflatex)
+%\addtolength\topmargin{-0.5in}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%
+%         Page format Mods HERE
+%
+%Mod's to page size for this document
+\addtolength\textwidth{0cm}
+\addtolength\oddsidemargin{0cm}
+\addtolength\headsep{0cm}
+\addtolength\textheight{0cm}
+%\linespread{0.894}   % 0.894 = 6 lines per inch, 1 = "single",  1.6 = "double"
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%% HEADER / FOOTER
+\pagestyle{fancy}
+
+
+% Make table rows deeper
+\renewcommand\arraystretch{2.0}% Vertical Row size, 1.0 is for standard spacing)
+
+\linespread{1.0}
+
+<*>
+\begin{document}
+
+\maketitle
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%** Section 1 
+<*>\section{}
+
+
+<*>
+\label{xx1} Plot the root locus for $K>0$ where
+\[
+CPH(s) = \frac{K}{(s+10)(s+20)}
+\]
+
+<n>\includegraphics[width=13cm]{00551.png}
+
+
+<*>
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%** Section 2 
+\section{}  Find the value of $K$ at the point where the RL intersects the line $y=j10$.  Hint: use the magnitude condition.
+
+<*n> {\tt SOLUTION: }
+
+From \ref{xx1}, the RL intersection point is $s=-15+j10$.
+
+By the magnitude condition:
+\[
+K\times \left | \frac{1}{(s+10)(s+20)} \right | = 1
+\]
+\[
+K = |(-15+j10+10)(-15+j20+20)| = |(-5+j10)||(5+j10|
+\]
+\[
+K = (\sqrt{5^2+10^2} )^2 = 125
+\]
+<*>
+
+
+
+<*>
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%** Section 3 
+\section{}  Plot the Root Locus of
+\[
+CPH(s) = \frac{K(s+1)}{(s+5+j)(s+5-j)}
+\]
+
+<n>\includegraphics[width=14cm]{00550.png}
+
+
+<*>
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%** Section 4 
+\section{}  Plot the Root Locus of
+\[
+CPH(s) = \frac{K(s+6)}{s(s+3+j3)(s+3-j3)}
+\]
+
+<n>\includegraphics[width=14cm]{00558.png}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%** Section 5 
+\section{}\label{basicRL}
+
+\includegraphics[width=3.5in]{00479.png}
+
+For $C(s) = C_1(s) = \frac{K}{(s+10)}$ and $P(s) = \frac{4}{(s+0.5-2j)(s+0.5+2j)}$, $H(s) = 1$, plot the
+root locus by hand for $K\geq 0$.
+
+<*n>
+\begin{solution}
+\includegraphics[width=4.5in]{hw7_6.png}
+\end{solution}
+<*>
+
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%%%%** Section 6 
+\section{}
+Redo the root locus of Problem \ref{basicRL} for $C(s) = C_2(s) = \frac{K(s+4)}{(s+10)}$, $P, H$ unchanged.
+
+Comment on the stability of the closed loop system with this controller compared to $C_1(s)$ of Problem \ref{basicRL}.
+
+
+<*n>
+\begin{solution}
+\includegraphics[width=4.5in]{hw7_7.png}
+
+Addition of a zero in the controller has made the system more stable by moving the RL to the left.
+\end{solution}
+
+
+<*>
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%** Section 7 
+\section{}
+
+Plot the root locus for
+\[
+CPH(s) = \frac{K(s^2+6s+73)}{s(s+4)(s+4+4j)(s+4-4j)} \qquad K>0
+\]
+We are looking for a) correct number of diverging asymptotes, b) correct angles for the asymptotes, c) correct part of the real line occupied by the RL, d) correct intercept of the asymptotes with the real line, e) arrows correctly showing direction of pole movement as $K$ is increased.
+
+
+<*n>
+\begin{solution}
+Here's a valid hand drawn solution:
+
+\includegraphics[width=2.5in]{00569.png}
+
+
+The computer solution:
+
+\includegraphics[width=4.5in]{mt2_rl.png}
+
+Seems quite different!   If you look though, it agrees with everything in our calculation method.   If we had done the departure angles by hand (the old way) we would have drawn something close to this!
+\end{solution}
+<*>
+
+
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%** Section 8 
+\section{}
+Plot the Root Locus for
+\[
+G(s) = \frac {K(s+3)(s+1)}
+{(s+2)(s^2+6s+10)(s+1+j)(s+1-j)}  \qquad  K>0
+\]
+
+
+
+Be sure to give your calculations for number of asymptotes, intercept of asymptotes, angle of asymptotes, etc.
+
+<*n>
+\begin{solution}
+
+\[
+n_p-n_z = 3 \qquad \angle = \pi/3, \pi, -\pi/3
+\]
+
+Intercept = $\frac{-2+2\times(-3)+2\times(-1) - (-1-3)}{3} = \frac{-6}{3} = -2$
+
+Real Line occupied by RL:   $-2 < \sigma < -1, \quad \sigma < -3$.
+
+\includegraphics[width=125mm]{rl.png}
+
+
+\end{solution}
+<*>
+
+
+\end{document}
+
+

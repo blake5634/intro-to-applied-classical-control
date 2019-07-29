@@ -1,0 +1,13 @@
+#$! /bin/bash
+
+f=icp_book_447.n.pdf
+
+pdftk $f cat 1-5   output   icp447_01_soln.pdf
+pdftk $f cat 6-11  output   icp447_02_soln.pdf
+pdftk $f cat 12-18 output   icp447_03_soln.pdf
+pdftk $f cat 19-23 output   icp447_04_soln.pdf
+pdftk $f cat 24-29 output   icp447_05_soln.pdf
+pdftk $f cat 30-35 output   icp447_06_soln.pdf
+pdftk $f cat 36-44 output   icp447_07_soln.pdf
+pdftk $f cat 45-48 output   icp447_08_soln.pdf
+pdftk $f cat 49-49 output   icp447_09_soln.pdf 
