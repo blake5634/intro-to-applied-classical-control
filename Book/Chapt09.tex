@@ -57,7 +57,24 @@ This chapter addresses the problem of what happens when we create a closed loop 
 In this section, we will examine the ``error" we have computed in control systems at the summing junction on the left side of the closed loop negative feedback system (Figure \ref{basicCLfig}).  Since in control systems, we most often consider $H(s) = 1$,  the error ($E(s) = X(s)-H(s)Y(s)$)
 is a direct comparison between the input and the output.  In some applications, (consider a medical device or a flight control system for an interplanetary spacecraft) it is critical to eliminate error.  In others (consider a temperature control system for buildings) an error of one or two percent might not matter.
 
-It turns out that a key variable in studying the magnitude of error in a closed loop negative feedback system is the number of poles at the origin in the loop gain ($C(s)P(s)H(s)$ of Figure \ref{basicCLfig}). We call this number the {\it system type}.  The error also critically depends on the kind of input.  Some inputs are simply easier to track than  others.
+``Steady State" refers to the error between input and output as $t\to\infty$.  In practical applications, 
+what do we mean by infinite time?  
+We really mean the time that all transient terms become of insignificant magnitude.   For example, if 
+\[
+y_1(t) = 5e^{-0.1t}
+\]
+then for $t = 85$sec, $y_1(85) = 0.001$; a very small value compared to the amplitude 5.  For $t=85$, 
+the transient due to $y_1(t)$ is ``over". On the other hand, for 
+\[
+y_2(t) = 5e^{-20t}
+\]
+then for $t = 0.425$sec, $y_2(0.425) = 0.001$.   For $y_2(t)$,  0.43 sec is essentially infinite.   
+Thus ``infinite" time depends on the real part of the system's closed loop poles. 
+
+It turns out that a key variable in studying the magnitude of error in a closed loop negative feedback system 
+is the number of poles at the origin in the loop gain ($C(s)P(s)H(s)$ of Figure \ref{basicCLfig}). We 
+call this number the {\it system type}.  The error also critically depends on the kind of input.  Some 
+inputs are simply easier to track than  others.
 
 \noindent
 Some key points about system type and steady state error:
