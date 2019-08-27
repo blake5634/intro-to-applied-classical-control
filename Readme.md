@@ -31,6 +31,7 @@ hours on lecture, and the remainder supporting students while they work on the i
 homework problems and exams, done by each student individually,
 solidify the knowledge gained. 
 
+Please use branch ``typos'' to fix typos. 
 
 ## License
 
