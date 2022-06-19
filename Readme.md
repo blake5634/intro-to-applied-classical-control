@@ -5,6 +5,8 @@
 
 (Initial Github distribution: August 2019. )
 
+[Read the book PDF Here.](./CtlBook.pdf)
+
 ![Control Engineering Workflow](Book/figs01/small_workflow.png)
 
 This book evolved from a set of course notes from teaching EE447,
