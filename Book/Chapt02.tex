@@ -9,7 +9,7 @@ Be able to
 \begin{itemize}
   \item Name system elements and write and graph constitutive relations for the basic elements
   of a translational mechanical system.
-  \item Write the Equations of Motion for a translational system with any number of masses, springs, and dampers. 
+  \item Write the Equations of Motion for a translational system with any number of masses, springs, and dampers.
   \item Convert from Equations of Motion to a Transfer Function
 \end{itemize}
 
@@ -155,7 +155,7 @@ writing the EOM for this one mass:
 M\ddot{x} + B(\dot{x} - 0) + K(x-0) = f(t)
 \]
 
-The spring and damper are each connected to ground.  Ground is a point defined by $x=0$, and $\dot{x}=0$.   Here we have shown $-0$ in the EOM damping and stiffness terms for completeness.  
+The spring and damper are each connected to ground.  Ground is a point defined by $x=0$, and $\dot{x}=0$.   Here we have shown $-0$ in the EOM damping and stiffness terms for completeness.
 Normally when we have springs and dampers grounded we can skip the subtraction step and the EOM is simply:
 
 \[
@@ -298,13 +298,13 @@ Note that each EOM for mass $i$ always begins with $M_i\ddot{x}_i$ and that in t
 
 \section{Conversion to Transfer Function}
 
-EOMs are {\it Linear Ordinary Differential Equations}, LODEs.  As such, we can easily apply the Laplace Transform.   
+EOMs are {\it Linear Ordinary Differential Equations}, LODEs.  As such, we can easily apply the Laplace Transform.
 Using the EOMs of Example \thechapter.\ref{MultipleEOMs},
 \[
 M_1X_1(s)s^2 + BX_1(s)s - BX_2(s)s + KX_1(s) = F(s)
 \]
 \[
-M_2X_2(s)s^2 + BX_2(s)s - BX_1(s)s = 0 
+M_2X_2(s)s^2 + BX_2(s)s - BX_1(s)s = 0
 \]
 Note that we have assumed zero initial conditions.   What does this assumption mean?  Mathematically it means
 \[
@@ -379,7 +379,7 @@ G(s) = \frac {X(s)}{F(s)} = \frac {1/M}{s^2 + \frac{B_1+B_2}{M}s + \frac{K}{M} }
 \section{Examples}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\begin{Example}
+\begin{Example}\label{3MassExample}
 Two sliding masses.
 
 
@@ -404,23 +404,49 @@ Normalize the Denominator of the solution.
 \begin{Example}\label{ExampleCarSuspensionTF}   %2.8
 Car Suspension Example
 
-
 \includegraphics[width=2.5in]{figs02/00730a.png}    Find the transfer function from road ($x_1(s)$) to body ($x_3(s)$).
 Normalize the denominator.
 
 
 \includegraphics[width=6.25in]{figs02/00731a.png}
 
-
-
-
 \end{Example}
 
 %
 \begin{ExampleCont}
-%
+  %
+Note what we have done under ``Collect Variables" above is to simply collect terms according to the motion variables in a systematic
+way.  Specifically we can stay organized by filling
+out a table re-arranging the EOMs as follows:\vspace{0.3in}
+
+
+
+% Make table rows deeper
+\renewcommand\arraystretch{1.5}% Vertical Row size, 1.0 is for standard spacing)
+
+
+\begin{tabular}{|p{0.35in}|p{0.55in}|p{0.55in}|p{0.55in}|p{0.35in}|p{0.65in}|p{0.55in}|p{0.55in}|p{0.35in}|}\hline
+  Eqn\# & $\ddot{x_j}$ & $\dot{x_1}$ & $x_1$  & $\dot{x_2}$ & ${x_2} $& $\dot{x_3}$ & ${x_3} $ &  = \\ \hline
+  (1)   & $M_w\ddot{x}_2$ & 0 & $(-K_T)$ & $B_S$    & $(K_T+K_S)$ & $(-B_S)$ & $(-K_S)$ & 0  \\ \hline
+  (2)   & $M_v\ddot{x}_3$ & 0 & 0        & $(-B_S)$ & $(-K_S)$    & $B_S$    & $K_S$    & 0 \\ \hline
+\end{tabular}
+
+Note that our system equations seem to lack an input (which would be on the right-hand-side i.e. the
+last column of our tabular form).  Thinking back to cars, the input would be changes in road height,
+$x_1$ (which is not attached to a mass).  We can thus re-do the table to move $x_1$ terms to
+the right hand side:
+
+\begin{tabular}{|p{0.35in}|p{0.55in}|p{0.55in}|p{0.55in}|p{0.35in}|p{0.65in}|p{0.55in}|p{0.55in}|p{0.35in}|}\hline
+  Eqn\# & $\ddot{x_j}$ & $\dot{x_1}$ & $x_1$  & $\dot{x_2}$ & ${x_2} $& $\dot{x_3}$ & ${x_3} $ &  = \\ \hline
+  (1)   & $M_w\ddot{x}_2$ & 0 & $0$ & $B_S$    & $(K_T+K_S)$ & $(-B_S)$ & $(-K_S)$ & $K_Tx_1$ \\ \hline
+  (2)   & $M_v\ddot{x}_3$ & 0 & 0        & $(-B_S)$ & $(-K_S)$    & $B_S$    & $K_S$    & 0 \\ \hline
+\end{tabular}
+This will be useful later when we derive state space system equations.
+
+Getting back to the transfer function:
+
 %  \includegraphics[width=6.25in]{figs02/00961a.png}
-\includegraphics[width=6.25in]{figs02/00961.png}
+\includegraphics[width=6.0in]{figs02/00961.png}
 
 \end{ExampleCont}
 
@@ -434,20 +460,21 @@ $s$ represents frequency and so has the units of inverse seconds, $\mathrm{sec}^
 
 \begin{table}[h]\centering
 \renewcommand{\arraystretch}{1.5} %<- modify value to suit your needs
-\begin{tabular}{c|l}
-Name	& Fundamental Units \\ \hline
-$s$	& $\mathrm{sec}^{-1}$ 	\\
-$s^n$   & $\mathrm{sec}^{-n}$     \\
-$B$	& $\frac{kg}{\mathrm{sec}}$  \\
-$K$	& $\frac{kg}{\mathrm{sec}^2}$   \\
-$M$	& $kg$ \\
+\begin{tabular}{c|l|c|l}
+Name	& Fundamental Units & Name	& Fundamental Units \\ \hline
+$s$	& $\mathrm{sec}^{-1}$      & $B$	& $\frac{kg}{\mathrm{sec}}$  \\
+$s^n$   & $\mathrm{sec}^{-n}$  & $K$	& $\frac{kg}{\mathrm{sec}^2}$  \\
+& & $M$	& $kg$ \\
 \end{tabular}
 \caption{Fundamental MKS units for $s$ and the physical parameters.}\label{unitstable}
 \end{table}
 
-Now suppose the denominator of a transfer function has been normalized and then begins with $s^4$.   Then through dimensional analysis, we know that all the subsequent terms in the polynomial must have the same units, namely sec$^{-4}$.  This can often be an easy way to find an error in the transfer function without checking each step.
+Now suppose the denominator of a transfer function has been normalized and then begins with $s^4$.   Then through dimensional analysis, we know that all the subsequent terms in the polynomial must have the same units, namely sec$^{-4}$.  This can often be an easy way to find an error in the transfer function without checking each step. Note that you can also apply this to the tabular version of
+Example 2.\ref{ExampleCarSuspensionTF}
+by making sure all entries in each column have the same units.
 
-\begin{ExampleSmall}
+
+\begin{Example}\label{DimensionalAnalysisExample}
 
 We have derived the following transfer function:
 
@@ -456,12 +483,9 @@ G(s) = \left( \frac {B} {M_1M_2}\right) \frac{s+K/M}
  {s^4 + \frac{M_1+M_2}{M_1M_2}Bs^3+(1/M_1+1/M_2)2BKs^2+\frac{2BK}{M_1M_2}s+\frac{3K^2}{M_1M_2}}
 \]
 
-Check for errors using dimensional analysis.
-
-\vspace{0.25in}
-
-We  ignore the normalizing term $\frac{B}{M_1M_2}$ because it is outside the additions.  It could be right or wrong, but 
-dimensional analysis won't help us with this particular term. 
+Check for errors using dimensional analysis:
+We  ignore the normalizing term $\frac{B}{M_1M_2}$ because it is outside the additions.  It could be right or wrong, but
+dimensional analysis won't help us with this particular term.
 
 
 {\bf Numerator:}
@@ -480,9 +504,11 @@ The units do not agree with sec$^{-1}$ so this is an
 
 {\bf ERROR!}
 
-\vspace{0.2in}
+\vspace{0.075in}
 
-{\bf Denominator: } The first term is $s^4$.  Therefore, all terms in demoninator must have net units of $\mathrm{sec}^{-4}$.  The next term is
+{\bf Denominator: }
+\vspace{0.2in}
+The first term is $s^4$.  Therefore, all terms in demoninator must have net units of $\mathrm{sec}^{-4}$.  The next term is
 \[
 \frac{M_1+M_2}{M_1M_2}Bs^3
 \]
@@ -503,7 +529,7 @@ Continuing in this manner:
 
 \begin{tabular}{c|c|c|c|c}
 $1/M$	& $2B$	& $K$	& $s^2$ & \\ \hline
-$1/kg$  & $kg/\mathrm{sec}$	& $kg/\mathrm{sec}^2$	& $1/\mathrm{sec}^2$	& $= \frac{kg}{\mathrm{sec}^4} \neq \mathrm{sec}^{-4}$
+$1/kg$  & $kg/\mathrm{sec}$	& $kg/\mathrm{sec}^2$	& $1/\mathrm{sec}^2$	& $= \frac{kg}{\mathrm{sec}^5} \neq \mathrm{sec}^{-4}$
 \end{tabular}
 
 \vspace{0.075in}
@@ -528,7 +554,6 @@ $1/kg^2$  & $kg/\mathrm{sec}$	& $kg/\mathrm{sec}^2$	& $1/\mathrm{sec}$	& $= \fra
 \frac{3K^2}{M_1M_2}
 \]
 
-
 \begin{tabular}{c|c|c}
 $1/M^2$	& $3K^2$   & \\ \hline
 $1/kg^2$  & $kg^2/\mathrm{sec}^4$	& $= \frac{1}{\mathrm{sec}^4} = \mathrm{sec}^{-4}$
@@ -536,17 +561,83 @@ $1/kg^2$  & $kg^2/\mathrm{sec}^4$	& $= \frac{1}{\mathrm{sec}^4} = \mathrm{sec}^{
 
 \vspace{0.075in}
 {\bf CORRECT}
+\end{Example}
+
+\section{More complex problems}
+The structure we have added to the EOMs in Example 2.\ref{ExampleCarSuspensionTF}, as well as the
+use of dimensional analysis for easy debugging of your equations, makes it easier than you
+might expect to analyze a more complex system (or break a system down into a more detailed model).
+For example, let's write down equations of motion for a kind of intimidating
+system with 4 masses and many springs and
+dampers as in Figure \ref{complexDynSystem}.
 
 
+\begin{figure}\centering
+\includegraphics[width=90mm]{figs02/00933a.png}
+\caption{A system with 4 masses and numerous springs and dampers connecting them.}
+\label{complexDynSystem}
+\end{figure}
 
-\end{ExampleSmall}
+\begin{Example}
+  Write the 4 EOMs for the system of Figure \ref{complexDynSystem}.
+
+Summing forces on each mass:
+\[
+M_1\ddot{x}_1 + B_3\dot{x}_1+B_2(\dot{x}_1-\dot{x}_2) +3K_2x_1+K_3(x_1-x_3)  = 0
+\]
+\[
+M_2\ddot{x}_2 + B_2(\dot{x}_2-\dot{x}_1)+B_1\dot{x}_2+K_1x_2 = 0
+\]
+\[
+M_3\ddot{x}_3 + B_4\dot{x}_3+K_3(x_3-x_1)+K_4(x_3-x_4)=0
+\]
+\[
+M_4\ddot{x}_4+B_5\dot{x}_4+K_4(x_4-x_3)+k_5x_4 = f(t)
+\]
 
 
-% \section{}
-% \section{}
-% \section{}
-% \section{}
+Now re-organize the equations into tabular form as above (but changing to a vertical table).   Each equation (column) is a sum and each row is the coefficient of
+each variable in the first column.
+
+\begin{tabular}{|c|c|c|c|c|c|}\hline
+  Var           & EOM1 & EOM2 & EOM3 & EOM4\\\hline
+  $M_j\ddot{x}_j$  & $M_1\ddot{x}_1$&$M_2\ddot{x}_2$&$M_3\ddot{x}_3$ &$M_4\ddot{x}_4$ \\ \hline
+  $\dot{x}_1$   & $(B_2+B_3)$ &$(-B_2)$  & 0           & 0 \\ \hline
+        $x_1$   & $(3K_2+K3)$ &0         & 0           & 0 \\ \hline
+  $\dot{x}_2$   & $-B_2$      & $B_2$    & 0           & 0 \\ \hline
+        $x_2$   & 0           & $K_1$    & 0           & 0 \\ \hline
+  $\dot{x}_3$   & 0           & 0        & $B_3$       & 0 \\ \hline
+        $x_3$   & $(-K_3)$    & 0        & $(K_3+K_4)$ & $(-K_4)$ \\ \hline
+  $\dot{x}_4$   & 0           & 0        & 0           & $B_5$    \\ \hline
+        $x_4$   & 0           & 0        & $(-K_4)$    & $(K_4+K_5)$ \\ \hline\hline
+        =       & 0  & 0  & 0 & $f(t)$ \\ \hline
+\end{tabular}
 
 
-% \section{Summary of Notation}
+Remember, each vertical column is an equation.  the last line is the right
+hand side and the first 9 lines are added to form the right hand side.
+Taking the first column as an example:
+\[
+M_1\ddot{x}_1+(B_2+B_3)\dot{x}_1+(3K_2+K_3)x_1-B_2\dot{x}_2 -K_3x_3 = 0
+\]
 
+\end{Example}
+
+Although it is sometimes possible do derive useful transfer functions from
+this point, systems of this complexity have many possible transfer functions
+(based on selecting different input and output points).
+Arranging a complex
+system into tabular form like this makes it simple to transition to
+the matrix-based State Space form which we will introduce in Chapter
+\ref{BasicsStateSpaceChapter}.
+
+Also, let's check our work.   First, since each equation is 2nd order
+and $\dot{x} \to sX(s), \; x \to X(s)$, then each row must have the same
+units in cols 2-4.   Also all the ``dot'' rows must have $B$ units
+and all the $x_j$ rows must have $K$ units.   By these rules  our work
+above checks out (but remember, it still could contain some errors!).
+
+Finally,  we used the column form here
+to fit on the page but the row form (as in Example
+2.\ref{ExampleCarSuspensionTF}) will be a closer match to the matrix equations
+we will use.

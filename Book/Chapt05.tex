@@ -9,35 +9,35 @@ This chapter starts with fairly detailed analaysis of second order linear system
 \section{Problem Statement and Learning Objectives}
 Be able to
 \begin{itemize}
-    \item Use the partial fraction expansing and basic Laplace Transform pairs to 
-    solve the step response of a 2nd order system. 
-    \item Explain how the location of poles of a 2nd order system in the $s$-plane 
+    \item Use the partial fraction expansing and basic Laplace Transform pairs to
+    solve the step response of a 2nd order system.
+    \item Explain how the location of poles of a 2nd order system in the $s$-plane
     affects the envelope and oscillation frequency of the step response.
     \item Explain the meaning of ``steady state sinusoidal response".
-    \item Evaluate the steady state sinusoidal response magnitude of a transfer function 
+    \item Evaluate the steady state sinusoidal response magnitude of a transfer function
     at a specified frequency $\omega$.
-    \item Evaluate the steady state sinusoidal response phase of a transfer function 
+    \item Evaluate the steady state sinusoidal response phase of a transfer function
     at a specified frequency $\omega$.
-    \item Express a positive quantity in decibels (dB) and rapidly perform basic manipulation of 
-    logarithmic quantities. 
-    \item Use dB to rapidly compute  the steady state sinusoidal response magnitude of a transfer function 
+    \item Express a positive quantity in decibels (dB) and rapidly perform basic manipulation of
+    logarithmic quantities.
+    \item Use dB to rapidly compute  the steady state sinusoidal response magnitude of a transfer function
     at a specified frequency $\omega$.
-    
-    \item Hand sketch a Bode asymptotic magnitude plot with ``$\pm3dB$" corrections. 
+
+    \item Hand sketch a Bode asymptotic magnitude plot with ``$\pm3dB$" corrections.
     \item Hand sketch a Bode asymptotic phase plot with smooth approximations,
-    and explain relationships between the Bode magnitude and phase plots. 
-    \item Make detailed corrections to asymptotic Bode plots for systems containing complex conjugate poles and zeros. 
-    
+    and explain relationships between the Bode magnitude and phase plots.
+    \item Make detailed corrections to asymptotic Bode plots for systems containing complex conjugate poles and zeros.
+
 \end{itemize}
 
 
 \section{Introduction}
-This chapter will introduce calculation of the response of systems which we have described 
+This chapter will introduce calculation of the response of systems which we have described
 by transfer functions.   First we consider step response of a 2nd order system in the time
-domain.   Step response of higher order systems requires numerical evaluation but we can 
-build much intuition from considering 2nd order systems.   Secondly,  we will study steady 
-state output corresponding to constant sinusoidal inputs and develop methods to 
-hand-sketch magnitude and phase if that output response for a system of any order. 
+domain.   Step response of higher order systems requires numerical evaluation but we can
+build much intuition from considering 2nd order systems.   Secondly,  we will study steady
+state output corresponding to constant sinusoidal inputs and develop methods to
+hand-sketch magnitude and phase if that output response for a system of any order.
 
 Although it is easier to do both of these computations with the computer, basic hand skills
 are studied because they develop better intuition and understanding of systems and system response
@@ -239,6 +239,38 @@ Let's look at some examples of this function.  For $\omega_n = 0.4$, and $\zeta=
 \end{figure}
 
 
+\begin{Example}
+  Test yourself on your knowledge of pole location's effect on step response with these questions:
+  \begin{enumerate}
+    \item  Which system takes longer for the step response transient to die down?
+    \[
+    G_1(s) = \frac{10}{(s+5+10j)(s+5-10j)} \quad G_2(s) = \frac{10}{(s+10+5j)(s+10-5j)}
+    \]
+    \item  Which system has a higher oscillation frequency in the step response transient?
+    \[
+    G_3(s) = \frac{10}{(s+5+10j)(s+5-10j)} \quad G_4(s) = \frac{10}{(s+10+5j)(s+10-5j)}
+    \]
+
+    \item Which system has higher overshoot?
+    \[
+    G_5(s) = \frac{10}{(s+10+10j)(s+10-10j)} \quad G_6(s) = \frac{10}{(s+10+5j)(s+10-5j)}
+    \]
+  \end{enumerate}
+
+
+  \subsubsection*{Answers:}
+  \begin{enumerate}
+    \item $G_1(s)$  Takes longer because the envelope time constant is determined by the magnitude of
+    the real part of the CC poles.   $e^{-10t}$ dies down faster than $e^{-5t}$.
+
+    \item Trick question!   For CC poles: $\sigma \pm j\omega$, the oscillation frequency depends on $\omega_n = \sqrt{\sigma^2+\omega^2}$
+    which is the same for both systems!
+
+    \item $G_5(s)$ Overshoot depends on the angle between the CC poles and the negative real axis ($\theta = \cos^{-1}{\zeta}$).
+    The greater the angle, the higher the overshoot (See Chapter 9).
+  \end{enumerate}
+\end{Example}
+
 
 
 Now, let's place these responses according to the location of their complex poles.  Figure \ref{splaneresponse} represents the top half of the complex plane.   Each plot is the response of a 2nd order system having one of its complex conjugate poles in its rough location.  Note that the last two columns have positive real parts to their poles.
@@ -252,8 +284,6 @@ Now, let's place these responses according to the location of their complex pole
 
 
 Looking at Figure \ref{splaneresponse} there are two key patterns.  First, the frequency of the sinusoid increases as the imaginary part of the pole increases.  Second the envelope grows with time when the real part is positive, and shrinks over time when the real part is negative.   The larger the magnitude of the real part, the faster the envelope changes.
-
-
 
 
 
@@ -589,9 +619,9 @@ It's important to note a couple of things.
 
 \begin{enumerate}
   \item The low frequency asymptote is horizontal because it is constant with respect to $\omega$, ($-dB(a)$).
-  \item The high frequency asymptote (3: $-dB(\omega)$) intersects 
+  \item The high frequency asymptote (3: $-dB(\omega)$) intersects
          the low frequency asymptote (1: $-dB(a)$) at $\omega = a, |G(ja)| = -dB(a)$.
-  \item The actual curve is smooth and intersects the point $\{a, -dB(a)-3dB\}$ in accordance with 
+  \item The actual curve is smooth and intersects the point $\{a, -dB(a)-3dB\}$ in accordance with
   the calculation for  $\omega = a$.
   \item As $\omega$ gets greater than $a$, the magnitude drops with frequency according to
   $$ M = -dB(\omega) $$
@@ -704,10 +734,10 @@ Consider the more realistic transfer function which has one zero and two poles:
 G_3(s) = \frac    {(s+b)} {(s+a)(s+c)}
 \]
 
-We will define the {\it features} of the transfer function to be the  poles and zeros.  
-In $G_3$ for example, 
+We will define the {\it features} of the transfer function to be the  poles and zeros.
+In $G_3$ for example,
 \[
-\frac {1} {(s+a)} \qquad {(s+b)} \qquad\frac {1} {(s+c)} 
+\frac {1} {(s+a)} \qquad {(s+b)} \qquad\frac {1} {(s+c)}
 \]
 which we may just call $a,b,c$ for short, are all {\it features} of $G_3(s)$.
 
@@ -732,7 +762,7 @@ For this case
 \]
 at this point we know where the low frequency (horizontal) asymptote intersects the $dB$ axis.
 Assume that in $G_3(s)$ the smallest feature is $a$.
-An important way to look at the basic plots of Figures \ref{BodeMagOnePole} and \ref{BodeMagOneZero} is that they are horizontal for $\omega < $ the lowest feature, and sloped (either down for poles or up for zeros) for $\omega > $ the lowest feature.   
+An important way to look at the basic plots of Figures \ref{BodeMagOnePole} and \ref{BodeMagOneZero} is that they are horizontal for $\omega < $ the lowest feature, and sloped (either down for poles or up for zeros) for $\omega > $ the lowest feature.
 Thus, the quickest way to draw the Bode Asymptotic Magnitude plot is to start from the horizontal asymptote and then,
 as log frequency increases, to add in a component of slope as $\omega$ gets to each pole or zero.
 
@@ -760,9 +790,9 @@ for the frequency range 0.01 --- 1000 rad/sec.
 Notes about the axes:
 \begin{itemize}
   \item It is {\it important } to make the scale (size of a factor of 10)
-  the same on both horizontal and vertical axes.  
+  the same on both horizontal and vertical axes.
   Verify that this property holds for the above axes (keeping in mind that $20dB = 20\log(10)$).
-  
+
   \item It can be tricky to choose the ranges of $dB$ and $\omega$ to plot.
 
   For $\omega$ start with $\omega_{min} = 0.1 \min(p_i, z_i)$ (where $p_i$ and $z_i$ are your poles and zeros) and $\omega_{max} = 10 \max(p_i,z_i)$.
@@ -777,7 +807,7 @@ Notes about the axes:
 
 \begin{ExampleCont}
 \noindent
-Continuing our steps: 
+Continuing our steps:
 
 3) Mark the zero and pole frequencies on the $\log(\omega)$ scale.   Don't forget to take the log of $\omega$ before you mark it down.
 
@@ -799,8 +829,8 @@ The final plot looks like:
 \includegraphics[width=6.5in]{figs05/00739a.png}
 
 
-{\bf Important Note: }  We did not work out the approximations of Section \ref{BodePlotAsymptoticApprox}, 
-and we did not add three Bode plots together. 
+{\bf Important Note: }  We did not work out the approximations of Section \ref{BodePlotAsymptoticApprox},
+and we did not add three Bode plots together.
 
 
 \end{ExampleCont}
@@ -830,7 +860,7 @@ The Bode phase  plot uses a linear vertical axis for the phase angle (but uses t
   \item  $\omega >> |a|$
 \end{enumerate}
 
-For each region of the three regions, 
+For each region of the three regions,
 as we plug  $s=j\omega$ into $ \frac{1}{(s+a)}$, we   approximate $|G(j\omega)|$ as
 
 \begin{enumerate}
@@ -867,7 +897,7 @@ Just as we can add the Bode Asymptotic Magnitude plots of several poles and zero
 
 \begin{Example}
 
-Draw the Bode Asymptotic Phase Plot for the system of Example \thechapter \ref{firstBodeMagexample}, 
+Draw the Bode Asymptotic Phase Plot for the system of Example \thechapter \ref{firstBodeMagexample},
 $G_4(s) = \frac  {(s+0.1)}  {(s+2)(s+25)}$
 
 For $\omega < 0.1$ the two poles and the zero each contributes $0^\circ$.  The zero will begin first and contribute $+90^\circ$, then, as $\omega$ increases, the  poles will each contribute $-90^\circ$.   Starting from the left at $\phi=0^\circ$, and drawing only the ``step function" asymptotes,
@@ -974,7 +1004,7 @@ plugging in $s=j\omega$  gives us for the magnitude:
 
 \begin{enumerate}
   \item $|P_2(j\omega)| \approx \frac {1}{\omega_n^2}$ (remember $0< \zeta < 1$)
-  \item $|P_2(j\omega_n)| = \frac  {1}{|j^2\omega_n^2 + 2\zeta j \omega_n^2 + \omega_n^2|}  = 
+  \item $|P_2(j\omega_n)| = \frac  {1}{|j^2\omega_n^2 + 2\zeta j \omega_n^2 + \omega_n^2|}  =
                                \frac{1}{|-\omega_n^2 + 2\zeta j \omega_n^2 + \omega_n^2|} =
                                \frac{1}{2\zeta \omega_n^2}$
   \item $|P_2(j\omega)| \approx \frac {1}{\omega^2}$
@@ -1009,10 +1039,10 @@ G(s) = \frac {1}{(s+\omega_n)(s+\omega_n)}
 \]
 
 
-The $\omega >> \omega_n$ asympotote (3) slopes down at a -2 (-40$dB$/dec) slope.  
+The $\omega >> \omega_n$ asympotote (3) slopes down at a -2 (-40$dB$/dec) slope.
 
 
-For case 2, The key is to realize that $0<\zeta<1$ and therefore $-dB(\zeta) > 0$.  
+For case 2, The key is to realize that $0<\zeta<1$ and therefore $-dB(\zeta) > 0$.
 Consider case (2) for different values of $\zeta$.  For $\zeta = 1$, ($db(\zeta)=0$),
 
 \[
