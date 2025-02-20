@@ -16,43 +16,43 @@ Be able to
         \item Partial Fraction Expansion
         \item Linearization
     \end{itemize}
-    \item Compute forward and inverse Laplace Transform of several basic time functions into the $s=\sigma+j\omega$ domain. 
+    \item Compute forward and inverse Laplace Transform of several basic time functions into the $s=\sigma+j\omega$ domain.
     \item Convert a rational polynomial in $s$ to the partial fraction expansion (for simple cases).
     \item Explain the envelope and sinusoidal components of the time response of a system with complex poles.
     \item Compute a linearized version of a non-linear function about a specified point where it is smooth and differentiable.
-    \item compute a LODE by linearizing a non-linear differential equation about a specified point where it is smooth and differentiable.     
+    \item compute a LODE by linearizing a non-linear differential equation about a specified point where it is smooth and differentiable.
 \end{itemize}
- 
+
 
 \subsection{Overview of Control System Engineering}
 
 
-In this course we will learn how to design control systems using basic, but still widely used techniques.   
-Control system are necessary because systems such as transportation vehicles, heating and air conditioning systems, 
-heart-lung machines, and many other examples, do not always give the same output for a given input.  For example, 
+In this course we will learn how to design control systems using basic, but still widely used techniques.
+Control systems are necessary because systems such as transportation vehicles, heating and air conditioning systems,
+heart-lung machines, and many other examples, do not always give the same output for a given input.  For example,
 if you push the accelerator of a car to a specific angle from the floor boards, the car could go at a variety of speeds
 depending on external factors such as load, wind, or whether you are driving up a mountain.   Temperature control of a room
-might depend on the outside temperature, sunshine, etc.   The most widely used approach to these problems is to 
-return a measurement of the {\it actual } quantity (speed, temperature, etc.) back to the controller and change the 
-commanded input based on the {\it error} between desired and actual quantities.    This is termed ``negative feedback" 
-because of the subtraction inherent in computing the error. 
+might depend on the outside temperature, sunshine, etc.   The most widely used approach to these problems is to
+return a measurement of the {\it actual } quantity (speed, temperature, etc.) back to the controller and change the
+commanded input based on the {\it error} between desired and actual quantities.    This is termed ``negative feedback"
+because of the subtraction inherent in computing the error.
 
-Design of a control system is a multi-stepped process which first requires a detailed analysis of the dynamics of 
+Design of a control system is a multi-stepped process which first requires a detailed analysis of the dynamics of
 the system being controlled (Figure \ref{fig_control_design_flow}).  The process starts with identification of parts belonging
 to the physical system (which we will later call the ``plant"), and proceeds to making a schematic model of
-how the parts are interconnected.   The parameters of this model (called ``lumped" parameters because each element 
-occupies a point in space like a point-mass), are quantities like mass, resistance, spring constant, capacitance, etc. 
-From the lumped physical model, we derive differential equations using laws such as Kirchoff's laws or Newton's laws.  
-In many real-wold systems, the differential equations are non-linear but many more mathematical techniques are available
-for systems of linear ordinary differential equations (LODEs).  We can use the process of {\it linearization} to LODEs
-that {\it approximate} the non-linear equations.    Finally, we create a mathematical model suited to control system design. 
-There are two main mathematical formulations of such models, Classical/Laplace transfer functions, and State Space models. 
+how the parts are interconnected.   The parameters of this model (called ``lumped" parameters because each element
+occupies a point in space like a point-mass), are quantities like mass, resistance, spring constant, capacitance, etc.
+From the lumped physical model, we derive differential equations using laws such as Kirchoff's laws or Newton's laws.
+In many real-world systems, the differential equations are non-linear, but many more mathematical techniques are available
+for systems of linear ordinary differential equations (LODEs).  We can use the process of {\it linearization} to generate  LODEs
+that {\it approximate} the non-linear equations.    Finally, we create a mathematical model suited to control system design.
+There are two main mathematical formulations of such models, Classical/Laplace transfer functions, and State Space models.
 
-Classical models are transfer functions based on use of the Laplace transform to convert LODEs into polynomials or ratios 
-of polynomials.   State Space models stay in the time domain and map a system of LODEs into a matrix version of a first-order 
-LODE. 
+Classical models are transfer functions based on use of the Laplace transform to convert LODEs into polynomials or ratios
+of polynomials.   State Space models stay in the time domain and map a system of LODEs into a matrix version of a first-order
+LODE.
 
-The rest of this book will cover this process for the first 4 Chapters.  Then we will start designing controllers themselves 
+The rest of this book will cover this process for the first 4 Chapters.  Then we will start designing controllers themselves
 in Chapters 5-11.
 
 \begin{figure}\centering
@@ -72,7 +72,7 @@ f(t) = \sum_{i=0}^{N} a_i\frac{d^i}{dt^i}x(t)
 \]
 The highest derivative, $N$, is referred to as the {\it order} of the LODE.  For example,
 \[
-f(t) = 0.273\frac{d^3}{dt^3}x(t) + 6.73\frac{d^2}{dt^2}x(t) - 0.001\frac{d}{dt}x(t)
+f(t) = 0.273\frac{d^3}{dt^3}x(t) + 6.73\frac{d^2}{dt^2}x(t) - 0.001\frac{d}{dt}x(t) + 14.7x(t)
 \]
 is a third-order LODE.   Often we introduce some shorthand by omitting the time dependence ``$(t)$", and by using the dot notation for time derivatives:
 \[
@@ -80,7 +80,7 @@ is a third-order LODE.   Often we introduce some shorthand by omitting the time 
 \]
 So that the example above would be written
 \[
-f(t) =0.273\frac{d^3}{dt^3}x + 6.73\ddot{x} - 0.001\dot{x}
+f(t) =0.273\frac{d^3}{dt^3}x + 6.73\ddot{x} - 0.001\dot{x} + 14.7x
 \]
 (you can use three dots for $\frac{d^3}{dt^3}$ if you wish.)
 
@@ -185,6 +185,7 @@ Consulting the table and using the linearity property of the Laplace Transform i
 \]
 
 \vspace{0.2in}
+and
 
 \[
 \sL\{ 3.2\sin(7.6t) \} = \frac {24.32}{s^2 + 57.76}
@@ -201,7 +202,7 @@ Consulting the table and using the linearity property of the Laplace Transform i
 \[
 = X(s) \left(2.6s^2 - 3.52s + 120 \right)
 \]
-Note that we have assumed that $x(0) = \dot{x}(0) = \ddot{x}(0) = 0$.   Although this seems restrictive, we often consider physical systems starting from rest and this situation is well modeled by such zero initial conditions.
+Note that we have assumed that $x(0) = \dot{x}(0) = \ddot{x}(0) = 0$.   Although this might seem restrictive, we often consider physical systems starting from rest (think rocket launch!) and this situation is well modeled by such zero initial conditions.
 \end{ExampleSmall}
 
 
@@ -221,7 +222,7 @@ Consulting the table and using the linearity property of the Laplace Transform i
 \sL^{-1}\{\frac{10}{s+3.7}  \}  = 10e^{-3.7t}
 \]
 \vspace{0.2in}
-
+similarly
 
 \[
 \sL^{-1}\{ \frac{144s}{s^2 + 144} \}  = 144\cos(12t)
@@ -277,10 +278,16 @@ A very useful property of polynomials is the partial fraction expansion:
 
 In the form on the left, we have terms called $zeros$ on the top because any time $s=z_j$ the ratio is zero.  We also have terms called $poles$ in the denominator, because any time $s=p_i$, the ratio is infinite.
 
-The partial fraction expansion is very useful for ratios of polynomials in $s$ (such as the left side above) which we will encounter frequently because such a ratio becomes a series of terms which have an easy inverse Laplace Transform
+The partial fraction expansion is very useful for ratios of polynomials in $s$
+(such as the left side above which we will encounter frequently) because such a ratio
+becomes a series of terms which have an easy inverse Laplace Transform
 \[
 \frac{A_i}{(s-p_i)}   \leftrightarrow  A_ie^{p_it}
 \]
+
+
+
+\subsubsection{Single Poles Case}
 For example,
 \[
 G(s) = \frac{s+5}{s^3 + 6s^2+ 358s+400}
@@ -304,13 +311,16 @@ g(t) = A_1e^{-2t} + A_2e^{-4t} + A_3e^{-50t}
 
 
 It is not obvious that the partial fraction expansion is always possible but we will derive a class of cases and then perform some examples.
-
-Assume
+Let's call the exponential time constants
+\[
+p_1 = -2, \;p_2=-4,\; p_3 = -50
+\]
+and assume
 \[
 G(s) = \frac  {(s-z)}   {(s-p_1)(s-p_2)(s-p_3)} =  \frac{A_1}{(s-p_1)}+\frac{A_2}{(s-p_2)}+\frac{A_3}{(s-p_3)}
 \]
 
-Here we write $(s-p_1)$ because we usually are dealing with $negative$ real poles.   In other words: $(s+5) = (s - -5)$.   The real pole is $-5$ and the 
+Here we write $(s-p_1)$ because we usually are dealing with $negative$ real poles.   In other words: $(s+5) = (s - -5)$.   The real pole is $-5$ and the
 term we are writing is $(s-p)$, where $p=-5$.
 
 Now we multiply through by $(s-p_1)$:
@@ -328,14 +338,14 @@ Now we do two things:  1) cancel terms where possible,  2) solve for the special
 2)
 let $s=p_1$:
 \[
-\frac  {(s-z)}   {(p_1-p_2)(p_1-p_3)} =  \frac{A_1}{1}+\frac{A_2(p_1-p_1)}{(p_1-p_2)}+\frac{A_3(p_1-p_1)}{(p_1-p_3)}
+\left . \frac  {(s-z)}   {(p_1-p_2)(p_1-p_3)} \right |_{s=p_1} =  \frac{A_1}{1}+\frac{A_2(p_1-p_1)}{(p_1-p_2)}+\frac{A_3(p_1-p_1)}{(p_1-p_3)}
 \]
-We can eliminate the $A_2,A_3$ terms! Giving: 
+We can eliminate the $A_2,A_3$ terms! Giving:
 \[
 \frac  {(p_1-z)}   {(p_1-p_2)(p_1-p_3)} =  {A_1}
 \]
 
-Since everything on the left hand side is known, 
+Since everything on the left hand side is known,
 we have just solved $A_1$.    If we multiply through by each denominator in turn, we can get all the $A_i$.
 
 
@@ -396,7 +406,9 @@ g(t) = 0.00915(e^{-50t}-e^{-3000t})
 \end{ExampleSmall}
 
 
-In the case that poles are complex conjugates\footnote{Recall that complex poles always come in complex conjugate pairs.}, there are further simplifications possible after the Partial Fraction Expansion.
+
+Sometimes the poles are complex conjugates\footnote{Recall that complex poles always come in complex conjugate pairs if our
+system parameters such as $M,B,K,J,$ etc are real numbers.}, there are further simplifications possible after the Partial Fraction Expansion.
 
 
 
@@ -416,7 +428,7 @@ Using the techniques above we can get:
 \[
 A_1 = -1/17 = -0.059 \qquad A_2 = 0.029+0.38j \qquad A_3 = 0.029-0.38j
 \]
-(note that it is not necessary to compute $A_3$ because it will always be the case for complex conjugate poles that $A_3 = A_2^*$.)
+(note that it is not necessary to compute $A_3$ because it will always be the case for complex conjugate poles that $A_{n+1} = A_n^*$.)
 \[
 G(s)  = \frac {-0.059} {(s+6)}  + \frac {0.029+0.38j} {(s+2+j)}  + \frac {0.029-0.38j} {(s+2-j)}
 \]
@@ -431,7 +443,7 @@ First, let's approximate
 \[
 0.029\pm 0.38j \approx 0.38e^{\pm j \pi/2}
 \]
-by 1) ignoring the small real part and 
+by 1) ignoring the small real part and
 2) converting to Magnitude-Angle form (see Appendix \ref{ComplexNumberReview}).
 
 \[
@@ -440,7 +452,7 @@ g(t) = -0.059e^{-6t} + 0.38e^{j\pi/2}e^{(-2-j)t} + 0.38e^{-j\pi/2}e^{(-2+j)t}
 \[
 g(t) = -0.059e^{-6t} + 0.38e^{-2t} \left ( e^{j(-t+\pi/2)}+e^{-j(-t+\pi/2)} \right )
 \]
-Where we used:  
+Where we used:
 \[
 e^{j\pi/2}\cdot e^{(-2-j)t} \to e^{(j\pi/2-2t-jt)} \to e^{(-2t+j(\pi/2-t))} \to  e^{(-2t)}\cdot e^{j(\pi/2-t))}
 \]
@@ -478,8 +490,9 @@ g(t) = -0.059e^{-6t} + 0.76e^{-2t} \left (  \sin(t)  \right )
 %%%%** Example 5
 \begin{ExampleCont}
 By throwing a few values of $t$ into the calculator, we can generate a sketch of the second term as shown below:
+$ 0.76e^{-2t} \left (  \sin(t)  \right )$
 
-$ 0.76e^{-2t} \left (  \sin(t)  \right )$ \hspace{0.25in}\includegraphics[width=82mm]{figs01/00805a.png}
+\includegraphics[width=82mm]{figs01/J55Q14.png}
 
 For a more accurate plot, let's use the computer on the final result(including both terms):
 \[
@@ -491,6 +504,7 @@ g(t) = -0.059e^{-6t} + 0.76e^{-2t} \left (  \sin(t)  \right )
 
 \end{ExampleCont}
 
+\subsubsection{Repeated Poles}
 
 Another situation comes when a pole is repeated (i.e. $\frac{1}{(s+2)^2}$).  In this case the trick we use for the partial fraction expansion no longer works!   But instead we can still solve for $A_i$ by differentiating the partial fraction expansion.
 
@@ -500,7 +514,7 @@ Apply the Partial Fraction Expansion to
 \[
 G(s) = \frac {(s+5)}  {s^2(s+3)}
 \]
-(note that there is a repeated root  in the demoninator (repeated pole)).
+(note that there is a repeated root  in the demoninator (repeated pole at $s=0$)).
 
 We start by setting up the problem with two terms for the repeated pole:
 
@@ -509,9 +523,9 @@ G(s) = \frac {A_1}{s^2} +  \frac {A_2}{s} +  \frac {A_3}{(s+3)}
 \]
 $A_1$:
 
-\[
+\begin{equation}\label{eqn1Ex1p6}
 \left . \frac{s^2(s+5)} {s^2(s+3)}\right |_{s=0}  = \frac {s^2A_1}  {s^2}   + \frac{s^2A_2} {s} + \frac {s^2A_3} {(s+3)}
-\]
+\end{equation}
 giving
 \[
 A_1 = 5/3
@@ -522,10 +536,12 @@ $A_3$ is also straightforward, giving $A_3 = 2/9$. But working through $A_2$ we 
 \[
 \left . \frac{s(s+5)} {s^2(s+3)}\right |_{s=0}  = \frac {sA_1}  {s^2}   + {A_2}  + \frac {sA_3} {(s+3)}
 \]
-We now have the problem that we cannot cancel the $s^2$ in the denominator of some terms (which we need to do!).   Instead differentiate the $A_1$ expression with respect to $s$:
+
+We now have the problem that we cannot cancel the $s^2$ in the denominator of the $A_2$ term (which we need to do!).   Instead differentiate the $A_1$ expression (Eqn. \ref{eqn1Ex1p6} with respect to $s$:
 \[
-\frac{d}{ds}\frac{(s+5)}{(s+2)} = 0 + A_2 + \frac{d}{ds} \frac{s^2}{(s+3)}A_3
+\frac{d}{ds}\frac{(s+5)}{(s+3)} = 0 + A_2 + \frac{d}{ds} \frac{s^2}{(s+3)}A_3
 \]
+Using an advanced differentiation rule (below) gives:
 \[
 \frac{-2}{(s+3)^2} = A_2 + \frac{s(s+6)}{(s+3)^2}A_3
 \]
@@ -533,7 +549,7 @@ evaluating at $s=0$,
 \[
 A_2 = -2/9
 \]
-Note that we have used:
+The tricks we used used:
 \[
 \frac{d}{dx}\frac{(x+a)}{(x+b)} = \frac{1}{(x+b)} - \frac{(x+a)}{(x+b)^2}
 \]
@@ -542,7 +558,8 @@ and
 \frac{d}{dx} \frac{x^2}{(x+a)} = \frac{2x}{(x+a)} - \frac{x^2}{(x+a)^2}
 \]
 
-This gets even more unweildy when the repeated pole is non-zero but fortunately we rarely need this technique or can fall back on numerical methods.
+This gets even more unwieldy when the repeated pole is non-zero, but fortunately we rarely need this technique or can fall back on numerical
+or AI-based symbolic methods.
 \end{ExampleSmall}
 
 
@@ -555,13 +572,20 @@ This gets even more unweildy when the repeated pole is non-zero but fortunately 
 Laplace Transforms can only be used on linear equations.  In most of this course we focus on linear differential equations but often real world applications involve non-linear functions.   All is not lost if we can usefully {\it approximate} our non-linear function with a linear one.  Our approach to linearization is to model the original function with a straight line.
 
 
-Consider a nonlinear function, $f(x)$.  The linearized version of $f(x)$, $\hat{f}(x)$,  is always constructed about a specific operating point, $x_0$.
+Consider a nonlinear function, $f(x)$.  The linearized version of $f(x)$, $\hat{f}(x)$,  can be constructed about a specific operating point, $x_0$.
 
 \[
 \hat{f}(x) = f(x_0) + \frac{d}{dx}f(x_0) (x-x_0)
 \]
 
-$\hat{f}(x)$ is a linear function of $x$ which is most accurate in the neighborhood of $x_0$.   It is also the  first two terms of a Taylor series expansion of $f(x)$.   It is very helpful to visualize this process graphically by plotting the linearized function on top of the original function.
+$\hat{f}(x)$ is a linear function of $x$ which is most accurate in the neighborhood of $x_0$.   It is also the  first two terms of a Taylor series expansion of $f(x)$.   It is very helpful to visualize this process graphically by plotting the linearized function on top of the original function (Figure \ref{locallinearizationSketch}).
+
+\begin{figure}\label{locallinearizationSketch}
+  \includegraphics[width=105mm]{figs01/Q75B05.png}
+  \caption{Illustration of a linearized version of a non-linear function at an operating point.}
+\end{figure}
+\clearpage
+
 
 
 \subsection{Linearization Examples}
@@ -597,7 +621,7 @@ Now we get:
 \hat{f}_{1a} = 36.84-12.72(x+6) = -39.48-12.72x \qquad \hat{f}_{1b} = 2.824+2.121(x-1) = 0.703+2.121x
 \]
 
-Plotting using Scilab:
+Plotting using the computer:
 \begin{center}
 \includegraphics[width=3.5in]{figs01/linearizeattwopointsa.png}
 \end{center}
@@ -607,7 +631,7 @@ The blue line is $f(x)$, the green line is $\hat{f}_{1a}(x)$ and the red line is
 \end{ExampleSmall}
 
 
-Some functions are really easy to linearize.
+Some combinations of functions and operating points are especially easy to linearize.
 
 %%%%** Example 8
 \begin{ExampleSmall}
@@ -630,7 +654,7 @@ f_2(0) = 0
 \[
 \hat{f}_2(x) =  67x
 \]
-Note that we are simply taking the linear term of $f_2(x)$, $67x$.  
+Note that we are simply taking the linear term of $f_2(x)$, $67x$.
 However we only could get away with this because 1) we linearized about $x=0$ and 2) the function was a polynomial.
 \end{ExampleSmall}
 
@@ -651,15 +675,15 @@ f_2(5.7) = 373.81
 \[
 \hat{f}_{2a}(x) = -125.81 + 87.6521x
 \]
-This is quite different from $\hat{f}_2(x)$.  So if we carefully use the two rules of the previous example, we 
-can linearize by simply deleting all terms except the linear term. 
+This is quite different from $\hat{f}_2(x)$.  So only if we carefully use the two rules of the previous example, we
+can linearize by simply deleting all terms except the linear term.
 
 \end{ExampleSmall}
 
 
-When the equation to be linearized is a differential equation, 
+When the equation to be linearized is a differential equation,
 % we introduce a slightly strange notion: taking the derivative with respect to a derivative:
-just 
+just
 
 \begin{enumerate}
   \item isolate the non-linear part
@@ -667,7 +691,7 @@ just
   \item linearize the function
   \item plug the function back into the differential equation
 \end{enumerate}
- 
+
 %%%%** Example 10
 \newpage\begin{ExampleSmall}
 Linearize the differential equation
@@ -675,13 +699,14 @@ Linearize the differential equation
 f_3(t) =   \ddot{x} - 0.42\dot{x} + 0.01(\dot{x})^3 + \sin(5\dot{x}) + 16x
 \]
 about $\dot{x} = 0$  (We have omitted $(t)$ from $\{x(t), \dot{x}(t),\ddot{x}(t)\}$ to simplify notation.)
+$\dot{x}$ is often the velocity of a physical part.
 Does a system do anything interesting if $\dot{x} = 0$?  It can.  Remember the linearization works
-in the {\it neighborhood} of the operating point -- so we could say this linearization is valid for slow speeds 
+in the {\it neighborhood} of the operating point -- so we could say this linearization is valid for slow speeds
 (velocities near zero).  That might be what we care about in our application.
 
 
 \vspace{0.2in}
-The nonlinear part of this differential equation can be taken out as a simple function, $Fn()$: 
+The nonlinear part of this differential equation can be taken out as a simple function, $Fn()$:
 \[
 Fn(y) = 0.01y^3+\sin(5y)
 \]
@@ -701,6 +726,7 @@ f_3(t) =   \ddot{x} - 0.42\dot{x} + \hat{F}n(\dot{x}) + 16x
 \[
 f_3(t) =   \ddot{x} - 0.42\dot{x} + 5\dot{x} + 16x = \ddot{x} + 4.58\dot{x} + 16x
 \]
+This LODE is a linearized version of our system which is valid in the neighborhood of $\dot{x}=0$ (i.e. for low velocities).
 \end{ExampleSmall}
 
 
@@ -708,38 +734,38 @@ f_3(t) =   \ddot{x} - 0.42\dot{x} + 5\dot{x} + 16x = \ddot{x} + 4.58\dot{x} + 16
 We have seen that linearization ``works" ``in the neighborhood" of the linearization point.   Here we will dive deeper into what
 we mean by ``works" and ``neighborhood".
 
-First we must define our requirement for accuracy (i.e. how much error we can have while the approximation still ``works").  
-Often this is dictated by some external requirement.  For example, 
+First we must define our requirement for accuracy (i.e. how much error we can have while the approximation still ``works").
+Often this is dictated by some external requirement.  For example,
 \begin{quotation}
-The linearized model shall have less than 10\% error. 
+The linearized model shall have less than 10\% error.
 \end{quotation}
-By this we mean that if we define a linear function $\hat{f}(x)$ which is a linear approximation of a non-linear function, 
-$f(x)$, about the point $x = x_0$ then 
+By this we mean that if we define a linear function $\hat{f}(x)$ which is a linear approximation of a non-linear function,
+$f(x)$, about the point $x = x_0$ then
 \[
 \frac   {|f(x)-\hat{f}(x)| } {f(x)} < 0.10
 \]
-% We choose $f(x_0)$ as the denominator since it defines the scale for our local function. 
+% We choose $f(x_0)$ as the denominator since it defines the scale for our local function.
 
-Second, we must define ``neighborhood".    By this we mean the range of $x$ values for which the approximation is good enough (i.e. ``works").   Suppose we have 
+Second, we must define ``neighborhood".    By this we mean the range of $x$ values for which the approximation is good enough (i.e. ``works").   Suppose we have
 \[
 x_{min} < x_0 < x_{max}
 \]
-such that 
+such that
 
 \[
-\frac   {|f(x_{min})-\hat{f}(x_{min})| } {f(x_{min})} = 0.10 
+\frac   {|f(x_{min})-\hat{f}(x_{min})| } {f(x_{min})} = 0.10
 \]
-and 
+and
 
 \[
-\frac   {|f(x_{max})-\hat{f}(x_{max})| } {f(x_{max})} = 0.10 
+\frac   {|f(x_{max})-\hat{f}(x_{max})| } {f(x_{max})} = 0.10
 \]
 
-Assuming that $f(x)$ changes slowly, we can call the ``neighborhood" 
+Assuming that $f(x)$ changes slowly, we can call the ``neighborhood"
 \[
-x_{min} < x < x_{max} 
+x_{min} < x < x_{max}
 \]
-the region where the approximation is sufficient. 
+the region where the approximation is sufficient.
 
 
 
@@ -751,7 +777,7 @@ f_1(x) = 0.4x^2 -0.1x^3 + 3\sin(x)
 \]
  linearized twice, once about $x=-6$ radians, and again about $x=1$ radian.
 
- 
+
 \[
 \hat{f}_{1a} =  -39.48-12.72x \qquad \hat{f}_{1b} =  0.703+2.121x
 \]
@@ -776,7 +802,7 @@ $x$  & $f_1(x)$ & $f_{1a}(x) $  &  $E_a$ & $f_{1b}(x) $ &  $E_b$ \\
 
 \begin{tabular}{cp{0.4\textwidth}}
 \begin{minipage}{0.45\textwidth}
-\includegraphics[width=\textwidth]{figs01/lin_sheet_01.png} 
+\includegraphics[width=\textwidth]{figs01/lin_sheet_01.png}
 \includegraphics[width=\textwidth]{figs01/lin_sheet_02.png}
 \end{minipage}
 
@@ -787,8 +813,8 @@ $x$  & $f_1(x)$ & $f_{1a}(x) $  &  $E_a$ & $f_{1b}(x) $ &  $E_b$ \\
 {\includegraphics[width=\textwidth]{figs01/linearizeattwopointsa.png}}
 \end{center}
 
-There are two sets of rows, one centered around the two linearization points ($x=-6$, and $x=1$). 
-Colors indicate good and bad accuracy.  The green box shows the $\pm5\%$ zone.  Note how 
+There are two sets of rows, one centered around each linearization point ($x=-6$, and $x=1$).
+Colors indicate good and bad accuracy.  The green box shows the $\pm5\%$ zone.  Note how
 $f_{1a}$ is accurate near $x=-6$ and $f_{1b}$ is accurate near $x=1$.
 
 Answering our specific question, the range for $f_{1a}$ is
@@ -799,8 +825,8 @@ and for $f_{1b}$
 \[
 0.70 < x < 1.30 = 0.6
 \]
-So $f_{1a}$ has a bigger ``neighborhood".    However we are usually forced to pick the linearization point from 
-an application requirement so in the real world we can't just choose our linearization point according to how well linearization fits. For example, if a model of room climate control requires linearization, we MUST linearize about $T=70^\circ F$ or something close to that because we have to operate in the range of human comfort.   
+So $f_{1a}$ has a bigger ``neighborhood".    However we are usually forced to pick the linearization point from
+an application requirement so in the real world we can't just choose our linearization point according to how well linearization fits. For example, if a model of room climate control requires linearization, we MUST linearize about $T=70^\circ F$ or something close to that because we have to operate in the range of human comfort.
 \end{minipage}
 
 \vspace{0.35in}

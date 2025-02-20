@@ -9,16 +9,16 @@
 \section{Problem Statement and Learning Objectives}
 Be able to
 \begin{itemize}
-  \item Name system elements and write and graph constitutive relations for the basic elements
+  \item Name system elements, write, and graph constitutive relations for the basic elements
   of a rotational mechanical system.
-  \item Write the Equations of Motion for a rotational system with any number of masses, springs, and dampers. 
+  \item Write the Equations of Motion for a rotational system with any number of masses, springs, and dampers.
   \item Write EOMs for rotational systems containing gears
 \end{itemize}
- 
+
 %%%%** Section 2
 \section{System Elements \& constitutive relations.}
 
-Rotation is a different type of motion than translation and it makes subtle differences in dynamic analysis.   One of the most prominent differences is that if a body is rotating, every point in the body has a different velocity and acceleration.   This complex situation can be considerably simplified by assuming a single axis of rotation, and representing a body by its {\it inertia} instead of its mass.   The axis of rotation is a line along which points in a rigid body do not move when it is rotated.
+Rotation is a different type of motion than translation which  makes subtle differences in dynamic analysis.   One of the most prominent differences is that if a body is rotating, every point in the body has a different velocity and acceleration.   This complex situation can be considerably simplified by assuming a single axis of rotation, and representing a body by its {\it inertia} instead of its mass.   The axis of rotation is a line along which points in a rigid body do not move when it is rotated.
 
 Computation of the inertia of a rigid body is beyond the scope of this book, but it is a quantity which can be measured by rotational tests, or calculated from information such as a CAD model.
 
@@ -85,11 +85,11 @@ Some properties of the various elements are summarized Table \ref{RotElementsTab
 
 %%%%** Table 1
 \begin{table}
-\begin{tabular}{|l|l|l|l|p{2.5in}|} \hline
- Name             &  Physical Realization        &   Symbol    &  Equation              & Notes   \\ \hline
-  Inertia         &  Flywheel                    &   $J$ \raisebox{-\totalheight}{\includegraphics[width=0.5in]{figs03/00740aa.png}}    &  $\tau(t) = J\ddot{\theta}$    &  \\ \hline
-  Stiffness       &  Coil  Spring                &   $K$ \raisebox{-\totalheight}{\includegraphics[width=1.0in]{figs03/00740ba.png}}   &  $\tau(t) = K{\theta}$         & $\tau$ is same on both sides.  Assume zero rest length \\ \hline
-  Damping         & Fan, rotary damper, friction &   $B$ \raisebox{-\totalheight}{\includegraphics[width=1.0in]{figs03/00740ca.png}}   &  $\tau(t) = B\dot{\theta}$     & This is a linear model for friction.     \\ \hline
+\begin{tabular}{|l|l|l|l|p{2.0in}|} \hline
+ Name             &  Physical Realization      &   Symbol    &  Equation              & Units and Notes   \\ \hline
+  Inertia         &  Flywheel                    &   $J$ \raisebox{-\totalheight}{\includegraphics[width=0.5in]{figs03/00740aa.png}}    &  $\tau(t) = J\ddot{\theta}$   & $kg\; m^2$  \\ \hline
+  Stiffness       &  Coil  Spring                &   $K$ \raisebox{-\totalheight}{\includegraphics[width=1.0in]{figs03/00740ba.png}}   &  $\tau(t) = K{\theta}$         & $N\; m\; rad^{-1}$, $\tau$ is same on both sides.  Assume zero rest length \\ \hline
+  Damping         & Fan, rotary damper, friction &   $B$ \raisebox{-\totalheight}{\includegraphics[width=1.0in]{figs03/00740ca.png}}   &  $\tau(t) = B\dot{\theta}$     & $N\; m\;sec^{-1}\;rad^{-1}$, This is a linear model for friction.     \\ \hline
 \end{tabular}\caption{}\label{RotElementsTable}
 \end{table}
 
@@ -123,9 +123,14 @@ J\ddot{\theta} + B\dot{\theta} = \tau(t)
 \begin{ExampleSmall}
 Find the equation or equations of motion for the following system
 
-\includegraphics[width=2.0in]{figs03/00742a.png}
-
-There is still only one EOM but it has an additional spring element:
+\begin{tabular}{p{2.5in}p{3.25in}}
+\vtop{\vskip-2ex \hbox{ \includegraphics[width=2.0in]{figs03/00742a.png}  }} &
+\vspace{0.25in}
+(Note: the schematic looks non-physical in this example (``do the damper and spring get wound around each other?''))
+but is just a schematic representation representing a rotational spring and damper about the single rotation axis which
+is easier to draw).
+\end{tabular}
+There is still only one EOM but it has the  additional spring element:
 
 \[
 J\ddot{\theta} + B(\dot{\theta}-0) + K(\theta-0 = \tau(t)
@@ -155,11 +160,11 @@ These usually need to be solved simultaneously as with translational systems.
 
 \end{ExampleSmall}
 
-Once the OEMs are available, transfer functions can be derived in the same way as with translational systems.
+Once the EOMs are available, transfer functions can be derived in the same way as with translational systems.
 
 %%%%** Section 4
 \section{Gears}
-% 
+%
 % %%%%** Figure 2
 % \begin{figure}[h]\centering
 % \includegraphics[width=2.5in]{figs03/gear-spur_Emersona.jpg}
@@ -169,8 +174,8 @@ Once the OEMs are available, transfer functions can be derived in the same way a
 %%%%** Section 4.1
 \subsection{Gear Kinematic Relationships}\label{gearkinematics}
 
-A common system element in rotary systems is gears. 
-% (\ref{RealMeshedGears}). 
+A common system element in rotary systems is gears.
+% (\ref{RealMeshedGears}).
 The corresponding element in translational systems, levers, seem to appear less often in control systems.
 
 Consider two meshed gears, gear 1 and gear 2 (Figure \ref{2meshedgears}).
@@ -266,11 +271,15 @@ The EOM becomes
 \]
 This is the EOM of a simpler system (Figure \ref{simplifiedgearsys}).
 
-%%%%** Figure 5
+
+
+%%%%** Figure 4
 \begin{figure}\centering
-\includegraphics[width=2.25in]{figs03/00746a.png}
-\caption{Simplified equivalent system of the system in Figure \ref{dampergears}}\label{simplifiedgearsys}
+  \includegraphics[width=2.25in]{figs03/00746a.png}
+  \caption{Simplified equivalent system of the system in Figure \ref{dampergears}}\label{simplifiedgearsys}
 \end{figure}
+
+
 
 
 
@@ -366,7 +375,7 @@ Solving, using the techniques in Chapter 2:
 % \end{figure}
 
 Sometimes the second gear in a chain is straightened out to $r_2 = \infty$.  The case of infinite radius corresponds to what is called a {\it rack} - a set of gear teeth arrayed in a straight line.  The gear which meshes with a rack is called a {\it pinion}.
-% (Figure \ref{stoberrackpinion}).  
+% (Figure \ref{stoberrackpinion}).
 Such systems contain a combination of rotating and translating elements and they can be analyzed by careful application of the principles developed in this and the previous chapters.
 
 %%%%** Figure 7
@@ -430,19 +439,23 @@ The initial EOMS are
 J_1\ddot{\theta}_1 + rF = \tau_1
 \]
 \[
-M_1\ddot{x}_1 + K(x_1-x_2 = F
+M_1\ddot{x}_1 + K(x_1-x_2) = F
 \]
 \[
 M_2\ddot{x}_2+K(x_2-x_1)  = 0
 \]
 
 \includegraphics[width=6.0in]{figs03/00756aa.png}
-
-\end{Example}
-
-\begin{ExampleCont}
+%
+% \end{Example}
+%
+% \begin{ExampleCont}
 
 \includegraphics[width=6.0in]{figs03/00756ba.png}
 
-\end{ExampleCont}
+Note that the system has no dampers and also it has two poles at $s=0$.
+
+\end{Example}
+
+% \end{ExampleCont}
 
