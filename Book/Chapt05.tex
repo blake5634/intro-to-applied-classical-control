@@ -37,7 +37,7 @@ by transfer functions.   First we consider step response of a 2nd order system i
 domain.   Step response of higher order systems requires numerical evaluation but we can
 build much intuition from considering 2nd order systems.   Secondly,  we will study steady
 state output corresponding to constant sinusoidal inputs and develop methods to
-hand-sketch magnitude and phase if that output response for a system of any order.
+hand-sketch magnitude and phase of the output response for a system of any order.
 
 Although it is easier to do both of these computations with the computer, basic hand skills
 are studied because they develop better intuition and understanding of systems and system response
@@ -186,7 +186,11 @@ Using the properties of complex numbers, and the fact above, it is simple to sho
 \zeta = -Re(a)/\omega_n = \cos\left(\arctan\left(\frac{Im(a)}{-Re(a)}\right)\right)
 \]
 
-If we plot these points on the complex plane (Figure \ref{ccpoleszeta}) we can see why these parameters give a different view from the poles.
+If we plot these points on the complex plane (Figure \ref{ccpoleszeta}) we can see why these parameters give a different view from the poles:
+they represent the poles $e.g. p$ in polar coordinates.
+
+\[ \angle p = \cos^{-1}(\zeta) \quad |p| = \omega_n
+\]
 
 
 \begin{figure}\centering
@@ -209,14 +213,14 @@ The response to  a step input determines what the system will do when we ``chang
 
 When we take a 2nd order transfer function of the form $G(s) = \frac{M}{(s+a)(s+b)}$, and multiply it by the step input, we get the output
 \[
-Y(s) = \frac{1}{s}\frac{M}{(s+a)(s+b)}
+Y(s) = \frac{1}{s}\frac{M}{(s+a)(s+b)},
 \]
 we can expand it using the partial fraction expansion (Section \ref{partialfractionsection}) into the form
 \[
-Y(s) = \frac{A_0}{s} + \frac{A_1}{(s+a)}+  \frac{A_2}{(s+b)}
+Y(s) = \frac{A_0}{s} + \frac{A_1}{(s+a)}+  \frac{A_2}{(s+b)},
 \]
 
-and further that the inverse transform of each term in the partial fraction expansion is
+and further,  the inverse transform of each term in the partial fraction expansion is
 
 \bq\label{dampedexponentialsolution}
 y(t) = A_0 +  A_1e^{at} + A_2e^{bt}   \qquad (t>= 0)
@@ -224,9 +228,9 @@ y(t) = A_0 +  A_1e^{at} + A_2e^{bt}   \qquad (t>= 0)
 
 It can be shown that for a 2nd order system with a pair of complex conjugate poles, $\{a,b\}$, this solution takes the form
 
-\[
+\bq\label{eqnDampedSinStep}
 y(t) = A_0-|A_1|e^{-\zeta\omega_n t} (\cos({\omega_dt +\phi}))
-\]
+\eq
 
 In this response, the exponential term {\it multiplies } the sinusoid term.  Since the sinusoid cannot exceed the range $-1<=sin(\omega t)<=1$, the response will be bounded by the exponential and we will call it the ``envelope" since it ``contains" the sinusoidal part of the response.
 Let's look at some examples of this function.  For $\omega_n = 0.4$, and $\zeta=.124$ (corresponding to the poles: $s = -0.05\pm0.4j$), we get the step response shown in Figure \ref{typicalstep}
@@ -237,6 +241,21 @@ Let's look at some examples of this function.  For $\omega_n = 0.4$, and $\zeta=
 \includegraphics[width=3.5in]{figs05/typical_stepa.png}
 \caption{Step response of a typical system ($\omega_n = 0.4, \zeta=.124$ ) with complex conjugate 2nd order poles. The envelopes (red and green) are also shown.}\label{typicalstep}
 \end{figure}
+
+
+
+Now, let's place these responses according to the location of their complex poles.  Figure \ref{splaneresponse} represents the top half of the complex plane.   Each plot is the response of a 2nd order system having one of its complex conjugate poles in its rough location.  Note that the last two columns have positive real parts to their poles.
+
+
+
+\begin{figure}\centering
+  \includegraphics[width=6.5in]{figs05/s_plane_responsesa.png}
+  \caption{Step responses of 2nd order systems with the pole locations labeled above each plot. The array of sub-plots represents part of the upper half of the complex plane.}\label{splaneresponse}
+\end{figure}
+
+
+Looking at Figure \ref{splaneresponse} there are two key patterns.  First, the frequency of the sinusoid increases as the imaginary part of the pole increases.  Second the envelope grows with time when the real part is positive, and shrinks over time when the real part is negative.   The larger the magnitude of the real part, the faster the envelope changes.
+
 
 
 \begin{Example}
@@ -264,7 +283,7 @@ Let's look at some examples of this function.  For $\omega_n = 0.4$, and $\zeta=
     the real part of the CC poles.   $e^{-10t}$ dies down faster than $e^{-5t}$.
 
     \item Trick question!   For CC poles: $\sigma \pm j\omega$, the oscillation frequency depends on $\omega_n = \sqrt{\sigma^2+\omega^2}$
-    which is the same for both systems!
+    which is the same for both systems! (see Eqn. \ref{eqnDampedSinStep})
 
     \item $G_5(s)$ Overshoot depends on the angle between the CC poles and the negative real axis ($\theta = \cos^{-1}{\zeta}$).
     The greater the angle, the higher the overshoot (See Chapter 9).
@@ -272,32 +291,18 @@ Let's look at some examples of this function.  For $\omega_n = 0.4$, and $\zeta=
 \end{Example}
 
 
-
-Now, let's place these responses according to the location of their complex poles.  Figure \ref{splaneresponse} represents the top half of the complex plane.   Each plot is the response of a 2nd order system having one of its complex conjugate poles in its rough location.  Note that the last two columns have positive real parts to their poles.
-
-
-
-\begin{figure}\centering
-\includegraphics[width=6.5in]{figs05/s_plane_responsesa.png}
-\caption{Step responses of 2nd order systems with the pole locations labeled above each plot. The array of sub-plots represents part of the upper half of the complex plane.}\label{splaneresponse}
-\end{figure}
-
-
-Looking at Figure \ref{splaneresponse} there are two key patterns.  First, the frequency of the sinusoid increases as the imaginary part of the pole increases.  Second the envelope grows with time when the real part is positive, and shrinks over time when the real part is negative.   The larger the magnitude of the real part, the faster the envelope changes.
-
-
-
 \section{Frequency Response}\label{FrequencyResponseSection}
 
 Another important way to analyze systems is in the frequency domain.   In particular, we are interested in the steady state response when the system is driven by  sinusoids of differing frequencies.
 
-Drawing frequency response plots by hand is still an important skill for control engineers.  Hand drawing skill enables much deeper engineering insight into the behavior of systems and enables design work in a meeting or at the white-board.  A hand sketch done prior to a computer plot gives you confidence that you entered everything correctly to generate the plot.  Of course, our emphasis in hand drawing  is on a balance favoring quick results which accurately plot the major qualitative features of the system.  When detailed accuracy is required (later in the engineering cycle) we rely on the computer.
+Drawing frequency response plots by hand is still an important skill for control engineers.  Hand drawing skill enables much deeper engineering insight into the behavior of systems and enables design work in a meeting or at the white-board.  A hand sketch done prior to a computer plot gives you confidence that you entered everything correctly to generate the plot.  Of course, our emphasis in hand drawing  is   a balance favoring quick results which accurately plot the major qualitative features of the system.  When detailed accuracy is required (later in the engineering cycle) we rely on the computer.
+
+When a system is driven by a sinusoidal input, the output is derived by multiplying the Laplace transform of the sinusoid with the transfer function.  For example:
+
 
 \[
 x(t) = \sin(\omega t)   \Leftrightarrow X(s) = \frac{\omega}{s^2 + \omega^2}
 \]
-When a system is driven by a sinusoidal input, the output is derived by multiplying the Laplace transform of the sinusoid with the transfer function,
-
 \[
 Y(s) =  \frac{\omega}{s^2 + \omega^2} G(s)
 \]
@@ -332,20 +337,20 @@ Y(s) =  \frac{A_0} {s^2+\omega^2}
 \]
 
 \[
-y(t) = A/\omega \sin(\omega t + \phi)
+y(t) = \frac{A}{\omega}  \sin(\omega t + \phi)
 \]
 Where $A$ and $\phi$ are quantities to be determined.   This section is about efficient ways to determine how $A$ and $\phi$ change as a function of $\omega$.
 
 
 \begin{ExampleSmall}
-Obtain the sinusoidal steady state response of  the following system
+Use your computer  to get the steady state response of  the following system
 
 \[
 G(s) = \frac{50}{(s+0.05+j0.4)(s+0.05-j0.4)}
 \]
 to a sinusoidal input of the form:
 \[
-X(t) = \sin(\omega t)
+X(t) = \sin(\omega t)u(t)
 \]
 for $\omega = 1.25$ (the units of $\omega$ are radians per second).
 
@@ -371,7 +376,7 @@ x(t) = \sin(1.25t)(u(t)-u(t-100))
 \]
 
 Recall that $u(t)$, is the unit step function we learned when studying single sided Laplace Transform analysis with zero initial conditions.  The second term, $-u(t-100)$, when combined with $u(t)$, ``Turns off" the sinusoid at $t=100$ because for $t>100$, $u(t)-u(t-100) = 0$.
-Numerically solving this system on the computer gives a response (below) which changes amplitude dramatically at both the turn ON transient ($t=0$) and the turn OFF transient ($t=100$), but settles to a constant sinusoidal output (the {\it steady state} response) for $80< t < 100$.  Note that if the sinusoid continued forever instead of shutting off at $t=100$, the steady state response would also continue forever.
+Numerically solving this system on the computer gives a response (below, right) which changes amplitude dramatically at both the turn ON transient ($t=0$) and the turn OFF transient ($t=100$), but settles to a constant sinusoidal output (the {\it steady state} response) for $80< t < 100$.  Note that if the input sinusoid continued forever instead of shutting off at $t=100$, the steady state response would also continue forever.
 
 It is also worth noting that the frequency of the response changes when the input turns off.   This is because the steady state response is a ``forced" response (i.e. of the same mathematical form as the input), while the turn off transient is a ``natural" response, i.e. determined by the $\omega_n, \zeta$ of the system.
 
@@ -388,12 +393,12 @@ Frequency response analysis ignores the transient response (both ON and OFF type
 
 
 
-Each root of the denominator of a transfer function is called a pole.  Each root of the numerator is called a zero.  Each pole and zero is a real or complex number which affects how the system response to both transient and steady state inputs.
+Each root of the denominator of a transfer function is called a pole.  Each root of the numerator is called a zero.  Each pole and zero is a real or complex number which affects how the system
+responds to both transient and steady state inputs.
 
 \subsection{Magnitude}
-As we focus on steady state sinusoidal response, we will concern ourselves only with the magnitude and phase of the response at each frequency.
 
-In summary, the first task of frequency response analysis of a system described by $G(s)$ is to compute $|G(j\omega)|$ over some frequency range of interest, $\omega_{min} < \omega < \omega_{max}$.
+The first task of frequency response analysis of a system described by $G(s)$ is to compute $|G(j\omega)|$ over some frequency range of interest, $\omega_{min} < \omega < \omega_{max}$.
 $|G(j\omega)|$ is computed by 1) plugging in $s=j\omega$ and 2) evaluating the magnitude of each pole and zero term, and 3) combining the terms.
 
 
@@ -498,7 +503,7 @@ dB(\sqrt{a}) = \frac {dB(a)}{2}
 \]
 etc.
 
-Some handy $dB$ values, when  memorized, give you very quick and accurate hand calculation results:
+Some handy {\it approximate} $dB$ values, when  memorized, give you very quick and accurate (within 5\%) hand calculation results:
 
 \[
 3.16 = \sqrt{10} = 10dB ,\quad 10 = 20dB, \quad 100 = 40dB
@@ -507,7 +512,7 @@ Some handy $dB$ values, when  memorized, give you very quick and accurate hand c
 2 = 6dB, \quad   \sqrt{2} = 3dB
 \]
 \[
-1/2 = -6dB, \quad \sqrt{2}/2 = -3dB
+1/2 = -6dB, \quad \frac{1}{\sqrt{2}} = \frac{\sqrt{2}}{2} = -3dB
 \]
 etc.
 
@@ -565,7 +570,7 @@ which is the same result.
 \subsection{Bode Plot Sketching}\label{BodePlotAsymptoticApprox}
 
 The Bode asymptotic magnitude plot (named after famous Bell Labs engineer Hendrik Bode, 1905-1982)
-is a log-linear plot of magnitude vs. freqency, and is usually used with the Bode asymptotic phase plot which is a linear-linear plot of phase vs. frequency.  Bode's key contribution was to understand that the key properties of $|G(j\omega)|$ and $\angle G(j\omega)$ can be obtained by sketching straight line asympotes which are easily identified from the transfer function.   In the 1930s, this replaced hours of tedious hand calculation.   Today, we get an accurate Bode plot from the computer in seconds, but the asymptotic hand sketch has two key remaining insights:
+is a log-log plot of magnitude vs. freqency, and is usually used with the Bode asymptotic phase plot which is a linear-linear plot of phase vs. frequency.  Bode's key contribution was to understand that the key properties of $|G(j\omega)|$ and $\angle G(j\omega)$ can be obtained by sketching straight line asympotes which are easily identified from the transfer function.   In the 1930s, this replaced hours of tedious hand calculation.   Today, we get an accurate Bode plot from the computer in seconds, but the asymptotic hand sketch has two key remaining insights:
 
 
 \begin{enumerate}
@@ -582,7 +587,7 @@ is a log-linear plot of magnitude vs. freqency, and is usually used with the Bod
 We start by looking at a simple transfer function consisting of one pole:
 
 \[
-G(s) = \frac{1}{(s+a)}
+G(s) = \frac{1}{(s+a)}\quad ()\mathrm{here, our pole is }p=-a)
 \]
 
 In all frequency response analysis we assume that $Re(p) < 0$.  For now we assume $Im(p) = 0$.
@@ -590,12 +595,12 @@ In all frequency response analysis we assume that $Re(p) < 0$.  For now we assum
 We consider $s=j\omega$ and there are three values of $\omega$ which are relevant.
 
 \begin{enumerate}
-  \item  $\omega << |a|$
-  \item  $\omega = |a|$
-  \item  $\omega >> |a|$
+  \item  $\omega << |p|$
+  \item  $\omega = |p|$
+  \item  $\omega >> |p|$
 \end{enumerate}
 
-Ranges 1 and 3 are ``asympotic" because they become more and more true as $|\omega| \to 0$ or $|\omega| \to \infty$. Value 2 is an exact value  because we can easily compute an ``anchor point" for the graph.
+Ranges 1 and 3 are ``asympotic" because they become more and more true as $|\omega| \to 0$ or $|\omega| \to \infty$. Value 2 is an exact value  so we can easily compute an ``anchor point" for the graph.
 For each region, as we plug in $s=j\omega$, we can approximate $|G(j\omega)|$ as
 
 \begin{enumerate}
@@ -609,20 +614,22 @@ Therefore we can re-write the  approximations  as
 
 \begin{enumerate}
   \item  $|G(j\omega)| \approx -dB(a)$
-  \item  $|G(j\omega)| = \left | dB(\frac{1}{a+ja})    \right | = -dB(a) - dB(\sqrt{2}) = -dB(a) -3dB$
+  \item  $|G(j\omega)| = \left | dB(\frac{1}{a+ja})    \right | = dB(\frac{1}{\sqrt{a^2+a^2}) =
+    dB(a^-1}+dB(\frac{1}{\sqrt{2}}_ = -dB(a) - dB(\sqrt{2}) = -dB(a) -3dB$
   \item  $|G(j\omega)| \approx \left | dB(\frac{1}{j\omega}) \right | = -dB(\omega)$
 \end{enumerate}
 
 If we plot this on a log-log scale, we get Figure \ref{BodeMagOnePole}.
-
 It's important to note a couple of things.
 
 \begin{enumerate}
   \item The low frequency asymptote is horizontal because it is constant with respect to $\omega$, ($-dB(a)$).
-  \item The high frequency asymptote (3: $-dB(\omega)$) intersects
-         the low frequency asymptote (1: $-dB(a)$) at $\omega = a, |G(ja)| = -dB(a)$.
-  \item The actual curve is smooth and intersects the point $\{a, -dB(a)-3dB\}$ in accordance with
+  \item The high frequency asymptote ( $-dB(\omega)$) intersects
+         the low frequency asymptote ( $-dB(a)$) at $\omega = a, |G(ja)| = -dB(a)$.
+  \item The actual curve is smooth and intersects the point
+  $\{\omega=\log(a), |G| = -dB(a)-3dB\}$ in accordance with
   the calculation for  $\omega = a$.
+
   \item As $\omega$ gets greater than $a$, the magnitude drops with frequency according to
   $$ M = -dB(\omega) $$
 
@@ -673,7 +680,7 @@ Therefore we can re-write the  approximations  as
 
 If we plot this we get Figure \ref{BodeMagOneZero}.
 
-The zero plot is identical to the pole plot except inverted (reflected around the line $|| = 0dB$).
+The zero plot is identical to the pole plot except inverted (reflected around the line $|G| = 0dB$).
 The slope of the high-frequency asymptote is now +1 or $+20dB/\mathrm{decade}$.
 
 
@@ -697,12 +704,12 @@ In other words they are shifted up or down by $dB(A)$.
 \begin{ExampleSmall}
 Plot the Bode Asymptotic Magnitude Plot for the following single-pole transfer function:
 \[
-G_2 = \frac  {2000} {(s + 200.0)}
+G_2(s) = \frac  {2000} {(s + 200.0)}
 \]
 
 As above we can decompose this into
 \[
-\mathrm{dB}(|G_2|)  = dB(2000) + dB(|1/(s+200)|)
+\mathrm{dB}(|G_2(s)|)  = dB(2000) - dB(|(s+200)|)
 \]
 
 Thus the Bode plot of Figure \ref{BodeMagOnePole} directly applies as long as we add $dB(2000) = 66dB$ and we have
@@ -712,9 +719,9 @@ Thus the Bode plot of Figure \ref{BodeMagOnePole} directly applies as long as we
   \item The intersection of the two asymptotes is at $\omega=200$.
   \item The low frequency (horizontal) asymptote is at
   \[
-   |G_2(\omega)| = 66dB + (-46dB) = 20dB
+   |G_2(j\omega)| = 66dB + (-46dB) = 20dB
   \]
-  Where $66dB$ comes from the factor of 2000, and $-46dB$ comes from $20\log(1/a)$.    Drawing the asymptotes and drawing the smooth curve through $20dB - 3dB$,
+  Where $66dB$ comes from the factor of 2000, and $-46dB$ comes from $20\log(1/200)$.    Drawing the asymptotes and drawing the smooth curve through $20dB - 3dB$ at $\omega=\log(200)$.
 
   \includegraphics[width=4.0in]{figs05/00736a.png}
 \end{enumerate}
@@ -767,6 +774,33 @@ Thus, the quickest way to draw the Bode Asymptotic Magnitude plot is to start fr
 as log frequency increases, to add in a component of slope as $\omega$ gets to each pole or zero.
 
 
+\subsection{``Cartoon" Bode Magnitude Plot}
+It is useful at this stage to make a cartoonish version of the Bode Magnitude plot using only
+our knowledge of the order of the features (from low to high frequency). This can be done in
+seconds.  Suppose
+\[
+G_4(s) = \frac  {(s+1)}  {(s+50)(s+1000)}
+\]
+in frequency order we have:
+\begin{enumerate}
+  \item A zero at $s=1$
+  \item A pole at $s=50$
+  \item A pole at $s=1000$
+\end{enumerate}
+
+Without worrying about precise locations in the $\omega$---Magnitude plane we can immediately
+draw:
+
+\includegraphics[width=80mm]{figs05/Q47M85.png}
+
+This works because we are always adding the basic pole zero responses together (multiplication
+ in a log axis) which have either
++1 or -1 slope {\it after} their pole/zero frequency but not before.
+This gives us the basic idea of how the graph will look.
+
+The quick cartoon Bode plot is useful for example, to
+determine what range of $dB$s to use on our y axis and what frequencies to use on our x axis.
+
 
 \begin{Example}\label{firstBodeMagexample}
 Hand draw the Bode Asymptotic Magnitude Plot for
@@ -774,11 +808,14 @@ Hand draw the Bode Asymptotic Magnitude Plot for
 \[
 G_4(s) = \frac  {(s+0.1)}  {(s+2)(s+25)}
 \]
-for the frequency range 0.01 --- 1000 rad/sec.
+for the frequency range 0.01 --- 1000 rad/sec.  The order of poles and zeros here
+is the same as described above so the cartoon version is the same!
 
 {\bf Follow these steps:}
 
-1) Compute the magnitude for $\omega << \min(0.1, 2, 25)$ i.e. $\omega << 0.1$.
+1) Find a flat part of the cartoon where it is easy to compute magnitude.   $s=0$ is the
+easiest place to compute magnitude and our cartoon is flat for low frequencies.
+Compute the magnitude for $\omega << \min(0.1, 2, 25)$ i.e. $\omega << 0.1$.
 \[
 |G_4(s)| = dB(0.1) - dB(2) - dB(25) = -20dB - 6dB - 28dB = -54dB
 \]
@@ -793,11 +830,11 @@ Notes about the axes:
   the same on both horizontal and vertical axes.
   Verify that this property holds for the above axes (keeping in mind that $20dB = 20\log(10)$).
 
-  \item It can be tricky to choose the ranges of $dB$ and $\omega$ to plot.
+  \item Although they are given here, it can be tricky to choose the ranges of $dB$ and $\omega$ to plot.
 
   For $\omega$ start with $\omega_{min} = 0.1 \min(p_i, z_i)$ (where $p_i$ and $z_i$ are your poles and zeros) and $\omega_{max} = 10 \max(p_i,z_i)$.
 
-  For $dB$ range, try to guess if your plot will slope upward (zeros first) or downward (zeros at higher frequencies than poles).  Then place your magnitude value obtained in step one near the bottom or top of the range respectively.
+  For $dB$ range, your cartoon tells you if your plot will slope upward (zeros first) or downward (zeros at higher frequencies than poles).  Then place your magnitude value obtained in step one near the bottom or top of the range respectively.
 \end{itemize}
 
 
@@ -829,7 +866,7 @@ The final plot looks like:
 \includegraphics[width=6.5in]{figs05/00739a.png}
 
 
-{\bf Important Note: }  We did not work out the approximations of Section \ref{BodePlotAsymptoticApprox},
+{\bf Important Note: }  We did not have to explicitly work out the approximations of Section \ref{BodePlotAsymptoticApprox},
 and we did not add three Bode plots together.
 
 
@@ -900,7 +937,7 @@ Just as we can add the Bode Asymptotic Magnitude plots of several poles and zero
 Draw the Bode Asymptotic Phase Plot for the system of Example \thechapter \ref{firstBodeMagexample},
 $G_4(s) = \frac  {(s+0.1)}  {(s+2)(s+25)}$
 
-For $\omega < 0.1$ the two poles and the zero each contributes $0^\circ$.  The zero will begin first and contribute $+90^\circ$, then, as $\omega$ increases, the  poles will each contribute $-90^\circ$.   Starting from the left at $\phi=0^\circ$, and drawing only the ``step function" asymptotes,
+For $\omega < 0.1$ the two poles and  zero each contributes $0^\circ$.  The zero will begin first and contribute $+90^\circ$, then, as $\omega$ increases, the  poles will each contribute $-90^\circ$.   Starting from the left at $\phi=0^\circ$, and drawing only the ``step function" asymptotes,
 
 
 \includegraphics[width=5.5in]{figs05/00758a.png}
@@ -923,7 +960,7 @@ It is slightly trickier to draw the Bode plots when there are one or more poles 
 apply.  In this case, there is a multiplicative term $1/s^n$, where $n$ is negative for poles at $s=0$ and positive for zeros at $s=0$.
 For each value of $n$, the slope changes.  However, in all cases
 \[
-|s^n| = 1 \quad \mathrm{for} \;\omega=1 \quad |s^n| = \omega^n
+|s^n| = 1 \quad \mathrm{for} \;\omega=1 \quad\mathrm{and}\quad |s^n| = \omega^n
 \]
 
 Figure \ref{bodepolesatorigin} (Left) shows several Bode Magnitude plots of $s^n$.  Each plot is a straight line passing through the point, $\{0dB, \omega=1\}$.
@@ -936,7 +973,7 @@ Figure \ref{bodepolesatorigin} (Left) shows several Bode Magnitude plots of $s^n
 %
 % When a transfer function containing various poles and zeros also has poles or zeros at $s=0$, sketching the Bode Asympototic Magnitude Plot is slightly different because it does not begin with a horizontal asymptote at small values of $\omega$ ($\omega << \min(p_i, z_i)$).
 
-For transfer functions containing poles or zeros at the origin, we need to choose a specific frequency (often $\omega=1$) at which to evaluate the magnitude of the transfer function.   We also compute the slope of the low-frequency asymptote at $\omega \approx 0$ by looking at the exponent of the pole or zero at $\omega=0$.  The phase contribution of poles or zeros at the origin (Figure \ref{bodepolesatorigin}, Right) is easier because it is just a constant $90^\circ$ for each power of $s$ in the numerator and $-90^\circ$ for each power of $s$ in the denominator.
+For transfer functions containing poles or zeros at the origin, we need to choose a specific frequency (often $\omega=1$) at which to evaluate the magnitude of the transfer function.   We also compute the slope of the low-frequency asymptote at $\omega \approx 0$ by looking at the exponent of the pole or zero as $\omega\to 0$.  The phase contribution of poles or zeros at the origin (Figure \ref{bodepolesatorigin}, Right) is easier because it is just a constant $90^\circ$ for each power of $s$ in the numerator and $-90^\circ$ for each power of $s$ in the denominator.
 
 
 \begin{Example}
@@ -970,7 +1007,7 @@ The BAMPs above were restricted to real-valued poles and zeros.  In this section
 p_i = a \pm jb
 \]
 
-As before, we are only interested in the case where $a<0$ so that the response is stable (does not grow with time).  A more typical system has a mixture of real and complex poles such as
+As before, we are only interested in the case where $a<0$ so that the response is stable (does not grow with time).  A more typical system has a mixture of real and complex poles and zeros such as
 \[
 G(s) =  \frac {(s+5)} {(s+0.1)(s+1+3j)(s+1-3j)}
 \]
