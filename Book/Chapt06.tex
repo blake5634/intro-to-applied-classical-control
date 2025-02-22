@@ -9,18 +9,18 @@ Be able to
 
 \begin{itemize}
     \item Explain the difference between signal and energy flows in dynamical systems.
-    \item Explain the precise meaning of a block in a signal flow block diagram and 
-    perform basic block diagram transformations. 
-    \item  Derive the end-to-end closed-loop gain of a system with negative feedback. 
-    \item Explain the ``loop gain" of a system with negative or positive feedback. 
-    \item Define Sensitivity Analysis and be able to numerical compute sensitivity of 
+    \item Explain the precise meaning of a block in a signal flow block diagram and
+    perform basic block diagram transformations.
+    \item  Derive the end-to-end closed-loop gain of a system with negative feedback.
+    \item Explain the ``loop gain" of a system with negative or positive feedback.
+    \item Define Sensitivity Analysis and be able to numerical compute sensitivity of
     a defined performance parameter to a system parameter.
-    \item Define Disturbance Rejection and explain how Disturbance Rejection depends on 
-    loop gain. 
-    \item Compute and Bode Plot  Disturbance Rejection for disturbances at various locations in the system. 
-    \item Numerically compute poles and zeros (with software) of the open and closed loop gains and determine whether or not the system is stable. 
-    \item Evaluate gain and phase in the frequency domain to determine system stability. 
-    \item Compute (graphically from hand drawn Bode plots) and explain significance of Gain and Phase Margin. 
+    \item Define Disturbance Rejection and explain how Disturbance Rejection depends on
+    loop gain.
+    \item Compute and Bode Plot  Disturbance Rejection for disturbances at various locations in the system.
+    \item Numerically compute poles and zeros (with software) of the open and closed loop gains and determine whether or not the system is stable.
+    \item Evaluate gain and phase in the frequency domain to determine system stability.
+    \item Compute (graphically from hand drawn Bode plots) and explain significance of Gain and Phase Margin.
 \end{itemize}
 
 \section{Block Diagram Transformations}
@@ -61,7 +61,7 @@ Classify the following situations into signals vs. energy flows:
 \end{ExampleSmall}
 
 
-While it is possible to simulate energy flows using signals, and block diagrams, this case will not be considered further.
+While it is possible to simulate energy flows using signals and block diagrams, this case will not be considered further.
 
 
 
@@ -216,7 +216,8 @@ $G$         & $Y/X$      &  $GH$   \\ \hline
 \vspace{0.05in}
 As $GH$ gets larger in magnitude, $Y/X$ gets closer and closer to $1/H$.
 
-In this example, $H<1$.  While $H=1$ is more typical for control systems, the situation where $H<1.0$ is very used in amplifiers such as audio amplfiers (HS Black's application).
+In this example, $H<1$.  While $H=1$ is more typical for control systems, the situation
+where $H<1.0$ is very often used in amplifiers such as audio amplifiers (HS Black's application).
 
 \end{ExampleSmall}
 
@@ -232,20 +233,20 @@ As we will see in detail in the next sections, the behavior of closed loop negat
 
 
 
-\section{Sensitivity Analysis} The performance of a system depends on all of its 
-parts, but which parameters are most important in determining performance?   
-Sensitivity analysis is a way to answer that question.  Often a low precision 
-component costs much less than a high precision version of the same component.   
-If the sensitivity of performance to a parameter is low, then use of a low 
-precision component should have a small  effect on performance and cost can be 
-saved.  Conversely, if sensitivity of performance to a different parameter is 
-high, then a variation of its parameter value will make a big impact on 
+\section{Sensitivity Analysis} The performance of a system depends on all of its
+parts, but which parameters are most important in determining performance?
+Sensitivity analysis is a way to answer that question.  Often a low precision
+component costs much less than a high precision version of the same component.
+If the sensitivity of performance to a parameter is low, then use of a low
+precision component should have a small  effect on performance and cost can be
+saved.  Conversely, if sensitivity of performance to a different parameter is
+high, then a variation of its parameter value will make a big impact on
 performance which might justify the additional cost of a precision component.
 
-We will call some measure of system performance, $P$.   If a system has multiple 
-performance measures, we use $P_i$ to designate one of them.  The parameters of 
-a model of the system will be $p_i$.   With these definitions, we define 
-Sensitivity of performance measure $i$ to parameter $j$, about the current 
+We will call some measure of system performance, $P$.   If a system has multiple
+performance measures, we use $P_i$ to designate one of them.  The parameters of
+a model of the system will be $p_i$.   With these definitions, we define
+Sensitivity of performance measure $i$ to parameter $j$, about the current
 values, ${p_{j0}},{P_{i0}}$, as
 
 \begin{equation}
@@ -355,7 +356,7 @@ Y = \frac{D}{(1+GH)} + \frac{G }{(1+GH)} X
  Y \approx D/GH + X \frac{1}{H}
  \]
 
-The disturbance input is reduced by the loop gain, $GH$.
+ The disturbance input is {\bf reduced by the loop gain, $GH$}.
 
 \paragraph{Disturbance Examples}
 
@@ -396,7 +397,7 @@ The difference
 \[
 f_{NL} = Kx + 0.1Kx^2 - 2.7x
 \]
-is shown in red. Note that we have ``linearized'' the spring function with a different approach to that of Chapter 1.   Using Chapter 1's method, we will get a better fit to one {\it specific point} on the curve (the point at which we compute linearization), but the green line above gives us a different kind of linearization which works over a broad range of $x$ values (and itersects at $two$ points).  Such a line could be computed, for example, by linear regression. 
+is shown in red. Note that we have ``linearized'' the spring function with a different approach to that of Chapter 1.   Using Chapter 1's method, we will get a better fit to one {\it specific point} on the curve (the point at which we compute linearization), but the green line above gives us a different kind of linearization which works over a broad range of $x$ values (and itersects at $two$ points).  Such a line could be computed, for example, by linear regression.
 
 
 
@@ -412,7 +413,7 @@ Then this nonlinear spring would generate the following forces:
 Here the sinusoidal force output is nonlinear (blue) but can be broken down into a linear part (green) and a non-linear part (red). The linear approximation is pretty good (for this system at least) and the non-linear forces (red) can be treated as a disturbance (which is then attenuated by Equation \ref{disturbanceoutput}).
 
 \end{Example}
- 
+
 
 \subsection{Disturbance Rejection in the Frequency Domain}
 
@@ -434,20 +435,22 @@ and sketch the BAMP of $GH(j\omega)$ and $\frac{Y(j\omega)}{D(j\omega)}$.
 \]
 and
 \[
-GH(s) = \frac{1000}{(s+500)}
+GH(s) = \frac{1000}{(s+1500)}
 \]
 
 
-\includegraphics[width=4.5in]{figs06/00775a.png}
+\includegraphics[width=4.5in]{figs06/G64M22.png}
 
 
-The disturbance rejection is -9.5$dB$ for frequencies below 500 rad/sec (not counting the +3$dB$ correction at 500 r/s).   There is no more disturbance rejection above about 1500.
+The disturbance rejection is -9.5$dB$ for frequencies below about 100 rad/sec.   There is
+little or no disturbance rejection above about 1000 (which is the point where loop gain
+magnitude is 1.0). (margin values in paren represent computer results for $GH(s)$.)
 
 \end{ExampleSmall}
 
 \subsection{Location of Disturbance}
 
-Disturbances can enter the control loop at different locations besides summing with the output.  First consider the disturbance injected into the error computation (Figure \ref{disturbanceaterror}).
+Disturbances can enter the control loop at different locations besides summing with the output.  First consider the disturbance injected into the error computation (e.g, a noisy sensor, Figure \ref{disturbanceaterror}).
 
 
 \begin{figure}\centering
@@ -544,13 +547,13 @@ The disturbance is reduced by about a factor of 100!   Note however that the sec
 \caption{A closed loop negative feedback system with stable poles in the feed-forward path. $K$ is a positive real constant, a gain.}\label{openloopstable}
 \end{figure}
 
-We've seen many systems like that of Example \thechapter.\ref{stepdisturbanceexample}, which contain transient solutions with exponential terms. 
+We've seen many systems like that of Example \thechapter.\ref{stepdisturbanceexample}, which contain transient solutions with exponential terms.
 The time coefficient on the exponential terms comes from the real part of poles.
-As long as the poles have a negative real part (i.e. they are in the left half of the complex plane) 
-the system will converge to a steady value.  
+As long as the poles have a negative real part (i.e. they are in the left half of the complex plane)
+the system will converge to a steady value.
 Because of the negative term, all the exponentials fade out to zero with time.
 
-On the other hand, if the time coefficient (real part of the pole) is positive, even for only one of the exponential terms arising from the partial fraction expansion, the output will grow exponentially without limit.  In almost all practical systems this is unacceptable and undesirable.     
+On the other hand, if the time coefficient (real part of the pole) is positive, even for only one of the exponential terms arising from the partial fraction expansion, the output will grow exponentially without limit.  In almost all practical systems this is unacceptable and undesirable.
 
 \subsection{Calculation of Roots}\label{calculationofroots}
 
@@ -631,9 +634,6 @@ Notice two main points:
 
 
 
-
-
-
 The following is a very basic derivation of closed loop stability.  It applies only to systems whos blocks have only poles with negative real parts or poles at the origin.
 
 Consider the closed loop system of Figure \ref{NyquistLoop}, Left.  Recall that any function of $s$ has a complex value which in turn has an angle and magnitude.  Suppose we look at the steady state sinusoidal domain ($s=j\omega$, see Section \ref{FrequencyResponseSection}) and further suppose that for some $\omega$,
@@ -641,7 +641,8 @@ Consider the closed loop system of Figure \ref{NyquistLoop}, Left.  Recall that 
 $$
 \angle A(j\omega) = 180^\circ
 $$
-This would have the effect of changing the negative sign on the feedback loop.
+This would have the effect of changing the sign on the feedback loop and causing ``positive
+ feedback" also known as instability.
 
 
 Suppose on the other hand that $A$ is real (i.e. $\angle A = 0$) but we add a term of $H=-1$ to the feedback loop (Figure \ref{NyquistLoop}, Right).  In both of these cases the total angle around the loop (the angle of the loop gain) is $180^\circ$.    Analyzing the closed loop gain
@@ -664,8 +665,8 @@ for the case $A=1$,
 \caption{If the phase angle of $A(s)$ is 180$^\circ$, the gain around the loop becomes positive.}\label{NyquistLoop}
 \end{figure}
 
-
-Thus, if the loop gain is $M(s) = C(s)P(s)H(s)$, a condition on the loop gain for instability is
+Lets expand $A(s) = C(s)P(s)$ to represent the combination of controller ($C(s)$) and
+plant ($P(s)$). Then, if the loop gain is $M(s) = C(s)P(s)H(s)$, a condition on the loop gain for instability is
 \[
 \left | M(j\omega) \right | = 1, \qquad \angle M(j\omega) = 180^\circ
 \]
@@ -678,7 +679,7 @@ A system has the closed loop transfer function
 G(s) = \frac {3.9\times 10^4} {(s+1)(s+22)(s+100)}
 \]
 
-Use the Bode magnitude and phase plots to check the closed loop stability.   
+Use the Bode magnitude and phase plots to check the closed loop stability.
 
 Drawing the Bode plots,
 
@@ -694,7 +695,8 @@ Another way to evaluate stability is to look at where the phase curve crosses $1
 In Example \thechapter.\ref{bodestabilityexample}, when we looked at the frequency where magnitude was 1, we had a phase of $120^\circ$.  The criterion for instability is $180^\circ$ so we have a {\it margin} of $60^\circ$ before stability is lost.  Similarly, when we look at the frequency where angle was $180^\circ$, we got a magnitude of $-16dB$ so our margin is $16dB$ before gain magnitude is 1.   These margins are important because they are the degree of safety we have in the face of possible changes in magnitude or phase due to changes in parameters which might happen due to real-world factors such as wear and tear.   We thus define
 
 \begin{itemize}
-  \item {\bf Gain  Margin:} at the frequency where $\angle CPH(s) = 180^\circ$, the difference in $dB$ between the BAMP and 0$dB$.
+  \item {\bf Gain  Margin:} at the frequency where $\angle CPH(s) = 180^\circ$, the difference in $dB$ between the loop gain magnitude and 0$dB$.  A positive gain margin indicates stability:
+  the loop gain could increase by that much before getting greater than $0dB$.
   \item {\bf Phase Margin:} at the frequency where $\left |CPH(s) = 1\right |$, the difference in degrees  between the phase plot and $180^\circ$.
 \end{itemize}
 
@@ -713,17 +715,17 @@ Find the Gain and Phase Margins for
 \[
 G_2(s) = \frac  {4\times10^5}  {(s+1)(s+31.6)(s+100)}
 \]
-Carefully drawing the Bode gain and phase plots by hand: 
+Carefully drawing the Bode gain and phase plots by hand:
 
 \includegraphics[width=110mm]{figs06/01063.png}
 
 Using pencil and paper we get Gain and Phase margins of 0.  This means the system is right on the edge.  Certainly with
-the limited precision of pencil work, we would be safe to consider this unstable.   Using Scilab's {\tt g\_margin()} and 
-{\tt p\_margin()} functions we get more precisely:
+the limited precision of pencil work, we would be safe to consider this unstable.
+Using python.control's {\tt  margin()} command we get more precisely:
 \[
 GM = 0.69dB \qquad PM = 2.0^\circ
 \]
-Because we never know the system parameters with high accuracy, these margins would not be considered safe. 
+Because we never know the system parameters with high accuracy, these margins would not be considered safe.
 \end{ExampleSmall}
 % \section{Summary of Notation}
 
