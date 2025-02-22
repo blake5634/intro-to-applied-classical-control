@@ -6,13 +6,13 @@
 
 \section{Problem Statement and Learning Objectives}
 
-Be able to 
+Be able to
 \begin{itemize}
 
   \item Explain the significance and identify the parts of a Root Locus diagram.
   \item Use the computer to plot Root Locus diagrams
-  \item Hand draw  a Root Locus diagram for a given open-loop  transfer 
-  function (for positive gains  $k>0$ using the first 5 rules. 
+  \item Hand draw  a Root Locus diagram for a given open-loop  transfer
+  function (for positive gains  $k>0$ using the first 5 rules.
 \end{itemize}
 
 
@@ -96,8 +96,8 @@ We know how to write two transfer functions from Figure \ref{simpleRLsystem}.   
 G_L(s) = CPH(s) = \frac{K}{(s+3)}
 \]
 Loop gain controls key properties of a closed loop control system (for example we saw in Chapter \ref{FeedbackChapter}
-that the amount of disturbance rejection was controlled by the magnitude of the loop gain).  
-However, the end user of our system only cares about the gain from $X$ to $Y$ which we  call 
+that the amount of disturbance rejection was controlled by the magnitude of the loop gain).
+However, the end user of our system only cares about the gain from $X$ to $Y$ which we  call
 the {\it closed loop gain},
 \[
 G_{CL}(s) = \frac{Y(s)}{X(s)} = \frac {K/(s+3)} {1+K/(s+3)} = \frac {K} {(s+3+K)}
@@ -206,8 +206,7 @@ Some key points about the  Root Locus computation are
  \item The controller introduces parameter $K$.
  \item The Root Locus diagram is a plot of how closed loop poles change with $K$.
  \item We usually consider $0 \le K \le \infty$.
- \item Scilab command:  {\tt > evans(sys) }.
- \item Matlab command:  {\tt > rlocus(sys) }.
+ \item {\tt python.control} method:  {\tt root_locus_plot(sys) }.
 \end{enumerate}
 
 
@@ -229,25 +228,33 @@ G(s)= CPH(s) = \frac{K}{(s+1)(s+2)(s+3)}
 \]
 
 
-Using Scilab, by default enter the system with $K=1$.:
+Using python , by default enter the system with $K=1$.:
 
 \begin{verbatim}
-K = 1;
-d = (s+1)*(s+2)*(s+3);
-
-sys = syslin('c',K/d);
-
-evans(sys);
-title("Root Locus Diagram");
-a=get("current_axes");//get the handle of the newly created axes
-a.data_bounds=[-10,5, -10, 10];
-a.grid=[1,1];
+  s=ctl.TransferFunction.s
+  K = 1
+  denom = ((s+1)*(s+2)*(s+3) )
+  sys = ctl.TransferFunction(K/denom)
+  figRL = plt.Figure()
+  ax = plt.gca()
+  plt.title("Root Locus Diagram: Example 7.1")
+  ctl.root_locus_plot(sys,ax=ax)
+  plt.grid()
+  plt.show()
 \end{verbatim}
 
-\includegraphics[width=3.5in]{figs07/rlexample1a.png}
+\includegraphics[width=3.5in]{figs07/B47H33.png}
 
-This plot shows first the three ``open loop poles" as X's.  A black, green, and blue line shows the path of the poles as $K\to\infty$. Notice that the blue and green lines cross the imaginary axis, at about $\pm3.5j$, a result consistent with the computation of Section \ref{FeedbackStabilitySection}.
-The straight lines are asymptotes that the poles eventually follow, and the curved lines (in two cases) are the actual paths.
+This plot shows first the three ``open loop poles" as X's, all on the negative
+real axis.  Lines show the path of the poles as $K\to\infty$. Notice that the
+angled lines cross the imaginary axis, at about $\pm3.5j$,
+a result consistent with the computation of Section \ref{FeedbackStabilitySection}.
+The pole eventually follow straight line asymptotes,
+the curved lines (in two cases) are the actual paths. {\bf Note: }
+Using {\tt ctl.root_locus_plot()} the lines are clickable!  As shown
+I have clicked one of the three black squares  (near $-1+1.6j$),
+and the gain value is shown.   Also shown is where the pole at -3 is
+for that gain.
 \end{ExampleSmall}
 \vspace{0.75in}
 
@@ -267,20 +274,23 @@ G(s) = CPH(s) = C(s)P(s) = \frac {K(s+4)(s+5)}   {(s+1+3j)(s+1-3j)}
 \]
 
 \vspace{0.25in}
-Using Scilab, by default enter the system with $K=1$.:
+Using {\tt python.control}:
 
 
 \begin{verbatim}
-K = 1;
-n = K*(s+4)*(s+5);
-d = real((s+1+3*j)*(s+1-3*j));
-cph = syslin('c',n/d);
-
-evans(cph);
-title("Root Locus Diagram");
-a=get("current_axes");//get the handle of the newly created axes
-a.data_bounds=[-10,5, -10, 10];
-a.grid=[1,1];
+  s=ctl.TransferFunction.s
+  K =1
+  ccp = -1+3j
+  ccp2 = -1-3j
+  num = K*(s+4)*(s+5)
+  denom = ((s-ccp)*(s-ccp2) )
+  sys = ctl.TransferFunction(num/denom)
+  figRL = plt.Figure()
+  ax = plt.gca()
+  plt.title("Root Locus Diagram: Example 7.2")
+  ctl.root_locus_plot(sys,ax=ax)
+  plt.grid()
+  plt.show()
 \end{verbatim}
 
 \includegraphics[width=3.5in]{figs07/rlexample2a.png}
@@ -304,7 +314,7 @@ Recall that the ``loop gain" is the product of all transfer functions around the
 \]
 Poles of this closed loop transfer function are values of $s$ where its denominator is zero.  In other words
 \[
- {1+KC(s)P(s)H(s)} = 0  
+ {1+KC(s)P(s)H(s)} = 0
 \]
 giving
 \[
@@ -325,7 +335,7 @@ The following Root Locus drawing rules derive from either the Magnitude Conditio
 {\bf Root Locus (RL) Drawing Steps:}	%<h>
 \begin{enumerate}
   \item RL Starts (when $K=0$) at the roots of $CPH(s)$ so start out by  plotting these poles and zeros (as x's and o's).
-  \item Find which parts of the real line contain parts of the RL.  For each point on the real axis, if the total number of poles and zeros to right is ODD, that part is ON the RL. Conversely, if the total number of poles and zeros to the right is EVEN, that segment is OFF the RL. 
+  \item Find which parts of the real line contain parts of the RL.  For each point on the real axis, if the total number of poles and zeros to right is ODD, that part is ON the RL. Conversely, if the total number of poles and zeros to the right is EVEN, that segment is OFF the RL.
   \item The number of asymptotes (diverging branches which go out to infinity)  is $n_p-n_z$, where $n_p$ is the number of loop gain poles and $n_z$ is the number of zeros.
   \item If $n_p-n_z \neq 0$, the place where the asympototes intersect the real line is:
  $$
@@ -336,7 +346,7 @@ The following Root Locus drawing rules derive from either the Magnitude Conditio
  $$
  \frac{\pi(1+2m)}{n_p-n_z}
  $$
- where $m$ is the integers $1, 2 , 3, \dots$. 
+ where $m$ is the integers $1, 2 , 3, \dots$.
   \item Poles which do NOT diverge circle back to zeros.
 \end{enumerate}
 
@@ -368,7 +378,7 @@ knowing only the {\it open loop} poles and zeros.
 %\end{frame}  %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 
-Each of the following Root Locus Drawing Rules is the answer to a FAQ.  
+Each of the following Root Locus Drawing Rules is the answer to a FAQ.
 
 % Make table rows deeper
 \renewcommand\arraystretch{2.5}% Vertical Row size, 1.0 is for standard spacing)
@@ -399,7 +409,7 @@ $\theta_d = \pi-\Sigma\angle\mathrm{poles} + \Sigma\angle\mathrm{zeros} $       
 %\begin{frame}
 {\bf Notes:}
 
-Reason codes: 
+Reason codes:
 A = ``angle condition", M = ``magnitude condition", P = theory of polynomials.
 
 Rules 6 and 7 are from pre-computer days and no longer needed (in my opinion).
@@ -444,9 +454,9 @@ G(s) = C(s)P(s) = \frac {K} {(s+5)}
 \\
 \end{tabular}
 
-Interpretation: 
+Interpretation:
 As gain $K$ is increased, this system gets more stable and responds faster to input because
-$e^{\sigma t}$ gets faster as $\sigma$ gets more negative. 
+$e^{\sigma t}$ gets faster as $\sigma$ gets more negative.
 
 \end{ExampleSmall}
 
@@ -474,8 +484,8 @@ G(s) = C(s)P(s) = \frac {K} {(s+2)(s+5)}
 \end{tabular}
 
 Interpretation:
-After the two closed loop poles meet and diverge along the vertical line at -3.5, they get a bigger and 
-bigger imaginary component as the gain $K$ increases.   Thus the overshoot in the step response will 
+After the two closed loop poles meet and diverge along the vertical line at -3.5, they get a bigger and
+bigger imaginary component as the gain $K$ increases.   Thus the overshoot in the step response will
 increase with gain $K$, and a resonant peak will appear in the frequency response (underdamped response).
 
 \end{ExampleSmall}
@@ -505,7 +515,7 @@ G(s) = C(s)P(s) = \frac {K(s+1)} {(s+2)(s+5)}
 
 Interpretation: One pole will get faster as in the first example, but the other pole will converge on
 $\sigma = -1$.  Since it is closest to the origin, this pole will dominate the response.   Like the
-previous examples, the RL stays in the right half plane and thus is stable for all values of $K>0$. 
+previous examples, the RL stays in the right half plane and thus is stable for all values of $K>0$.
 \end{ExampleSmall}
 
 
@@ -531,7 +541,7 @@ G(s) = C(s)P(s) = \frac {K} {(s+5)(s+1+3j)(s+1-3j)}
 \vtop{\vskip-2ex \hbox{ \includegraphics[width=2.75in]{figs07/00781a.png}  }}\\
 \end{tabular}
 
-Interpretation: The two complex conjugate poles cross into the right hand side ($Re(s) > 0$) at some value of $K$.  
+Interpretation: The two complex conjugate poles cross into the right hand side ($Re(s) > 0$) at some value of $K$.
 This system will thus go unstable for $K> x$ (we will see how to find $x$ later).
 \end{ExampleSmall}
 
@@ -588,7 +598,7 @@ G(s) = C(s)P(s) = \frac {K(s+4)(s+5)} {(s+1+3j)(s+1-3j)}
 \end{tabular}
 
 Interpretation: Adding a second zero ``pulls" the RL even more to the left --- makes it even more
-stable. 
+stable.
 
 (Compare to Example \thechapter.\ref{contplantrootlocus}).
 \end{ExampleSmall}
