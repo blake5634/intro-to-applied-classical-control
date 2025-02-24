@@ -1,0 +1,72 @@
+\documentclass{article}
+
+% Required packages
+\usepackage[T1]{fontenc}
+\usepackage{xcolor}
+\usepackage{minted}
+\usepackage{caption}
+
+
+\definecolor{bg}{RGB}{220,220,220}
+
+% Configure minted styling
+\setminted[python]{
+    frame=lines,
+%     bgcolor=bg,
+    framesep=0mm,
+    linenos=true,
+    baselinestretch=1.0,
+    fontsize=\footnotesize,
+    breaklines=true
+}
+
+% Configure listing caption style
+\DeclareCaptionFormat{listing}{\raggedright#1#2#3}
+\captionsetup[listing]{
+    format=listing,
+    labelfont=bf,
+    font=small,
+    labelsep=period
+}
+
+\begin{document}
+
+\section{Python Code Examples}
+
+Here is our first code listing:
+
+\begin{listing}
+\begin{minted}{python}
+def hello():
+    """A simple greeting function"""
+    print("Hello world")
+    return True
+\end{minted}
+\caption{Hello World function implementation}
+\label{lst:hello}
+\end{listing}
+
+As we can see in Listing~\ref{lst:hello}, the function returns True after printing.
+Let's look at another example:
+
+\begin{listing}
+\begin{minted}{python}
+def fibonacci(n):
+    """Calculate the nth Fibonacci number recursively"""
+    if n <= 1:
+        return n
+    return fibonacci(n-1) + fibonacci(n-2)
+
+# Example usage
+result = fibonacci(10)
+print(f"The 10th Fibonacci number is: {result}")
+\end{minted}
+\caption{Recursive Fibonacci implementation}
+\label{lst:fibonacci}
+\end{listing}
+
+The recursive implementation in Listing~\ref{lst:fibonacci} shows a classic
+approach to calculating Fibonacci numbers, though it's not the most efficient
+for large values of n.
+
+\end{document}

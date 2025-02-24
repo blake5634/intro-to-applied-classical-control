@@ -4,6 +4,13 @@
 
 \documentclass[letterpaper]{book}
 
+%
+%  Build command:
+% pdflatex -shell-escape  CtlBook.tex
+%
+% (-shell-escape option is required for minted code listing highlighting)
+
+
 % Uncomment for bibliog.
 %\bibliographystyle{unsrt}
 
@@ -17,6 +24,42 @@
 \usepackage{color}
 \usepackage[usenames,dvipsnames,svgnames,table]{xcolor}
 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%
+%    Minted package for nice python highlighting
+%
+\usepackage[chapter]{minted}  % python syntax highlight
+
+% Required packages
+\usepackage[T1]{fontenc}
+\usepackage{xcolor}
+\usepackage{minted}
+\usepackage{caption}
+
+% Configure minted styling
+\setminted[python]{
+    frame=lines,
+    framesep=2mm,
+    baselinestretch=1.2,
+    fontsize=\footnotesize,
+    linenos=true,
+    breaklines,
+    %     style=monokai,
+    style=default
+}
+
+
+% Configure listing caption style
+\DeclareCaptionFormat{listing}{\raggedright#1#2#3}
+\captionsetup[listing]{
+    format=listing,
+    labelfont=bf,
+    font=small,
+    labelsep=period
+}
+
+%%%%%%% end of minted %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
 % tikz package for block diagrams
 \usepackage{tikz}
 \usetikzlibrary{arrows,calc,patterns,decorations.pathmorphing,decorations.markings}
@@ -28,7 +71,7 @@
 \newcommand{\br}{\epsilon \mathcal{R}}
 
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%5
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %
 %  Set Up Margins
 \input{pagedim.tex}
@@ -85,18 +128,18 @@
 % \linenumbers
 
 \newpage
-% \input{447cal.tex}
- \input{Chapt01.tex}   % Introduction: LODE & LT  review
- \input{Chapt02.tex}   % Translational Dynamics
- \input{Chapt03.tex}   % Rotational Dynamics
- \input{Chapt04.tex}   % Introduction to State Space
- \input{Chapt05.tex}   % Frequency Response and 2nd Order Systems
- \input{Chapt06.tex}   % Feedback
- \input{Chapt07.tex}   %  Root Locus
- \input{Chapt08.tex}   % Introduction to Scilab
- \input{Chapt09.tex}   % Closed Loop Control
- \input{Chapt10.tex}   % Search and Optimization with Scilab
- \input{Chapt11.tex}   % Conversion to Discrete Time: Tustin's method
+\input{447cal.tex}
+\input{Chapt01.tex}   % Introduction: LODE & LT  review
+\input{Chapt02.tex}   % Translational Dynamics
+\input{Chapt03.tex}   % Rotational Dynamics
+\input{Chapt04.tex}   % Introduction to State Space
+\input{Chapt05.tex}   % Frequency Response and 2nd Order Systems
+\input{Chapt06.tex}   % Feedback
+\input{Chapt07.tex}   %  Root Locus
+\input{Chapt08.tex}   % Introduction to Scilab
+\input{Chapt09.tex}   % Closed Loop Control
+\input{Chapt10.tex}   % Search and Optimization with Scilab
+\input{Chapt11.tex}   % Conversion to Discrete Time: Tustin's method
 
 \appendix
 %

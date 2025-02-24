@@ -195,7 +195,7 @@ G_{CL}(s) = \frac {0.2K(s+1)} {s^2 + (22+0.2K)s+40+0.2K}
 \]
 Now as $K$ changes,  it is not at all obvious what are the poles or where they move.  The Root Locus method was invented by Evans to figure this out (without manually solving the denominator polynomials for each value of $K$).
 
-
+\newpage
 \subsection{Summary}
 Some key points about the  Root Locus computation are
 
@@ -206,7 +206,7 @@ Some key points about the  Root Locus computation are
  \item The controller introduces parameter $K$.
  \item The Root Locus diagram is a plot of how closed loop poles change with $K$.
  \item We usually consider $0 \le K \le \infty$.
- \item {\tt python.control} method:  {\tt root_locus_plot(sys) }.
+ \item {\tt python.control} method:  {\tt root\_locus\_plot(sys) }.
 \end{enumerate}
 
 
@@ -215,10 +215,8 @@ Some key points about the  Root Locus computation are
 
 % \vspace{0.0in}  % cleans up line spacing when enumerate breaks into page 97(!!)
 
-
-%%%%** Section 1.8
+\clearpage\newpage
 \section{Root Locus Examples}
-
 
 
 \begin{ExampleSmall}
@@ -228,20 +226,20 @@ G(s)= CPH(s) = \frac{K}{(s+1)(s+2)(s+3)}
 \]
 
 
-Using python , by default enter the system with $K=1$.:
-
-\begin{verbatim}
-  s=ctl.TransferFunction.s
-  K = 1
-  denom = ((s+1)*(s+2)*(s+3) )
-  sys = ctl.TransferFunction(K/denom)
-  figRL = plt.Figure()
-  ax = plt.gca()
-  plt.title("Root Locus Diagram: Example 7.1")
-  ctl.root_locus_plot(sys,ax=ax)
-  plt.grid()
-  plt.show()
-\end{verbatim}
+Using python by default enter the system with $K=1$ (Listing \ref{lst:BasicRLExampleCH7}).:
+%
+% \begin{verbatim}
+%   s=ctl.TransferFunction.s
+%   K = 1
+%   denom = ((s+1)*(s+2)*(s+3) )
+%   sys = ctl.TransferFunction(K/denom)
+%   figRL = plt.Figure()
+%   ax = plt.gca()
+%   plt.title("Root Locus Diagram: Example 7.1")
+%   ctl.root_locus_plot(sys,ax=ax)
+%   plt.grid()
+%   plt.show()
+% \end{verbatim}
 
 \includegraphics[width=3.5in]{figs07/B47H33.png}
 
@@ -251,13 +249,54 @@ angled lines cross the imaginary axis, at about $\pm3.5j$,
 a result consistent with the computation of Section \ref{FeedbackStabilitySection}.
 The pole eventually follow straight line asymptotes,
 the curved lines (in two cases) are the actual paths. {\bf Note: }
-Using {\tt ctl.root_locus_plot()} the lines are clickable!  As shown
+Using {\tt ctl.root\_locus\_plot()} the lines are clickable!  As shown
 I have clicked one of the three black squares  (near $-1+1.6j$),
 and the gain value is shown.   Also shown is where the pole at -3 is
 for that gain.
 \end{ExampleSmall}
+
+
+
+\begin{listing}
+  \begin{minted}{python}
+    import control as ctl
+    import Matplotlib.Pyplot as plt
+    s=ctl.TransferFunction.s
+    K = 1
+    denom = ((s+1)*(s+2)*(s+3) )
+    sys = ctl.TransferFunction(K/denom)
+    figRL = plt.Figure()
+    ax = plt.gca()
+    plt.title("Root Locus Diagram: Example 7.1")
+    ctl.root_locus_plot(sys,ax=ax)
+    plt.grid()
+    plt.show()
+  \end{minted}
+  \caption{Basic Python code for Root Locus (See Chapter 8).}
+  \label{lst:BasicRLExampleCH7}
+\end{listing}
+
 \vspace{0.75in}
 
+\begin{listing}
+  \begin{minted}{python}
+    s=ctl.TransferFunction.s
+    K =1
+    ccp = -1+3j
+    ccp2 = -1-3j
+    num = K*(s+4)*(s+5)
+    denom = ((s-ccp)*(s-ccp2) )
+    sys = ctl.TransferFunction(num/denom)
+    figRL = plt.Figure()
+    ax = plt.gca()
+    plt.title("Root Locus Diagram: Example 7.2")
+    ctl.root_locus_plot(sys,ax=ax)
+    plt.grid()
+    plt.show()
+  \end{minted}
+  \caption{Draw Root Locus of system with poles and zeros}
+  \label{lst:PZRL_CH7}
+\end{listing}
 
 \begin{ExampleSmall}\label{contplantrootlocus}
 
@@ -274,26 +313,13 @@ G(s) = CPH(s) = C(s)P(s) = \frac {K(s+4)(s+5)}   {(s+1+3j)(s+1-3j)}
 \]
 
 \vspace{0.25in}
-Using {\tt python.control}:
+Using {\tt python.control} (Listing \ref{lst:PZRL_CH7})
+
+% \begin{verbatim}
+% \end{verbatim}
 
 
-\begin{verbatim}
-  s=ctl.TransferFunction.s
-  K =1
-  ccp = -1+3j
-  ccp2 = -1-3j
-  num = K*(s+4)*(s+5)
-  denom = ((s-ccp)*(s-ccp2) )
-  sys = ctl.TransferFunction(num/denom)
-  figRL = plt.Figure()
-  ax = plt.gca()
-  plt.title("Root Locus Diagram: Example 7.2")
-  ctl.root_locus_plot(sys,ax=ax)
-  plt.grid()
-  plt.show()
-\end{verbatim}
-
-\includegraphics[width=3.5in]{figs07/rlexample2a.png}
+\includegraphics[width=3.5in]{figs07/B26H83.png}
 
 This time the closed loop poles migrate toward the two zeros in the controller.  First they leave the loop gain poles (x's) and then join up at the real axis. After that  they split again and migrate along the real axis until they hit the zeros.
 \end{ExampleSmall}
@@ -429,8 +455,13 @@ Rules 6 and 7 are from pre-computer days and no longer needed (in my opinion).
  %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 
-
+\clearpage\newpage
 \section{Hand Root Locus Examples}
+
+Let's go through a series of Root Locus examples from very simple to more elaborate.  This will
+illustrate the 5 key steps above in  a progressive manner.   Steps 6 and 7 are really for find tuning
+the RL accuracy and we should use the computer if that accuracy is required.  Also those steps do not
+provide very much design insight for the effort expended.
 
 \begin{ExampleSmall}
 
