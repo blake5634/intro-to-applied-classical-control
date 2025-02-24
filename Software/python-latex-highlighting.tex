@@ -1,0 +1,65 @@
+\documentclass{article}
+
+% Required packages
+\usepackage[T1]{fontenc}
+\usepackage{xcolor}
+\usepackage{minted}
+
+% Configure minted styling
+\setminted[python]{
+    frame=lines,
+    framesep=2mm,
+    baselinestretch=1.2,
+    fontsize=\footnotesize,
+    linenos=true,
+    breaklines=false,
+%     style=monokai,
+    style=default
+}
+
+% Custom color scheme (optional)
+\definecolor{bg}{RGB}{39,40,34}
+\definecolor{keyword}{RGB}{249,38,114}
+\definecolor{string}{RGB}{230,219,116}
+
+\begin{document}
+
+\section{Python Code Example}
+
+Here's an example of syntax-highlighted Python code:
+
+\begin{minted}{python}
+def fibonacci(n):
+    """Calculate the nth Fibonacci number."""
+    if n <= 0:
+        return 0
+    elif n == 1:
+        return 1
+    else:
+        a, b = 0, 1
+        for _ in range(2, n + 1):
+            a, b = b, a + b
+        return b
+
+# Example usage
+result = fibonacci(10)
+print(f"The 10th Fibonacci number is: {result}")
+\end{minted}
+
+You can also highlight specific lines:
+
+\begin{minted}[highlightlines={1,7-10}]{python}
+def calculate_average(numbers):
+    """Calculate the average of a list of numbers."""
+    if not numbers:
+        return 0
+
+    total = sum(numbers)
+    return total / len(numbers)
+
+# Test the function
+test_numbers = [1, 2, 3, 4, 5]
+print(f"Average: {calculate_average(test_numbers)}")
+\end{minted}
+
+\end{document}
