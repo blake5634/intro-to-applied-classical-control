@@ -8,11 +8,11 @@
 \section{Problem Statement and Learning Objectives}
 
 
-This chapter addresses the problem of what happens when we create a closed loop in our system in which signals flow from input to output, but also back from output to input.  We will see that this ``feedback" has profound effects on the system's response.  We will learn analysis and design methods to change this behavior in order to meet specifications.  After completing this chapter, the student will be able to:
+This chapter addresses the problem of what happens when we create a closed loop in our system in which signals flow from input to output, but also back from output to input.  We will see that this ``feedback'' has profound effects on the system's response.  We will learn analysis and design methods to change this behavior in order to meet specifications.  After completing this chapter, the student will be able to:
 
 \begin{itemize}
 
-  \item Identify and explain the ``System Type" of a system transfer function and predict the steady state error for step, ramp, and parabolic inputs.
+  \item Identify and explain the ``System Type'' of a system transfer function and predict the steady state error for step, ramp, and parabolic inputs.
 
   \item Quantify the performance of a system step response in terms of percent overshoot (\%OS) and settling time ($T_S$).
 
@@ -23,7 +23,7 @@ This chapter addresses the problem of what happens when we create a closed loop 
   \item Convert between three equivalent transfer function forms of the PID controller.
 
   \item Derive $K_P, K_I, K_D$ from the zeros of a controller transfer function.
-  
+
   \item Explain why a regularization pole is necessary to simulate or build a PID controller and how to choose its value.
 
   \item Explain the concept of control effort and identify where it can be computed or measured in a control system block diagram.
@@ -45,8 +45,8 @@ This chapter addresses the problem of what happens when we create a closed loop 
 %
 %
 % \begin{itemize}
-%  	\item  $P(s)$ is the ``Plant" -- expensive to change dynamics
-% 	\item  $C(s)$ is the ``Controller" or ``Compensator" --- cheap to change (software).  In the diagram, we have broken it down to a constant real gain, $K$, and the rest of the transfer function, $c(s)$ such that $C(s)=Kc(s)$.
+%  	\item  $P(s)$ is the ``Plant'' -- expensive to change dynamics
+% 	\item  $C(s)$ is the ``Controller'' or ``Compensator'' --- cheap to change (software).  In the diagram, we have broken it down to a constant real gain, $K$, and the rest of the transfer function, $c(s)$ such that $C(s)=Kc(s)$.
 % \end{itemize}
 
 %\end{frame}  %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -54,32 +54,32 @@ This chapter addresses the problem of what happens when we create a closed loop 
 %%%%** Section 2
 \section{System Type and Steady State Error}
 
-In this section, we will examine the ``error" we have computed in control systems at the summing junction on the left side of the closed loop negative feedback system (Figure \ref{basicCLfig}).  Since in control systems, we most often consider $H(s) = 1$,  the error ($E(s) = X(s)-H(s)Y(s)$)
+In this section, we will examine the ``error'' we have computed in control systems at the summing junction on the left side of the closed loop negative feedback system (Figure \ref{basicCLfig}).  Since in control systems, we most often consider $H(s) = 1$,  the error ($E(s) = X(s)-H(s)Y(s)$)
 is a direct comparison between the input and the output.  In some applications, (consider a medical device or a flight control system for an interplanetary spacecraft) it is critical to eliminate error.  In others (consider a temperature control system for buildings) an error of one or two percent might not matter.
 
-``Steady State" refers to the error between input and output as $t\to\infty$.  In practical applications, 
-what do we mean by infinite time?  
-We really mean the time that all transient terms become of insignificant magnitude.   For example, if 
+``Steady State'' refers to the error between input and output as $t\to\infty$.  In practical applications,
+what do we mean by infinite time?
+We really mean the time that all transient terms become of insignificant magnitude.   For example, if
 \[
 y_1(t) = 5e^{-0.1t}
 \]
-then for $t = 85$sec, $y_1(85) = 0.001$; a very small value compared to the amplitude 5.  For $t=85$, 
-the transient due to $y_1(t)$ is ``over". On the other hand, for 
+then for $t = 85$sec, $y_1(85) = 0.001$; a very small value compared to the amplitude 5.  For $t=85$,
+the transient due to $y_1(t)$ is ``over''. On the other hand, for
 \[
 y_2(t) = 5e^{-20t}
 \]
-then for $t = 0.425$sec, $y_2(0.425) = 0.001$.   For $y_2(t)$,  0.43 sec is essentially infinite.   
-Thus ``infinite" time depends on the real part of the system's closed loop poles. 
+then for $t = 0.425$sec, $y_2(0.425) = 0.001$.   For $y_2(t)$,  0.43 sec is essentially infinite.
+Thus ``infinite'' time depends on the real part of the system's closed loop poles.
 
-It turns out that a key variable in studying the magnitude of error in a closed loop negative feedback system 
-is the number of poles at the origin in the loop gain ($C(s)P(s)H(s)$ of Figure \ref{basicCLfig}). We 
-call this number the {\it system type}.  The error also critically depends on the kind of input.  Some 
+It turns out that a key variable in studying the magnitude of error in a closed loop negative feedback system
+is the number of poles at the origin in the loop gain ($C(s)P(s)H(s)$ of Figure \ref{basicCLfig}). We
+call this number the {\it system type}.  The error also critically depends on the kind of input.  Some
 inputs are simply easier to track than  others.
 
 \noindent
 Some key points about system type and steady state error:
  \begin{itemize}
- 	\item System {\bf ``type"} is \# of poles at origin: $\frac{1}{s^n}$ in the controller/plant
+ 	\item System {\bf ``type''} is \# of poles at origin: $\frac{1}{s^n}$ in the controller/plant
 
  	\item Input of amplitude $A$ can be
  	$
@@ -107,7 +107,7 @@ Find the system type for a closed loop negative feedback system consisting of th
  \]
 
  \vspace{0.25in}
-Every factor in the denominatory of $s$ by itself (i.e. $(s+0)$ ) is a pole at the origin. 
+Every factor in the denominatory of $s$ by itself (i.e. $(s+0)$ ) is a pole at the origin.
 The combined system $CPH(s)$ has {\bf two} poles at the origin ($s^2$) so it is of {\bf type 2}.
 \end{ExampleSmall}
 
@@ -127,7 +127,7 @@ The key to computation of steady state error is the Final Value Theorem of basic
 \bq\label{FVTheorem}
 \lim_{t\to\infty} f(t) = \lim_{s\to 0} sF(s)
 \eq
-Applying this to the system error $E(s)$, 
+Applying this to the system error $E(s)$,
 \bq
 \lim_{t\to\infty} e(t) = \lim_{s\to 0} sE(s)
 \eq
@@ -210,7 +210,7 @@ Applying the FVT:
 
 The plant was the same, but by adding a pole at the  origin to the controller, we have eliminated SSE for step input to zero.
 Since this is such a nice result it is worth a look at this new controller (Figure \ref{SimpleIntegralController}).
-This controller can be implemented by building an integrator.  Two ways to implement an integrator are an analog op-amp circuit with a feedback capacitor, 
+This controller can be implemented by building an integrator.  Two ways to implement an integrator are an analog op-amp circuit with a feedback capacitor,
 or alternatively, a software loop in a microcontroller which sums the difference between input and output.
 
 \end{ExampleSmall}
@@ -245,7 +245,7 @@ Applying the FVT:
 \]
 With the new controller, we have changed the SSE for ramp input from $\infty$ to 2\%!   Our controller has increased the system type by one and this made a big difference on SSE with the ramp input.
 
-Note that calling the error ``2\%" is somewhat unclear for a ramp input.  Since B is a constant, but the input signal is $x(t) = Bt$, the error is a smaller and smaller percentage of the total input as time goes on.  In the steady state this error is finite but $0\%$!.
+Note that calling the error ``2\%'' is somewhat unclear for a ramp input.  Since B is a constant, but the input signal is $x(t) = Bt$, the error is a smaller and smaller percentage of the total input as time goes on.  In the steady state this error is finite but $0\%$!.
 
 \end{ExampleSmall}
 
@@ -254,7 +254,7 @@ Note that calling the error ``2\%" is somewhat unclear for a ramp input.  Since 
 %%%%** Section 2.3
 \subsection{Steady State Error Summary}
 
-We've seen examples of how changing the system type or changing the input can make a big difference in the amount of steady state error.  You might even notice a pattern in the examples above relating the ``input type" (the power of $s$ in the Laplace transform of the input signal) and the system type to the nature of the SSE.  To see this relationship, let's take a closer look at Example \thechapter.\ref{ExIntegwithRamp}.
+We've seen examples of how changing the system type or changing the input can make a big difference in the amount of steady state error.  You might even notice a pattern in the examples above relating the ``input type'' (the power of $s$ in the Laplace transform of the input signal) and the system type to the nature of the SSE.  To see this relationship, let's take a closer look at Example \thechapter.\ref{ExIntegwithRamp}.
 
 Writing out the limit again without canceling any terms,
 \[
@@ -342,7 +342,7 @@ In this section we will describe some ways to measure the performance of system 
 
 The transient performance of second order systems (systems having 2 poles) is fairly easy to characterize.  We develop intuition about the relationship of pole locations to time response from these second order systems.  Although practical systems are usually higher order and we use computer techniques to fully understand their dynamics, the relationship between time domain performance and 2nd order poles is important to learn.
 
-Looking at a typical step response (Figure \ref{stepresponse}), the most basic measures are 
+Looking at a typical step response (Figure \ref{stepresponse}), the most basic measures are
 \begin{enumerate}
     \item the time it takes to settle down
     \item the time it takes to reach close to the target
@@ -388,7 +388,7 @@ T_s \approx \frac{-4}{-4.7}  = 0.85 \mathrm{sec}
 
 
 \subsubsection{Rise time, $T_r$}
-{\it Rise Time}, $T_r$ is defined as the time taken by the step response to reach 90\% of the amplitude, $A$.  
+{\it Rise Time}, $T_r$ is defined as the time taken by the step response to reach 90\% of the amplitude, $A$.
 There is no analytical expression for Rise time based on the pole locations.   However, for a range of damping ratios, $\zeta$,
 we can determine the rise-time, expressed as a constant multiplied by the reciprocal of the systems natural frequency $\omega_n$:
 \begin{equation}
@@ -404,14 +404,14 @@ and
 T_r \approx \frac{1}{\omega_n}(2.23\zeta^2 - 0.78\zeta + 1.12)
 \end{equation}
 We can use the non-linear equation (eqn \ref{Tr_non_lin}) if more accuracy is required.
-In practice however, settling time, $T_s$ is a more practical specification for use in design and $T_r$ is less often used. 
+In practice however, settling time, $T_s$ is a more practical specification for use in design and $T_r$ is less often used.
 
 
 \subsubsection{Overshoot, \%OS}
 
 Overshoot is expressed as a percentage of the input amplitude.   In some applications a brief tansient overshoot is acceptable.  In other applications, (think of a elevator controller) overshoot is unacceptable\footnote{There are other techniques called Trajectory Generators, beyond the scope of this chapter, which can be used to eliminate overshoot.}.
 
-The analytical calculation of overshoot from second order systems is somewhat involved.  A few computational results gives a lookup table (Table \ref{percentOStable}) in which overshoot depends on the damping ratio, $\zeta$ (Chapter \ref{2ndOrderTransientChapter}), or 
+The analytical calculation of overshoot from second order systems is somewhat involved.  A few computational results gives a lookup table (Table \ref{percentOStable}) in which overshoot depends on the damping ratio, $\zeta$ (Chapter \ref{2ndOrderTransientChapter}), or
 equivalently the angle formed by the complex conjugate poles ($\theta = \cos^{-1}(\zeta)$.)
 
 %%%%** Table 2
@@ -490,7 +490,7 @@ Find the $s$-plane region in which poles of a 2nd order system meet the followin
 \[
 T_s < 0.2 \mathrm{sec} \qquad \%OS < 10\%
 \]
-As in the previous example, shade the region that {\bf DOES NOT} meet the specs. 
+As in the previous example, shade the region that {\bf DOES NOT} meet the specs.
 
 \includegraphics[width=2.5in]{figs09/00789a.png}
 \end{ExampleSmall}
@@ -514,7 +514,7 @@ Find the $s$-plane region in which poles of a 2nd order system meet the followin
 
 \includegraphics[width=3.in]{figs09/00791a.png}
 
-Note that since the $\%OS$ spec is an equality, the ``region" is actually a line segment. 
+Note that since the $\%OS$ spec is an equality, the ``region'' is actually a line segment.
 
 \end{ExampleSmall}
 
@@ -530,14 +530,14 @@ Note that since the $\%OS$ spec is an equality, the ``region" is actually a line
 %\begin{frame}
 %\frametitle{Control Effort}
 
-Control effort is the level of output needed by the controller to achieve the step response.  
-All other things being equal, a controller which achieves the specs with lower control effort is better.  
-Often there is a limited maximum effort that a given system can output.  
-For example, a DC motor has a maximum torque that it is capable of (without overheating). 
-In this case, it is meaningless to have 
-a settling time that is very fast if that requires 10 times more torque that the motor's maximum limit.  
-For some plants, controller gains can be found to meet {\bf any} $T_S$ and $\%OS$ spec if control 
-effort limits are ignored. 
+Control effort is the level of output needed by the controller to achieve the step response.
+All other things being equal, a controller which achieves the specs with lower control effort is better.
+Often there is a limited maximum effort that a given system can output.
+For example, a DC motor has a maximum torque that it is capable of (without overheating).
+In this case, it is meaningless to have
+a settling time that is very fast if that requires 10 times more torque that the motor's maximum limit.
+For some plants, controller gains can be found to meet {\bf any} $T_S$ and $\%OS$ spec if control
+effort limits are ignored.
 
 Computing control effort is easy.  Consider the system of Figure \ref{controleffort}  which has a controller, plant and feedback.	%<h>
 
@@ -603,15 +603,15 @@ U(s) = X(s)\frac {C(s)}  {1+C(s)P(s)}
 \includegraphics[width=6.25in]{figs09/step_ctl_effort_scilab.png}
 \end{centering}
 
-The responses are colored as follows: 
+The responses are colored as follows:
 \begin{tabular}{r|r|r|r}
 k     &  0.5 & 5   & 100 \\
 \hline
 color & blue & green & red \\
 \end{tabular}
 
-The highest gain (red) has a much faster response than the lowest gain (blue) but note how much higher is the 
-control effort.   If for example, our maximum actuator capability is 1.5 units, we would have to limit our gain to 
+The highest gain (red) has a much faster response than the lowest gain (blue) but note how much higher is the
+control effort.   If for example, our maximum actuator capability is 1.5 units, we would have to limit our gain to
 something like $k=5$ (noting that the green line stays below that level), and expect correspondingly slower step response.
 \end{Example}
 
@@ -625,19 +625,19 @@ something like $k=5$ (noting that the green line stays below that level), and ex
 %%%%** Section 4.1
 \subsection{Closed Loop Design Problem}
 
-The design problem of closed loop controllers\footnote{Sometimes the controller is referred to as a ``compensator" but we will use ``controller".} can be summarized as follows (Assume 
-for simplicity that $H=1$).  
+The design problem of closed loop controllers\footnote{Sometimes the controller is referred to as a ``compensator'' but we will use ``controller''.} can be summarized as follows (Assume
+for simplicity that $H=1$).
 
 \begin{quotation}   Given a plant: $P(s)$,  specify a controller, $C(s)$, for a closed loop system to improve some performance measure compared to the open loop system, $P(s)$.
-Where the closed loop response is governed by   $\frac{C(s)P(s)}{1 + C(s)P(s)}$ 
+Where the closed loop response is governed by   $\frac{C(s)P(s)}{1 + C(s)P(s)}$
 \end{quotation}
 
 %\end{frame}  %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 
 The Proportional-Integral-Derivative (PID) controller is a class of controllers which has
-two zeros and one pole at the origin.  The PID controller is the most common controller in industry BY FAR.   Design of the PID controller consists of deciding on the desired 
-location of the two zeros and a single gain term, $K_D$.   
+two zeros and one pole at the origin.  The PID controller is the most common controller in industry BY FAR.   Design of the PID controller consists of deciding on the desired
+location of the two zeros and a single gain term, $K_D$.
 
 The PID controller an be expressed in three equivalent forms:
 \bq
@@ -647,19 +647,19 @@ C(s) = \frac{K_Ps+K_Ds^2 + K_I}{s} = \frac{K_D(s^2 + \frac{K_P}{K_D}s+ \frac{K_I
 All three depend on three positive real gains for the engineer to design: $K_P, K_I, K_D$.
 Lower order forms of the PID
 controller with one or no zeros are also possible according to the values of the three gains.
-The response of the closed loop system depends only indirectly on the zeros and pole of the 
-PID controller because the  closed loop system has a root locus and its response depends on 
-were we are.   However the zeros of the PID controller can ``pull" the closed loop root-locus 
-pole pathways, usually towards the left, which drives faster response and greater stability. 
-The PID controller's pole at the origin can increase the system type and thus reduce 
-steady state error. 
+The response of the closed loop system depends only indirectly on the zeros and pole of the
+PID controller because the  closed loop system has a root locus and its response depends on
+were we are.   However the zeros of the PID controller can ``pull'' the closed loop root-locus
+pole pathways, usually towards the left, which drives faster response and greater stability.
+The PID controller's pole at the origin can increase the system type and thus reduce
+steady state error.
 
- 
+
 %%%%** Figure 6
 \begin{figure}\centering
 \includegraphics[width=5.0in]{figs11/00651a.png}
 \caption{The PID controller.}\label{PIDBlockDiagram}
-\end{figure} 
+\end{figure}
 
 
 %%%%** Section 4.3
@@ -729,8 +729,8 @@ Some alternate forms of the PID controller are given in of Equation \ref{PID2}. 
 %%%%** Section 4.4
 \subsection{Simulation of PID controllers}\label{simulationPIDcontrollers}
 
-% 
-% 
+%
+%
 % %%%%** Figure 7
 % \begin{figure}[h]\centering
 % \includegraphics[width=2.50in]{figs09/pid_boxa.png}
@@ -738,7 +738,7 @@ Some alternate forms of the PID controller are given in of Equation \ref{PID2}. 
 % \end{figure}
 
 
-Looking again at equation (\ref{PID}), we can see from the far right hand side that the PID controller has two zeros and one pole.   A system with more zeros than poles cannot be physically realized and is called {\it improper}.   Often this condition is ignored because the plant has enough poles to make the overall forward path ($C(s)P(s)$) proper.  However, what if you would like to make and sell a PID controller box 
+Looking again at equation (\ref{PID}), we can see from the far right hand side that the PID controller has two zeros and one pole.   A system with more zeros than poles cannot be physically realized and is called {\it improper}.   Often this condition is ignored because the plant has enough poles to make the overall forward path ($C(s)P(s)$) proper.  However, what if you would like to make and sell a PID controller box
 (search your favorite e-commerce site for "pid controller")?
 % (Figure \ref{pidbox})?
 
@@ -751,7 +751,7 @@ To fix this we simply add another pole to the PID controller at a high enough fr
 
 \begin{enumerate}
   \item Why doesn't a high frequency pole affect the system?
-  \item How high is ``high enough"?
+  \item How high is ``high enough''?
 \end{enumerate}
 
 %\end{frame} %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -778,7 +778,7 @@ Thus for frequencies substantially below $\rho$, $P(s)$ has no effect.	%<h>
 
 
 %\begin{frame}
-%\frametitle{Q2: How high is ``high enough"?}
+%\frametitle{Q2: How high is ``high enough''?}
 
 For question two, let us set $\rho$ to be 10 times higher than the highest pole or zero of our system.   Technically we should know the zeros of the PID controller to do this, but if we {\it assume} that the zeros of a good controller will be in the neighborhood of the poles of the plant, then 10 times greater than the highest frequency plant pole/zero will also be far from the PID controller zeros.	%<h>
 
@@ -809,35 +809,87 @@ because it has the same number of poles and zeros, two.  Thus, Scilab can simula
 \section{Manual Design of PID controller}\label{manualPIDdesign}
 % \section{}
 
-In this section we will design PID control gains through a ``manual" method.  Specifically we will find the values of $K_P, K_I, K_D$ for a given plant and a set of performance specifications, including control effort.  Although fully hand methods are discussed in standard textbooks, our ``manual" method uses the computer to speed Root Locus plotting and analysis.   With all but the simplest plants, hand methods are not accurate enough for real design.  Hand methods are still valuable to give a starting point for more accurate computer design methods discussed in the next chapter.
+In this section we will design PID control gains through a ``manual'' method.  Specifically we will find the values of $K_P, K_I, K_D$ for a given plant and a set of performance specifications, including control effort.  Although fully hand methods are discussed in standard textbooks, our ``manual'' method uses the computer to speed Root Locus plotting and analysis.   With all but the simplest plants, hand methods are not accurate enough for real design.  Hand methods are still valuable to give a starting point for more accurate computer design methods discussed in the next chapter.
 
-The computer optimization method of the next chapter will eventually find a great design (i.e. $K_P,K_I,K_D$ values), and can take more performance criteria into account, but it will go significantly faster with an initial starting guess.   Unfortunately there is no ``typical" range of PID parameter values which could be used as a standard starting range so to get the most utility from computer methods we should generate the rough initial design manually.
+The computer optimization method of the next chapter will eventually find a great design (i.e. $K_P,K_I,K_D$ values), and can take more performance criteria into account, but it will go significantly faster with an initial starting guess.   Unfortunately there is no ``typical'' range of PID parameter values which could be used as a standard starting range so to get the most utility from computer methods we should generate the rough initial design manually.
+
+
+%%%%** Section 5.1
+\subsection{Deriving $K_P, K_I, K_D$ from controller zeros}\label{Kpderive}
+
+Using the root locus technique we'll get insights about where to place
+the two poles of the PID controller.
+
+There are several forms of the PID controller including:
+\[
+C(s) = K_D \left ( s^2+ \frac{K_P}{K_D}s + \frac{K_I}{K_D} \right ) \frac{1}{s}
+\]
+Let
+\[
+PC(s) = \left ( s^2+ \frac{K_P}{K_D}s + \frac{K_I}{K_D} \right )
+\].
+
+Suppose that zero locations we like are
+\[
+z_i = (s + 1.7 \pm 0.5j)
+\]
+and that the result of step 5 above yields $K_D = 1.85$.   Multiplying out gives
+\[
+PC(s) = (s + 1.7 + 0.5j)(s + 1.7 - 0.5j)  = s^2 + 3.4s + 3.14
+\]
+Therefore,
+\[
+C(s) = 1.85 PC(s) \frac{1}{s} = 1.85(s^2 + 3.4s + 3.14)\frac{1}{s}
+\]
+\[
+C(s) = 1.85s + 6.29 + \frac {5.809} {s} = 6.29 + \frac {5.809} {s} + 1.85s
+\]
+Giving us
+\[
+K_P = 3.4\times 1.85 = 6.29   \qquad  K_I = 3.14\times1.85 = 5.809 \qquad K_D = 1.85
+\]
+
+\subsection{The PD Controller}
+A common special case of the PID controller is when we turn off the
+integration function by setting $K_I=0$.
+In this case the ``PD''  controller becomes
+
+\[
+C(s) = K_D \left ( s^2+ \frac{K_P}{K_D}s + \frac{0}{K_D} \right ) \frac{1}{s}
+\]
+ \[
+ C(s) = K_D \left ( s^2+ \frac{K_P}{K_D}s \right ) \frac{1}{s} = K_D\left ( s+\frac {K_P}  {K_D} \right )
+ \]
+
+We solve for $K_P$ as above.
+Thus the PD controller has no pole at the origin (does not increase
+ system type), and has only one zero to place.
 
 
 \begin{Example}
-Let's get started with an example with really simple root loci:
+Let's get started with an example with a really simple root locus diagram:
 \[
 P(s) = \frac  {1}   {(s+1)(s+2)(s+10)}
 \]
-To keep things simple we will use two simplified PID controllers:   
+To keep things simple we will use two simplified PID controllers:
 \[
-C_1(s) = K \qquad   C_2(s) = \frac   {K(s+0.1)} {s} 
+C_1(s) = K \qquad   C_2(s) = \frac   {K(s+0.1)} {s}
 \]
-% To show that they are in fact PID: $\frac   {K(s+1)} {s}  =  \frac{Ks}{s} + \frac{K}{s} = 0s + K + K/s $, so 
+% To show that they are in fact PID: $\frac   {K(s+1)} {s}  =  \frac{Ks}{s} + \frac{K}{s} = 0s + K + K/s $, so
 % \[
 % K_P=K, K_I = K, K_D=0
 % \]
 
 \includegraphics[width=100mm]{figs09/01107.png}
 
-note that the PID version of these controllers is, 
+note that the PID version of these controllers is,
 \[
 C_1(s):  \quad K_p = K \quad K_I = 0 \quad K_D = 0
 \]
 \[
 C_2(s):  \quad K_p = K \quad K_I = 0.1K \quad K_D = 0
 \]
-Suppose we are asked  to find a type 1 controller with 
+Suppose we are asked  to find a type 1 controller with
 \[
 T_s \leq 8sec \quad \%OS \leq 10\%
 \]
@@ -846,23 +898,23 @@ Initially trying $C_1(s)$, draw the root locus and the performance lines:
 
 \includegraphics[width=100mm]{figs09/01108.png}
 
-Although   there are clearly some values of $K$ which will satisfy the specs, the system is NOT type 1. 
-To get type 1, we have to add a factor of $1/s$.  
+Although   there are clearly some values of $K$ which will satisfy the specs, the system is NOT type 1.
+To get type 1, we have to add a factor of $1/s$.
 \end{Example}
 \begin{ExampleCont}
-Now we consider the RL with $C_2(s)$.   First we sketch it without 
-the performance regions for clarity.   
+Now we consider the RL with $C_2(s)$.   First we sketch it without
+the performance regions for clarity.
 
 \includegraphics[width=85mm]{figs09/01109.png}
 
-This root locus looks pretty close to what we had before.  
+This root locus looks pretty close to what we had before.
  $C_2(s)$ contains a pole ($s=0$) and zero ($s=-0.1$) which are close together relative to the plant poles.  Because
- of this they largely cancel their effects, but the system is still type 1(!).  Adding the performance regions: 
- 
+ of this they largely cancel their effects, but the system is still type 1(!).  Adding the performance regions:
+
  \includegraphics[width=110mm]{figs09/01110.png}
 
  We can now hand-compute $K$:
- 
+
  \begin{enumerate}
    \item We will aim for the highest possible $K$ so we pick the point a little below where the RL crosses the diagonal \%OS line:
    about $s = -1.2+j1.2$.
@@ -878,11 +930,11 @@ This root locus looks pretty close to what we had before.
    \[
    K = |0.2+1.2j|/|-1.2+1.2j| = 1.22/1.7 = 0.718
    \]
-   
+
  \end{enumerate}
 \end{ExampleCont}
 
-%%%%** Example 12
+%%%%** Example 12    Example 14 (as of Feb25)
 \begin{Example}
 We have a large industrial machine with the following plant model:
 
@@ -914,67 +966,178 @@ C(s) = \frac{K(s+z_1)(s+z_2)}{s}
 \begin{enumerate}
  \item Make the assumption that the two complex conjugate plant poles closest to the origin are dominant (false!).
  \item Draw the s-plane and draw the region(s) corresponding to the performance specifications.
-
-
  \item Plot the poles and zeros of the plant on the s-plane.
- \item Place two zeros in places such that they will ``pull" the root locus through the target region\footnote{Assuming the plant poles do not already meet the specs(!)}.   
+ \item Place two zeros in places such that they will ``pull'' the root locus through the target region\footnote{Assuming the plant poles do not already meet the specs(!)}.
 
-  \item Use Scilab to plot the Root Locus (``{\tt evans(sys)}" command)
+  \item Use the computer to plot the Root Locus.
   \item If the root locus goes through the target region, use the mouse to find the value of $K$ at the target location.
   \item Use the chosen $z_1, z_2$ and $K$ values to derive  $K_P, K_I, K_D$ (see Section \ref{Kpderive})
   \item If the root locus does NOT go through the target region, go back to step 4 and try again.
 \end{enumerate}
-% 
+%
 (continued next page)
 \end{Example}
-% 
+%
+
+
+%
+% \begin{listing}
+%     \begin{minted}{python}
+%
+% <code>
+%
+%     \end{minted}
+%     \caption{Root Locus plotting (and annotation) code generated by Claude.ai.}
+%     \label{lst:RLGenByAI}
+% \end{listing}
+
+
+\begin{listing}
+    \begin{minted}{python}
+import numpy as np
+import control as ctl
+import matplotlib.pyplot as plt
+
+s=ctl.TransferFunction.s
+
+def cc(x):  # cleaner code
+    return np.conj(x)
+
+#########################################
+#          Plant
+#
+#
+p1 = -0.7+0.2j
+Pnum = (s+1)
+Pden = (s+2)*(s-p1)*(s-cc(p1))
+Plant = Pnum/Pden    # non normalized
+
+#########################################
+#          Controller
+#
+#lay out PID controller zeros
+#
+controller_Title = 'Original Attempt'
+# Original Attempt
+z1 = -6+2j
+z2 = cc(z1)
+
+# Better
+# controller_Title = 'Inproved Attempt'
+# z1=-1
+# z2=-5.5
+
+# build up the PID controller
+K=1 # initial value
+Cnum = K*(s-z1)*(s-z2)     # two zeros
+Cden = s *np.abs(z1*z2)    # pole at origin and normalization of zeros
+# place a regularization pole
+pp = -50                   # e.g. 10xz1_orig (needed to make 'proper' controller
+
+Controller = (Cnum/Cden) * (abs(pp)/(s-pp))  # adding in normalized reg. pole
+#  Note: we've set |controller(s=1)| = K
+sys = Controller * Plant
+sys.name = 'ECE 447 Example'
+
+# Krange = np.logspace(-4,4,num=500)  # don't have to set up custom range for this system
+rlplot = ctl.root_locus_plot(sys, grid=True)#, gains=Krange)
+# Add title and labels
+plt.title('Example 9.14, ' + controller_Title)
+#
+# Customize the grid
+#
+# we want the plot range to ignore regularization pole
+rmin = -5  # bottom range of all other features (poles and zeros)
+  \end{minted}
+  \caption{Root Locus plotting for Example 9.14.(Part 1)}
+  \label{ex14Listinga}
+\end{listing}
+
+
+
+\begin{listing}
+\begin{minted}{python}
+#
+#  Annotate and set ranges
+#
+plt.plot([-3,-3], [4.13,-4.13], 'o', markersize=8, label='Goal',color='r')  # Desired Pole Loc.
+# plt.plot([-3], [-4.13], 'o', markersize=8, label='Goal',color='r')  # Desired Pole Loc.
+ax1 = plt.gca()
+rlscale = np.real(abs(2*rmin))  # add room for RL to curve Left
+ax1.set_xlim([-rlscale, 1])
+yl = (1 + rlscale)/2.0
+ax1.set_ylim([-yl, yl])
+
+plt.show()
+  \end{minted}
+  \caption{Root Locus plotting for Example 9.14 (Part 2). Design goal for pole locations shown by red dots.}
+  \label{ex14Listingb}
+\end{listing}
+
+
+
 % %%%%** Example 12
 \begin{ExampleCont}
 
 \subsubsection*{Method application}
 The specifications are equality constraints (as opposed to inequalities) so the only point which satisfies both specs is the point where the vertical ($T_s$) and diagonal ($\%OS$) lines intersect.  For this problem that is the point $(-3 \pm j4.13)$.
 
-In this example, we make an initial try of PID controller zeros at $s=-6\pm2j$ (step 4, above). 
+In this example, we make an initial try of PID controller zeros at $s=-6\pm2j$ (step 4, above).
 
-The following hand drawn root locus explains why these {\it might} be good locations for the 
- zero.  
+The following hand drawn root locus explains why these {\it might} be good locations for the
+ zero.
 
 \includegraphics[width=95mm]{figs09/00823a.png}
- 
-However when we compute the root-locus using Scilab, it does not pass through the target.
-  
-Trying different zero locations in Scilab we find better results with two real 
-zeros: $s= \{-1,-4\}$.
-
-\includegraphics[width=62.5mm]{figs09/ex912ScilabCode.png}
 
 \end{ExampleCont}
 \begin{ExampleCont}
-The computed Root Locus is
+However when we compute the root-locus using python
+(Listings \ref{ex14Listinga},\ref{ex14Listingb})
+it does not pass through or close to the targets (red dots added to the plot).
 
 \begin{center}
-\includegraphics[width=115mm]{figs09/ex912RL.png}
+  \includegraphics[width=95mm]{figs09/R27J16.png}
 \end{center}
 
- Note that now that at $s=-1$ we now have {\it two} zeros, one from 
-the plant and one from the PID controler. 
-Click on the small icon in upper left of the Root Locus graphics
-window to enable ``Datatips" markers in the Scilab.   Then clicking on the root locus curve at or 
-very near the target location, we find $K = K_D = 4.5$ (let's round it to 4.0 - this is only a rough
-computation).
+Also, the computed RL is {\it qualitatively } different from the had one because the two cc poles
+do not go directly to the zeros (if you move the zeros closer to the $j\omega$ axis they do).
+This can sometimes happen even if you follow the hand drawing rules correctly
+(though rules 5 and 6 can reduce these errors).   Either way, the RL does not hit the targets!
 
-With $K_D$ and our PID zeros ($\{-1, -4\}$) known, we use Equation \ref{PID2} 
+Trying different zero locations we find better results with two real
+zeros: $s= \{-1,-5.5\}$ (Uncommenting Listing \ref{ex14Listinga} lines 30,32),
+the new Root Locus is
+
+\begin{center}
+\includegraphics[width=115mm]{figs09/R27J17.png}
+\end{center}
+
+Note that now that at $s=-1$ we now have {\it two} zeros, one from
+the plant and one from the PID controller.   Then clicking on the root locus curve at or
+very near the target location, we find $gain = 24.8$  (let's round it to 25 - this is only a rough
+computation).  Note that the reported gain includes both the controller gain $K_D$, but also
+whatever the plant magnitude is at our selected point ($s=-3\pm4.13j$).
+
+\end{ExampleCont}
+\begin{ExampleCont}
+We can add some simple code to evaluate the plant magnitude at any value of $s$ (not shown) which
+gives, $|P(s=-3+4.13j)|=0.048$ thus
+\[
+  K_D|P(s)| = 25 \to K_D = 25/0.048 = 521
+\]
+
+With $K_D$ and our PID zeros ($\{-1, -5.5\}$) known, we use Equation \ref{PID2}
 and the technique in Section \ref{Kpderive} (below) as follows:
 
 \[
-C(s) = \frac{4.0(s+1)(s+4)}{s} = \frac {4(s^2+5s+4)} {s}
+C(s) = \frac{521(s+1)(s+5.5)}{s} = \frac {521(s^2+6.5s+5.5)} {s}
 \]
 \[
 = \frac{K_D}{s} \left ( s^2+\frac{K_P}{K_D}s + \frac{K_I}{K_D} \right )
 \]
 
 \[
-K_P = 20 \qquad K_I = 16 \qquad K_D = 4
+K_P = 3380 \qquad K_I = 2860  \qquad K_D = 521
 \]
 
 \end{ExampleCont}
@@ -993,7 +1156,7 @@ T_S \leq 1.33 \qquad \%OS \leq 1\% \quad (34^\circ, \zeta = 0.83)
 Plotting the performance specs in the complex plane:
 
 \begin{center}
-\includegraphics[width=75mm]{figs11/00928a.png}
+\includegraphics[width=75mm]{figs09/00928a.png}
 \end{center}
 
 The PID controller adds 2 zeros and a pole at the origin.   We hope that with some value of gain, it will move the closed loop poles to the left of the shaded region.
@@ -1008,36 +1171,35 @@ However, this cannot be simulated properly.   Using Section \ref{simulationPIDco
 C_1(s) = 20\frac{(s+1)(s+1)}{s(s+20)}
 \]
 
-Now we place this system into a Scilab script as follows:
-
-\begin{verbatim}// EE447 PID Design Example (Design a PID Controller)
-s=%s; j = %i;
-//plant
-p = (s+3)/(s*real((s+1+1.5*j)*(s+1-1.5*j)));
-h = s/s;  // H=1 (you have to express in terms of s!)
-pp = 20;  // regularization pole
-// First guess controller
-c1 = pp * ((s+1)*(s+1))/(s*(s+pp));
-Sys = syslin('c', c1*p); //    loop gain system
-clf();
-evans(Sys,200);   // experiment with gain range (200)
-a1=get("current_axes");          //get the handle of the newly created axesctl
-a1.data_bounds=[-5,1, -3,3];
-sgrid;  // helps for the % overshoot performance line
+Now we place this system into a python script similar to
+Listing \ref{ex14Listinga} and we add a little bit of code to
+draw the performance lines
+\begin{verbatim}
+  # Draw performance region
+  # Specs: T_s < 1.33  %OS <= 1% (34deg, zeta = 0.83)
+  sigTS = -4/1.33
+  angOS = 34.0*np.pi/180.0  #rad
+  plt.plot([sigTS,sigTS],[-yl,yl],color='g')  # vert line for Ts
+  rad = 8
+  ostargIM = rad*np.sin(angOS)
+  ostargRE = rad*np.cos(angOS)
+  plt.plot([0, -ostargRE,0,-ostargRE],[0, ostargIM ,0, -ostargIM],color='purple')
 \end{verbatim}
 \end{Example}
+Giving:
 
-%%%%** Example 13
+%%%%** Example 15
 \begin{ExampleCont}
-Running this script (and drawing some performance lines on the RL output) gives:
 
-\includegraphics[width=125mm]{figs11/des_examp_01a.png}
+\begin{center}
+\includegraphics[width=110mm]{figs09/R15J18.png}
+\end{center}
 
 Unfortunately, while some of the poles move into the region of acceptable performance\footnote{This can be seen with bigger values for {\tt a.data\_bounds}},
 the two origin poles will never get to the left of $\sigma = -1$!
 
 \vspace{0.2in}
-{\bf Try 2: } Move the two zeros to $\{-5,-5\}$
+{\bf Try 2: } Move the two zeros to $\{-4,-4\}$
 \begin{verbatim}
 // 2nd guess controller
 pp=25;
@@ -1056,32 +1218,43 @@ sgrid;  // helps for the % overshoot performance line
 \begin{ExampleCont}
 The resulting root locus is
 
-\includegraphics[width=125mm]{figs11/des_examp_02a.png}
+\begin{center}
+\includegraphics[width=111mm]{figs09/R15J19.png}
+\end{center}
 
-There is no need to draw on the performance region because the two origin poles are now going unstable!  Very bad option.
+The two origin poles are now going unstable!  Clicking the RL shows
+that the origin poles are already seriously unstable when the
+cc poles at $s=-1$ are just going below the purple $\%OS$ line
+and not even close to the $T_S$ region.  A very bad option.
 
-Further root locus experimentation did not yield any controller which could be stable and have poles in the desired region!
+Even worse, lots of further root locus experimentation did not yield {\bf any}
+controller which could be stable and have poles in the desired region!
 
-What to do??    We must be sure to consider PID controllers where one of the paramters is zero.   Since we have a stability problem, we should take a hard look at adding a pole to the origin. 
-The pole at $s=0$ is good for steady state error, but makes stability harder. 
-We can eliminate this pole if we get rid of the integrator in the PID controller: $K_I = 0$ but this also eliminates one zero.  Using this ``PD" controller we have a zero and a gain as our remaining design parameters:
+What to do??    We must be sure to consider PID controllers where one or
+ more of the gains are zero.   Since we have a stability problem, we should
+ take a hard look at removing the pole we added at the origin (remember,
+ the plant also put one there.)
+The poles at $s=0$ are good for steady state error, but make stability harder.
+We can eliminate the PID controller's  pole at zero if we get rid of the integrator in the PID controller: $K_I = 0$ but this also eliminates one zero.  Using this ``PD'' controller we have a zero and a gain as our remaining design parameters:
 \[
-C_{PD} = K(s+z) = K_Ds + K_P
+C_{PD} = K_D(s+z) = K_Ds + K_P
 \]
+where $K_P = \frac {z}  {K_D}$.
 
 {\bf Try 3: }
 \[
 C_3(s) = K(s+0.1)
 \]
+(to which we must add the regularization pole as before.)
+Modifying the code a bit:
+
 \begin{verbatim}
-// 3nd guess controller
-c1 = pp*(s+0.1)/(s+pp);
-Sys = syslin('c', c1*p); //    loop gain system
-clf();
-evans(Sys);   // experiment with gain range (200)
-a1=get("current_axes");          //get the handle of the newly created axesctl
-a1.data_bounds=[-5,1, -3,3];
-sgrid;  // helps for the % overshoot performance line
+  # build the PD controller
+  controller_Title = 'Try 3: PD Control'
+  z1=-0.1
+  Cnum = K*(s-z1)
+  Cden = 1.0
+  pp = -20
 \end{verbatim}
 
 
@@ -1091,59 +1264,36 @@ sgrid;  // helps for the % overshoot performance line
 \begin{ExampleCont}
 The root locus is now:
 
-\includegraphics[width=125mm]{figs11/des_examp_03aa.png}
+\includegraphics[width=111mm]{figs09/R15J20.png}
 
-which allows the poles to move into the zone (green circled parts of RL).   Using the mouse to click on the part of the RL indicated gives $5.6 < K < 6.4$.  Using K=6.0,
+which allows the CC poles starting from $s=-1\pm1.5j$ to move into the
+target performance zone (green circled parts of RL).   Using the mouse to
+click on the part of the RL indicated gives $5.0 < K < 6.4$.
+Using K=6.0 and allowing for plant magnitude as in the previous example,
+$|P(s=-5.4+2.8j)|=0.021$, thus
 \[
-K_P = 0.6, K_I = 0.0,  K_D = 6.0
+K_D|P(s)| = 6 \to K_D = 6/0.021 = 286
+\]
+\[
+K_P/K_D = 0.1\to KP = 0.1*286 = 28.6
 \]
 
-You might notice that the pole at the origin moves only slightly and arrives at the 
-PD controller zero we placed at $\sigma=-1$.  This one does not lie in the performance 
-region.  One way to look at this is that the pole and zero being very close to each other 
-``cancel each other out" in the closed loop response.   
-This exposes a limitation of the ``$T_s, \%OS$ / s-plane region" approach to control 
-design, which is that the regions are only truely valid with a pure second order system 
-with two poles and no zeros.  For all other systems the regions are really only approximate. 
+\[
+K_P = 28.6, K_I = 0.0,  K_D = 286
+\]
 
-At this point we have reached a good starting point for computer optimization which 
-will NOT make simplifying assumptions about the system dynamics or performance regions. 
+You might notice that the pole at the origin moves only slightly and arrives at the
+PD controller zero we placed at $\sigma=-1$.  This one does not lie in the performance
+region.  One way to look at this is that the pole and zero being very close to each other
+``cancel each other out'' in the closed loop response.
+This exposes a limitation of the ``$T_s, \%OS$ / s-plane region'' approach to control
+design, which is that the regions are only truly valid with a pure second order system
+with two poles and no zeros.  For all other systems the regions are really only approximate.
+
+At this point we have reached a good starting point for computer optimization which
+will NOT make simplifying assumptions about the system dynamics or performance regions.
 \end{ExampleCont}
 
-
-
-%%%%** Section 5.1
-\subsection{Deriving $K_P, K_I, K_D$ from controller zeros}\label{Kpderive}
-
-There are several forms of the PID controller including:
-\[
-C(s) = K_D \left ( s^2+ \frac{K_P}{K_D}s + \frac{K_I}{K_D} \right ) \frac{1}{s}
-\]
-Let
-\[
-PC(s) = \left ( s^2+ \frac{K_P}{K_D}s + \frac{K_I}{K_D} \right )
-\].
-
-Suppose that zero locations we like are
-\[
-z_i = (s + 1.7 \pm 0.5j)
-\]
-and that the result of step 5 above yields $K_D = 1.85$.   Multiplying out gives
-\[
-PC(s) = (s + 1.7 + 0.5j)(s + 1.7 - 0.5j)  = s^2 + 3.4s + 3.14
-\]
-Therefore,
-\[
-C(s) = 1.85 PC(s) \frac{1}{s} = 1.85(s^2 + 3.4s + 3.14)\frac{1}{s}
-\]
-\[
-C(s) = 1.85s + 6.29 + \frac {5.809} {s} = 6.29 + \frac {5.809} {s} + 1.85s
-\]
-Giving us
-\[
-K_P = 3.4\times 1.85 = 6.29   \qquad  K_I = 3.14\times1.85 = 5.809 \qquad K_D = 1.85
-\]
-This gives us a rough design to start the computer optimization process.
 
 
 
