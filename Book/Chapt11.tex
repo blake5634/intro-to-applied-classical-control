@@ -9,26 +9,20 @@
 The student will be able to:
 \begin{itemize}
     \item Explain how the Nyquist sampling rate applies to discrete  time controllers and
-    how to apply it to select a sampling rate. 
+    how to apply it to select a sampling rate.
     \item Use Tustin's method by hand to convert a continuous-time/frequency-domain controller
     to discrete time.
-    \item Use Tustin's method in the computer to covert a transfer function to discrete time. 
-    \item Convert a discrete time transfer function, using the inverse $Z$ transform, to 
+    \item Use Tustin's method in the computer to covert a transfer function to discrete time.
+    \item Convert a discrete time transfer function, using the inverse $Z$ transform, to
     a difference equation.
-    \item  Program a loop in pseudo-code which can implement the designed discrete time controller. 
+    \item  Program a loop in pseudo-code which can implement the designed discrete time controller.
 \end{itemize}
 
 %%%%** Section 1
 \section{Overview}
-  In these notes, we will describe a procedure to convert a continuous time transfer function (such as a controller you might design on  the  computer) into a line of code you could build into a software application. 	%<*h>
+  In this chapter, we will describe a procedure to convert a continuous time transfer function (such as a controller you might design on  the  computer) into a line of code you could build into a software application. 	%<*h>
 
 In the following, it will help if you have been exposed to some discrete time signals and systems theory (the Z-Transform), but full knowledge of Z-transforms is not required to calculate this conversion.
-	%<*>
-
-%\begin{frame}
-
-%\frametitle{Outline}
-
 Our procedure will boil down to the following process for converting your continous time controller
 into computer code.
 
@@ -49,19 +43,20 @@ into computer code.
 \includegraphics[width=3.5in]{figs11/cont_disc_sigsa.png}	%<h>
 %\includegraphics[width=2.5in]{figs11/cont_disc_sigsa.png}
 \caption{Continuous time (top) and discrete time (bottom) signals. The time between samples is $T$.}\label{FigContinuousDiscreteSignals}
-\end{figure} 
+\end{figure}
 
 %\end{frame}
 %\begin{frame}
 
-A discrete time signal, also known as a ``sampled data signal", is a series of unit impulses,
-scaled by the signal values, and delayed by multiples of $T$ (Figure \ref{FigContinuousDiscreteSignals}).  
+A discrete time signal, also known as a ``sampled data signal'', is a series of unit impulses,
+at regular times $t=nT, n=\{0,1,2,3,....\}$,
+scaled by the signal values at each sample time (Figure \ref{FigContinuousDiscreteSignals}).
 If there is a continuous signal, $x(t)$, the discrete time version of that signal is
 \[
 x(n) = \sum_n \delta(t-nT)\times x(nT)  \qquad \qquad n = 0,1,2 \dots
 \]
 
-The unilateral Z-Transform (discrete time analog of the Laplace Transform) is
+The unilateral Z-Transform (a discrete time analog of the Laplace Transform) is
 \[
 X(z) = \sum_{n=0}^{n=\infty} x(n)z^{-n}
 \]
@@ -75,7 +70,7 @@ The Z-Transform can be used like the Laplace transform to analyze systems expres
 \subsection{Discrete and Continuous Comparison Table}
 %\begin{frame}
 
-In the following table, we list the analogous concepts between discrete time and continuous time. 
+In the following table, we list the analogous concepts between discrete time and continuous time.
 
 \renewcommand\arraystretch{1.75}% Vertical Row size, 1.0 is for standard spacing)
 \begin{centering}
@@ -114,13 +109,14 @@ Equivalently,
 $f_N \geq  2b$, then the continuous time signal {\it can be reconstructed perfectly} from the discrete time signal.
 \end{quotation}
 
-$f_N$ is called the ``Nyquist Rate".   Although this theorem is commonly applied to signals (such as music) 
+$f_N$ is called the ``Nyquist Rate".   Although this theorem is commonly applied to signals (such as music)
 we will also use $f_N$ to decide how to sample control systems.
 
 \paragraph{Sampling Safety}
-Real-world signals don't necessarily have $zero$ energy beyond some arbitrary bandwidth, $b$.   So how do we make sure there is no signal 
-energy beyond $\frac{1}{2}f_N$  that will corrupt our control system?    First, real systems often employ an analog {\it anti-aliasing filter} 
-(a low-pass filter) to block energy below $\frac{1}{2}f_N$.  But analog filters do not always block ALL energy.   
+Real-world signals don't necessarily have $zero$ energy beyond some arbitrary bandwidth, $b$.   So how do we make sure there is no signal
+energy beyond $\frac{1}{2}f_N$  that will corrupt our control system?    First, real systems often employ an analog {\it anti-aliasing filter}
+(a low-pass filter) to block energy below $\frac{1}{2}f_N$.  But analog filters do not
+block ALL energy above their ``cutoff-frequency''.
 
 Engineers use ``rules-of-thumb" to add a safety factor to the Nyquist rate.   Here are two of them:
 
@@ -130,26 +126,26 @@ Thus if we sample even faster than the Nyquist rate, there will be even lower si
 \begin{ExampleSmall}
 A system is expected to have a bandwidth of $10Hz$ but we want to be very safe.   What sampling rate should we use?
 
-\paragraph{Solution 1:}   With no safety margin, we would sample at $f_N  = 2\times10Hz = 20Hz$.   We learn from the Boss that standard practices 
-in our industry dictate that we will have a safety factor of 10.   Thus we will sample at 
+\paragraph{Solution 1:}   With no safety margin, we would sample at $f_N  = 2\times10Hz = 20Hz$.   We learn from the Boss that standard practices
+in our industry dictate that we will have a safety factor of 10.   Thus we will sample at
 \[
 f_{samp} = 10\times f_N = 200Hz
 \]
 \end{ExampleSmall}
 
-A second rule of thumb is to specify a maximum gain magnitude that the system can have to define its bandwidth more precisely.  Then we double that to find the 
-Nyquist rate. 
+A second rule of thumb is to specify a maximum gain magnitude that the system can have to define its bandwidth more precisely.  Then we double that to find the
+Nyquist rate.
 
 \begin{ExampleSmall}
-We are designing a digital implementation of the following control system: 
+We are designing a digital implementation of the following control system:
 
 \[
-C(s) = \frac  {20(s+0.5)}  {(s+10)^2}
+C(s) = \frac  {20(s+0.5)}  {(s+5)^2}
 \]
-This controller has a zero, but the two poles take over above 10 rad/sec and bring the gain down for higher frequencies.  What sampling rate should we use?
+This controller has a zero, but the two poles take over above 5 rad/sec and bring the gain down for higher frequencies.  What sampling rate should we use?
 
-\paragraph{Solution 2:}   The Boss informs us that we must define bandwidth as the freqency at which the magnitude of the system transfer function 
-is equal to -40dB.  Let's plot a Bode Diagram of the controller:
+\paragraph{Solution 2:}   The Boss informs us that we must define bandwidth as the frequency at which the magnitude of the system transfer function
+is equal to -40dB.  Let's plot a Bode Diagram of the controller (using radians per second for frequency):
 
 \includegraphics[width=3.5in]{figs11/01118.png}
 
@@ -163,24 +159,24 @@ f_{samp} = 2\times\omega_b =  10,000 rad/sec = 1592 Hz
 %\end{frame}
 \section{Digital Control Systems}
 
- 
+
 \begin{figure}\centering
 \includegraphics[width=5.0in]{figs11/ct_cl_sysa.png}
 \caption{Closed loop continuous time control system.  Assume that we have designed a transfer function $C(s)$ which gives us a satisfactory system response.}\label{F:ct_cl}
 \end{figure}
 %\end{frame}
- 
+
 \begin{figure}\centering
 \includegraphics[width=6.00in]{figs11/01106.png}
-\caption{Closed loop   control system using a computer, a digital-to-analog (D/A) converter, an amplifier (AMP) to increase power output to the plant (P) and a sensor for feedback to the controller.  $C$ refers to a discrete time implementation, $C(n)$ of $C(s)$.}\label{F:dt_cl}
+\caption{Closed loop   control system using a computer, a digital-to-analog (D/A) converter, an amplifier (AMP) to increase power output to the plant (P) and a sensor for feedback to the controller.  $C$ refers to a discrete time implementation, $C(n)$ of $C(t)$.}\label{F:dt_cl}
 \end{figure}
 
 
 
-Let's put these ideas to work on  a control system such as that of Figure \ref{F:ct_cl}. 
-We want to implement the control system in a computer.  
-The plant, $P(s)$, of course stays outside the computer system since it is NOT a simulation.  
-A control system implemented by computer would thus look like the parts of Figure \ref{F:dt_cl} which are inside the box. 
+Let's put these ideas to work on  a control system such as that of Figure \ref{F:ct_cl}.
+We want to implement the control system in a computer.
+The plant, $P(s)$, of course stays outside the computer system since it is NOT a simulation.
+A control system implemented by computer would thus look like the parts of Figure \ref{F:dt_cl} which are inside the box.
 Refering to  Figure \ref{F:dt_cl}, an input $x(n)$  is provided, for example from a user interface.  The actual system output is sensed by a sensor  and sampled (measured at regular points in time) by an input device, and error, $e(n)$, is computed in the computer.  The controller $C(n)$ is a digital filter creating the force output, $f(n)$, which is applied to the plant by a digital-to-analog converter plus amplifier.
 
 
@@ -190,8 +186,8 @@ Refering to  Figure \ref{F:dt_cl}, an input $x(n)$  is provided, for example fro
 %\frametitle{Tustin's Method}
 
 Suppose we have a continuous time system (i.e. a Laplace Transform transfer function), $H(s)$.   Arnold Tustin developed
-the following way to derive a Z-transform transfer function which is a digital approximation to $H(s)$.   His result is
-
+the following way to derive a Z-transform transfer function which is a digital approximation
+to $H(s)$:
 \[
 H(z) = H(s)|_{s=\frac{2(z-1)}{T(z+1)}}
 \]
@@ -277,74 +273,151 @@ G(z) = 0.339 \frac   {z^2+0.03922z -0.9608}      {z^2-1.3290z+0.3290}
 
 \subsection{Conversion  by  Computer}
 
-%\begin{frame}[containsverbatim]
+In {\tt python.control} there is a built in function to convert transfer functions
+from continuous time to discrete time, {\tt control.sample\_system()}.
 
-{\bf SCILAB }
 
-In  Scilab we will apply  Tustin's method more  directly:
-%\end{frame}
+\begin{listing}
+\begin{minted}{python}
+  import numpy as np
+  import control as ctl
+  s = ctl.TransferFunction.s
+  # orig continuous time system
+  sysCT = 20*(s+1)/((s+0.01)*(s+0.20)*(s+10))
+  #  Now set up conversion (2 examples)
+  fs = 20  # 2x highest pole/zero sampling
+  Ts = 1/fs  # Sample time
+  sysDT01 = ctl.sample_system(sysCT, Ts, method='tustin')
+  fs = 40  # 4x highest pole/zero sampling
+  Ts = 1/fs  # Sample time
+  sysDT02 = ctl.sample_system(sysCT, Ts, method='tustin')
+  print('\n          ECE 447 Example: Conversion to Discrete Time: \n')
+  print('Continuous Time System: ',sysCT)
+  print('\nDiscrete Time System (20Hz): ',  sysDT01 )
+  print('\nDiscrete Time System (40Hz): ',  sysDT02 )
+\end{minted}
+\caption{Conversion to discrete time system using two different sampling times ({\tt Ts}).}
+\label{lst:basicTustin}
+\end{listing}
 
-%\begin{frame}[containsverbatim]
 
+\begin{Example}
+Convert the continuous time system $G(s)$ to discrete time.
+
+% 20*(s+1)/((s+0.01)*(s+0.20)*(s+10))
+ \[
+ G(s) = \frac {20(s+1)}  {(s+0.01)(s+0.2)(s+10)}
+ \]
+We have very limited computing power available due to a low target for system cost.
+Compute two versions of a discrete time system, for two sample times:
+\[
+T_1 = 2\times {\mathrm the highest pole or zero.}
+\]
+\[
+T_1 = 4\times {\mathrm the highest pole or zero.}
+\]
+
+Code for this is given in Listing \ref{lst:basicTustin}.   Output is
 \begin{verbatim}
+                ECE 447 Example: Conversion to Discrete Time:
 
--->T = 0.01;
+  Continuous Time System:  <TransferFunction>: sys[12]
+  Inputs (1): ['u[0]']
+  Outputs (1): ['y[0]']
 
--->m =  (2/T)*(z-1)/(z+1)
- m  =
+  20 s + 20
+  --------------------------------
+  s^3 + 10.21 s^2 + 2.102 s + 0.02
 
-  - 200 + 200z
-    ----------
-      1 + z
+  Discrete Time System (20Hz):  <TransferFunction>: sys[12]$sampled
+  Inputs (1): ['u[0]']
+  Outputs (1): ['y[0]']
 
--->pz = 10*(m+4)/((m+0.1)*(m+100))
- pz  =
+  0.0102 z^3 + 0.01069 z^2 - 0.009202 z - 0.009699
+  ------------------------------------------------
+  z^3 - 2.59 z^2 + 2.183 z - 0.5937
+  dt = 0.05
 
-                                       2
-  - 0.0326503 + 0.0013327z + 0.0339830z
-    -----------------------------------
-                                  2
-        0.3330002 - 1.3323338z + z
+  Discrete Time System (40Hz):  <TransferFunction>: sys[12]$sampled
+  Inputs (1): ['u[0]']
+  Outputs (1): ['y[0]']
 
+  0.002805 z^3 + 0.002874 z^2 - 0.002667 z - 0.002736
+  ---------------------------------------------------
+  z^3 - 2.773 z^2 + 2.546 z - 0.7737
+  dt = 0.025
 \end{verbatim}
-
-
- {\bf MATLAB}	%<hn>
-
- Matlab has a function called {\tt c2d()} which converts continuous to discrete time systems.  It has multiple methods it can use but one of them is Tustin's. The arguments to the c2d function are:  the system, $T$, and the name of the method in string form:	%<hn>
-
-{\bf Matlab computation: }
-\begin{verbatim}
->> g
-
-Zero/pole/gain:
-   10 (s+4)
----------------
-(s+0.1) (s+100)
-
->> sz = c2d(g,0.01,'tustin')
-
-Zero/pole/gain:
-0.033983 (z-0.9608) (z+1)
--------------------------
-  (z-0.999) (z-0.3333)
-
-Sampling time: 0.01
->>
-\end{verbatim}
-%\end{frame}
+\end{Example}
 
 
 %\begin{frame}[containsverbatim]
 
-You can  verify  that  this result is the same as Scilab's.
+% {\bf SCILAB }
+%
+% In  Scilab we will apply  Tustin's method more  directly:
+% %\end{frame}
+
+% %\begin{frame}[containsverbatim]
+%
+% \begin{verbatim}
+%
+% -->T = 0.01;
+%
+% -->m =  (2/T)*(z-1)/(z+1)
+%  m  =
+%
+%   - 200 + 200z
+%     ----------
+%       1 + z
+%
+% -->pz = 10*(m+4)/((m+0.1)*(m+100))
+%  pz  =
+%
+%                                        2
+%   - 0.0326503 + 0.0013327z + 0.0339830z
+%     -----------------------------------
+%                                   2
+%         0.3330002 - 1.3323338z + z
+%
+% \end{verbatim}
+%
+%
+%  {\bf MATLAB}	%<hn>
+%
+%  Matlab has a function called {\tt c2d()} which converts continuous to discrete time systems.  It has multiple methods it can use but one of them is Tustin's. The arguments to the c2d function are:  the system, $T$, and the name of the method in string form:	%<hn>
+%
+% {\bf Matlab computation: }
+% \begin{verbatim}
+% >> g
+%
+% Zero/pole/gain:
+%    10 (s+4)
+% ---------------
+% (s+0.1) (s+100)
+%
+% >> sz = c2d(g,0.01,'tustin')
+%
+% Zero/pole/gain:
+% 0.033983 (z-0.9608) (z+1)
+% -------------------------
+%   (z-0.999) (z-0.3333)
+%
+% Sampling time: 0.01
+% >>
+% \end{verbatim}
+% %\end{frame}
+%
+%
+% %\begin{frame}[containsverbatim]
+%
+% You can  verify  that  this result is the same as Scilab's.
 
 %\end{frame}
 
 	%<*h>
-Note that in this type of computation we should NOT round our results.  An exact rule for how much precision we need in the coefficients of the digital filter is beyond the scope of the course.  However you should use at least 6 digits in the problems we will work on.
-
-
+Note that in this type of computation we should NOT round our results.  An exact rule for how
+much precision we need in the coefficients of the digital filter is beyond the scope of the
+course.  However you should use at least 6 digits in the problems we will work on.
 
 Now that we have our controller in Z-transform form, we need one more step before we can code it: we need to convert it to a digital filter.
 	%<*>
@@ -354,7 +427,7 @@ Now that we have our controller in Z-transform form, we need one more step befor
 %\begin{frame}
 %\frametitle{Conversion of discrete transfer function to digital filter}
 
-First, we ``unwrap" the transfer function so that it is now the Z transform of a digital filter.  Unwrapping is actually a simple step.  For example, using our first example above, 
+First, we ``unwrap" the transfer function so that it is now the Z transform of a digital filter.  Unwrapping is actually a simple step.  For example, using our first example above,
 \[
 C(z) = \frac{F(z)}{E(z)} = \frac{50}{12}\frac{(z+1)}{(z+0.6667)}
 \]
@@ -427,59 +500,11 @@ This is essentially the line of computer code which defines our controller!  	%<
 %%%%** Section 4
 \section{Code Example}
 
- Let's put this equation into some computer code.  We will not worry about many details such as the operating system or exact computer syntax, and we will assume that functions are available to do the I/O for us.  	%<*h>
+ Let's put this equation into some computer code.  We will not worry about many details such as the operating system or exact computer syntax, and we will assume that functions are available to do the I/O for us.
 
-%\begin{frame}[containsverbatim]
-%\frametitle{Code Example}
-%
-%\begin{lstlisting}
-%/*  EE447, U. of Washington.  Example of basic digital control code  */
-%double e, x, f;    // define our system loop variables
-%double ys;         // this will be our sensed y for feedback
-%double en1, fn1;   //  these will be e(n-1) etc.
-%double T=1.0;      // sampling time in seconds.
-%double t, t1;      // variables for keeping track of time.
-%en1 = fn1 = 0.0;   // we have to start them with something!
-%
-%\end{lstlisting}
-%
-%
-%\end{frame}
-%\begin{frame}[containsverbatim]
-%
-%\begin{lstlisting}
-%// loop forever
-%while(1)  {
-%  t = get_current_time();
-%  x = get_command_input();  // get our input from somewhere
-%  ys = read_sensor();       // get feedback from our system
-%  e  = x-ys;                // compute error (H=1)
-%
-%  f = 4.1667 * (e+en1) - 0.6667*fn1;   // compute controller output
-%
-%   output_to_plant(f);       // send controller output to plant
-%
-%  en1 = e;                  // store previous values of e, f
-%  fn1 = f;
-%
-%  t1 = get_current_time();
-%  wait(T-(t-t1));           // wait for next sample time
-%  }
-%\end{lstlisting}
-%
-	%<*h>
-% \newpage
-\lstset{numbers=left, numberstyle=\tiny, stepnumber=1, numbersep=5pt}
-\lstset{language=C}
-\lstset{% general command to set parameter(s)
- stringstyle=\ttfamily, % typewriter type for strings
- basicstyle=\ttfamily, % print whole listing in courier
- keywordstyle=\color{black}\bfseries\underbar,% underlined bold black keywords
- identifierstyle=, % nothing happens
- commentstyle=\color{ForestGreen}, % white comments
- showstringspaces=false
- } % no special string spaces
-\begin{lstlisting}
+
+\begin{listing}
+\begin{minted}{C}
 /*  EE447, U. of Washington.  Example of basic digital control code  */
 double e, x, f;    // define our system loop variables
 double ys;         // this will be our sensed y for feedback
@@ -487,7 +512,6 @@ double en1, fn1;   //  these will be e(n-1) etc.
 double T=1.0;      // sampling time in seconds.
 double t, t1;      // variables for keeping track of time.
 en1 = fn1 = 0.0;   // we have to start them with something!
-
 // loop forever
 while(1)  {
   t = get_current_time();
@@ -497,16 +521,16 @@ while(1)  {
 
   f = 4.1667 * (en+en1) - 0.6667*fn1;   // compute controller output
 
-   output_to_plant(f);       // send controller output to plant
-
+  output_to_plant(f);       // send controller output to plant
   en1 = e;                  // store previous values of e, f
   fn1 = f;
-
   t1 = get_current_time();
   wait(T-(t-t1));           // wait for next sample time
   }
-\end{lstlisting}
-	%<*>
+\end{minted}
+\caption{Example of a pseudocode application which implements a discrete time controller.}
+\label{lst:basicTustin}
+\end{listing}	%<*>
 
 %\end{frame}
 
