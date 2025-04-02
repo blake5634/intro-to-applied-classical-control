@@ -1120,7 +1120,7 @@ draw the performance lines
   ostargIM = rad*np.sin(angOS)
   ostargRE = rad*np.cos(angOS)
   plt.plot([0, -ostargRE,0,-ostargRE],[0, ostargIM ,0, -ostargIM],color='purple')
-\end{verbatim}
+} % end of query (frmlry \end{verbatim}
 \end{Example}
 Giving:
 
@@ -1146,7 +1146,7 @@ evans(Sys,2000);   // experiment with gain range (200)
 a1=get("current_axes");          //get the handle of the newly created axesctl
 a1.data_bounds=[-5,1, -3,3];
 sgrid;  // helps for the % overshoot performance line
-\end{verbatim}
+} % end of query (frmlry \end{verbatim}
 
 \end{ExampleCont}
 
@@ -1191,7 +1191,7 @@ Modifying the code a bit:
   Cnum = K*(s-z1)
   Cden = 1.0
   pp = -20
-\end{verbatim}
+} % end of query (frmlry \end{verbatim}
 
 
 \end{ExampleCont}
@@ -1313,14 +1313,16 @@ because it has the same number of poles and zeros, two.  Thus, we can simulate i
 Let's try this with the design problem of Example \ref{ExampLargeIndustrialPlant}
 (Page \pageref{ExampLargeIndustrialPlant}).
 We will try a series of prompts rather than drop the problem in all at once.
-
-\paragraph{Prompt 1}
+We'll
 just go ahead and write out the first part to orient Claude.ai to the
 fact we are using python, what modules we import, etc.  We thus start with:
-\begin{verbatim}
+
+
+\humanquery{
+\paragraph{Prompt 1}
  Could you please complete the following python code to perform the Root Locus analysis?
-\end{verbatim}
-Followed immediatly by the code of Listing \ref{lstInitialAIPrompt}.
+(which is followed immediately in the same prompt with the
+code of Listing \ref{lstInitialAIPrompt}).} % end of query (frmlry \end{verbatim}
 
 \begin{listing}
     \begin{minted}{python}
@@ -1354,29 +1356,28 @@ Claude.ai generates additional code which produces:
 \includegraphics[width=0.5\textwidth]{figs09/ClaudeRL_V01.png}
 
 Pretty cool!
-
-\paragraph{Prompt 2}
 Let's mark this up with performance regions.   The next prompt is:
-\begin{verbatim}
- Thank you.   Could you revise that to add lines to the plot which
- indicates 10% overshoot, and settling time <= 8 sec.?
-\end{verbatim}
+
+
+\humanquery{ Thank you.   Could you revise that to add lines to the plot which
+ indicates 10\% overshoot, and settling time <= 8 sec.?
+} % end of query (frmlry \end{verbatim}
 
 Claude.ai generates additional code which produces:
 
 \includegraphics[width=0.5\textwidth]{figs09/ClaudeRL_V02.png}
 
 (Note the relevant poles and zeros are kind of tiny and the
-red-dashed settling time line is barely visible)
+red-dashed settling time line is barely visible). Next
+we ask it to fix the issues identified above:
 
 
-\paragraph{Prompt 3}
-Now we ask it to fix the issues identified above:
-\begin{verbatim}
+
+\humanquery{\paragraph{Prompt 3}
  Thank you, The overshoot line looks good but there are spurious lines
  in the plot legend.   Also, can you change the plotting axes to
  focus on the poles and zeros  of magnitude less than 20?
-\end{verbatim}
+} % end of query (frmlry \end{verbatim}
 
 Claude.ai generates additional code which produces:
 
@@ -1387,20 +1388,20 @@ inequalities.  We need to get our ``dominant'' poles to the interesection
 of the diagonal dashed line (percent overshoot) and the vertical
 dashed red line (Ts) and it's too hard to see.
 
+
+\humanquery{
 \paragraph{Prompt 4}
-Now we ask it to fix the issues identified above:
-\begin{verbatim}
   Since my performance specs are equality constraints, I want the diverging
 poles to go near or through the intersection of the Ts and percent overshoot
 lines.  Can you modify the controller for that?  Also, please further zoom to
 focus on that point.
-\end{verbatim}
+} % end of query (frmlry \end{verbatim}
 
 Claude.ai generates additional code which produces:
 
 \includegraphics[width=0.5\textwidth]{figs09/ClaudeRL_V04.png}
 
-It's very cool that Claude.ai moved the PID controller poles to
+It's very cool that Claude.ai moved the PID controller zeros to
 about $-1.5\pm1.2j$ which indeed moved the RL in the right direction.
 And, since it has magnified the axes enough,
 We can see that the RL goes pretty close.
@@ -1408,26 +1409,25 @@ We can see that the RL goes pretty close.
 Clicking the RL nearest to the target gives a gain of K=0.512.
 The RL looks non-smooth in a couple of spots.   This can be fixed
 by giving {\tt control.RootLocus} a custom gain vector, but let's skip that.
-
 (At this point, Claude gives a warning: ``{\bf Tip}: Long chats cause you to
 reach your usage limits faster,'' and it never did get around to fixing the
 extra stuff in the legend.)
 
-\paragraph{Prompt 5}
-
 Let's see how well we're doing by plotting the step response:
 
-\begin{verbatim}
+
+\humanquery{
+\paragraph{Prompt 5}
 Could you add to your previous code to produce a step response for Gain = 0.512?
 Also, can you add lines indicating the percent overshoot (horizontal line) and
 the settling time spec (e.g. 2% window starting at the Ts spec)?
-\end{verbatim}
+} % end of query (frmlry \end{verbatim}
 
 Claude.ai generates additional code which produces:
 
 \includegraphics[width=0.5\textwidth]{figs09/ClaudeRL_stepResp.png}
 
-Hmm..  not so great. But we could maybe take it from here ourselves!
+\humanquery{ Hmm..  not so great. But we could maybe take it from here ourselves! }
 
 % \begin{listing}
 %     \begin{minted}{python}
