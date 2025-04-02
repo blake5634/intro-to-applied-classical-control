@@ -40,7 +40,17 @@
 \setminted[python]{
     frame=lines,
     framesep=2mm,
-    baselinestretch=1.2,
+    baselinestretch=1.0,
+    fontsize=\footnotesize,
+    linenos=true,
+    breaklines,
+    %     style=monokai,
+    style=default
+}
+\setminted[C]{
+    frame=lines,
+    framesep=2mm,
+    baselinestretch=1.0,
     fontsize=\footnotesize,
     linenos=true,
     breaklines,
@@ -48,6 +58,12 @@
     style=default
 }
 
+% Configure listing to have a specific width
+\setminted{
+    numbersep=2pt,    % Distance between line numbers and code
+    xleftmargin=20pt, % Left margin (increase if line numbers still overflow)
+    xrightmargin=-2pt  % Right margin (decrease to reduce extra white space)
+}
 
 % Configure listing caption style
 \DeclareCaptionFormat{listing}{\raggedright#1#2#3}
@@ -128,7 +144,7 @@
 % \linenumbers
 
 \newpage
-\input{447cal.tex}
+% \input{447cal.tex}
 \input{Chapt01.tex}   % Introduction: LODE & LT  review
 \input{Chapt02.tex}   % Translational Dynamics
 \input{Chapt03.tex}   % Rotational Dynamics

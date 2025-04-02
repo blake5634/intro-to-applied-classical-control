@@ -403,13 +403,13 @@ and
 \begin{equation}\label{Tr_non_lin}
 T_r \approx \frac{1}{\omega_n}(2.23\zeta^2 - 0.78\zeta + 1.12)
 \end{equation}
-We can use the non-linear equation (eqn \ref{Tr_non_lin}) if more accuracy is required.
+We can use the non-linear equation (eqn \ref{Tr_non_lin}) if more aCCuracy is required.
 In practice however, settling time, $T_s$ is a more practical specification for use in design and $T_r$ is less often used.
 
 
 \subsubsection{Overshoot, \%OS}
 
-Overshoot is expressed as a percentage of the input amplitude.   In some applications a brief tansient overshoot is acceptable.  In other applications, (think of a elevator controller) overshoot is unacceptable\footnote{There are other techniques called Trajectory Generators, beyond the scope of this chapter, which can be used to eliminate overshoot.}.
+Overshoot is expressed as a percentage of the input amplitude.   In some applications a brief tansient overshoot is aCCeptable.  In other applications, (think of a elevator controller) overshoot is unaCCeptable\footnote{There are other techniques called Trajectory Generators, beyond the scope of this chapter, which can be used to eliminate overshoot.}.
 
 The analytical calculation of overshoot from second order systems is somewhat involved.  A few computational results gives a lookup table (Table \ref{percentOStable}) in which overshoot depends on the damping ratio, $\zeta$ (Chapter \ref{2ndOrderTransientChapter}), or
 equivalently the angle formed by the complex conjugate poles ($\theta = \cos^{-1}(\zeta)$.)
@@ -458,7 +458,7 @@ but at the same time, based on Table \ref{percentOStable}, the angle the pole ma
 
 
 
-Sometimes specifications are expressed in terms of inequalities.  For example, if the specification is $T_s \leq 0.25$, then any pole location to the left of $\sigma  = -0.25$ meets the specification.  In drawing inequality performance specs in the $s$ plane, we shade the region which the poles should NOT occupy to meet the spec.   Two inequality specifications generate a region in the $s$-plane which the poles must be in to meet the specifications (Figure \ref{splaneregion}).
+Sometimes specifications are expressed in terms of inequalities.  For example, if the specification is $T_s \leq 0.25$, then any pole location to the left of $\sigma  = -0.25$ meets the specification.  In drawing inequality performance specs in the $s$ plane, we shade the region which the poles should NOT oCCupy to meet the spec.   Two inequality specifications generate a region in the $s$-plane which the poles must be in to meet the specifications (Figure \ref{splaneregion}).
 
 
 %%%%** Figure 5
@@ -551,7 +551,7 @@ Computing control effort is easy.  Consider the system of Figure \ref{controleff
 %%%%** Figure 8
 \begin{figure}\centering
 \includegraphics[width=75mm]{figs11/00650a.png}
-\caption{Control effort signal $u(t)$ or $U(s)$ comes from the output of the controller. We can easily get U by analyzing the bottom system.}\label{controleffort}
+\caption{Control effort signal $u(t)$ or $U(s)$ comes from the output of the controller. We can easily get $U(s)$ or $u(t)$ by analyzing or simulating the bottom system.}\label{controleffort}
 \end{figure}
 
 
@@ -573,9 +573,9 @@ The top system looks conventional, except we have brought out the control effort
 %\frametitle{Control Effort Metrics}
 If we have a limit on our actuator, for example,	%<h>
 \[
-\tau_{max} = 1.5 NM
+\tau_{max} = 1.5 Nm
 \]
-then an appropriate measure of performance would be the maximum value of $u(t)$: does it exceed 1.5$NM$? .   On the other hand, if we are concerned with total energy consumption, an appropriate measure might be	%<h>
+then an appropriate measure of performance would be the maximum value of $u(t)$: does it exceed 1.5$Nm$? .   On the other hand, if we are concerned with total energy consumption, an appropriate measure might be	%<h>
 \[
 \int_0^{Tmax} u^2(t) dt
 \]
@@ -619,51 +619,65 @@ something like $k=5$ (noting that the green line stays below that level), and ex
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%   PID Control
 
 
-%%%%** Section 4
-\section{PID Controller}
 	%<*>
 %%%%** Section 4.1
-\subsection{Closed Loop Design Problem}
+\section{The Closed Loop Design Problem}
 
 The design problem of closed loop controllers\footnote{Sometimes the controller is referred to as a ``compensator'' but we will use ``controller''.} can be summarized as follows (Assume
 for simplicity that $H=1$).
 
-\begin{quotation}   Given a plant: $P(s)$,  specify a controller, $C(s)$, for a closed loop system to improve some performance measure compared to the open loop system, $P(s)$.
+\begin{quotation}   Given a plant: $P(s)$,  specify a controller, $C(s)$, for a closed loop system to meet  some performance measure requirements
+compared to the open loop system, $P(s)$.
 Where the closed loop response is governed by   $\frac{C(s)P(s)}{1 + C(s)P(s)}$
 \end{quotation}
 
-%\end{frame}  %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+There are many generic transfer function types which have been used as controllers.  Among the
+most common are:
 
+\begin{tabular}{|c|l|p{3.5in}|}\hline
+Name &  Transfer Function & Notes \\\hline
+Constant Gain   & $C(s) = K$     & Very simple! \\\hline
+Lead-Lag & $C(s) = \frac{K(s+z)}{(s+p)}$  & Gain with one added pole and zero. Pole can reduce SSE, zero can increase stability.\\\hline
+PID &   $C(s) = \frac {K(s+z1)(s+z2)}  {s} $ & ``Proportional-Integral-Derivative," three parameters to tune: pole at origin allows zero steady state error, zeros can ``pull'' plant poles where you want them. (usually requires a ``regularization" pole.)\\\hline
+PD  &   $C(s) = K(s+z1)$  & Removes the integral term from PID.
+Can increase stability relative to PID.  Also
+may require regularization.\\\hline
+\end{tabular}
+
+
+We will focus on the PID controller in the material below because it is so
+widely used.  However, sometimes the simpler controllers above can provide
+a simpler {\it and} better solution so keep them in mind as options.
+Our design process (below) works for them all.
+
+\subsection{PID Controller Basics}
 
 The Proportional-Integral-Derivative (PID) controller is a class of controllers which has
 two zeros and one pole at the origin.  The PID controller is the most common controller in industry BY FAR.   Design of the PID controller consists of deciding on the desired
 location of the two zeros and a single gain term, $K_D$.
 
-The PID controller an be expressed in three equivalent forms:
-\bq
-C(s) = \frac{K_Ps+K_Ds^2 + K_I}{s} = \frac{K_D(s^2 + \frac{K_P}{K_D}s+ \frac{K_I}{K_D})}{s} =
-\frac{K_D(s+z_1)(s+z_2)}{s}
+The PID controller an be expressed in four(!) equivalent forms:
+
+\bq \label{eq4FormsPID}
+\begin{aligned}
+C(s) =& {K_P + K_I/s + K_Ds}\\
+=& \frac{K_Ps + K_I+K_Ds^2}{s}\\
+=& \frac{K_D(s^2 + \frac{K_P}{K_D}s+ \frac{K_I}{K_D})}{s}\\
+=& \frac{K_D(s+z_1)(s+z_2)}{s}
+\end{aligned}
 \eq
+
 All three depend on three positive real gains for the engineer to design: $K_P, K_I, K_D$.
 Lower order forms of the PID
-controller with one or no zeros are also possible according to the values of the three gains.
-The response of the closed loop system depends only indirectly on the zeros and pole of the
-PID controller because the  closed loop system has a root locus and its response depends on
-were we are.   However the zeros of the PID controller can ``pull'' the closed loop root-locus
+controller with one or no zeros are also possible aCCording to setting one of the three gains to
+zero (such as the ``PD'' and ``PI'' controllers).
+The zeros of the PID controller depend on all three gains as you can see from comparing the 3rd
+and 4th forms in Equation \ref{eq4FormsPID}.
+
+The zeros of the PID controller can ``pull'' the closed loop root-locus
 pole pathways, usually towards the left, which drives faster response and greater stability.
 The PID controller's pole at the origin can increase the system type and thus reduce
 steady state error.
-
-
-%%%%** Figure 6
-\begin{figure}\centering
-\includegraphics[width=5.0in]{figs11/00651a.png}
-\caption{The PID controller.}\label{PIDBlockDiagram}
-\end{figure}
-
-
-%%%%** Section 4.3
-\subsection{Basics}
 
 %\begin{frame}
 %\frametitle{Basics}
@@ -678,8 +692,6 @@ and equivalently
 C_{PID}(s) =  \frac{K_Ps+K_i + K_Ds^2}{s} = \frac{K_D(s^2 + \frac{K_P}{K_D}s + \frac{K_I}{K_D})}{s}
 \end{equation}
 
-%\end{frame} %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
 
 
 %\begin{frame}
@@ -690,8 +702,13 @@ Looking at the first term of Equation \ref{PID}, you can see that $K_P$ directly
 u(t) = K_P e(t)
 \]
 
-%\end{frame} %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
+
+%%%%** Figure 6
+\begin{figure}\centering
+\includegraphics[width=5.0in]{figs11/00651a.png}
+\caption{The PID controller.}\label{PIDBlockDiagram}
+\end{figure}
 
 
 %\begin{frame}
@@ -726,96 +743,17 @@ Some alternate forms of the PID controller are given in of Equation \ref{PID2}. 
 
 
 
-%%%%** Section 4.4
-\subsection{Simulation of PID controllers}\label{simulationPIDcontrollers}
-
-%
-%
-% %%%%** Figure 7
-% \begin{figure}[h]\centering
-% \includegraphics[width=2.50in]{figs09/pid_boxa.png}
-% \caption{A Commercial PID Controller. (\$129, {\tt www.automationdirect.com})}\label{pidbox}
-% \end{figure}
-
-
-Looking again at equation (\ref{PID}), we can see from the far right hand side that the PID controller has two zeros and one pole.   A system with more zeros than poles cannot be physically realized and is called {\it improper}.   Often this condition is ignored because the plant has enough poles to make the overall forward path ($C(s)P(s)$) proper.  However, what if you would like to make and sell a PID controller box
-(search your favorite e-commerce site for "pid controller")?
-% (Figure \ref{pidbox})?
-
-We may also have this problem building a computer simulation if we define the controller in our script as a separate system and our simulation package (such as Scilab or Matlab)  cannot simulate an improper system.
-To fix this we simply add another pole to the PID controller at a high enough frequency so that it does not affect our response.  This imediately raises two questions
-
-
-%  Solution:  Add another high frequency pole:  $\frac{a}{(s+a)}$
-
-
-\begin{enumerate}
-  \item Why doesn't a high frequency pole affect the system?
-  \item How high is ``high enough''?
-\end{enumerate}
-
-%\end{frame} %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
-
-
-
-%\begin{frame}
-
-For question one, consider the Bode plot of the basic one-pole system	%<h>
-
-%\frametitle{Q1:  Why doesn't it effect the system?}
-
-\[
-P(s) = \rho/(s+\rho)
-\]
-
-for $\omega << \rho$, $P(j\omega) = 1$.  Its magnitude is 1 and its phase angle is 0.
-Thus for frequencies substantially below $\rho$, $P(s)$ has no effect.	%<h>
-
-%\end{frame} %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
-
-
-
-%\begin{frame}
-%\frametitle{Q2: How high is ``high enough''?}
-
-For question two, let us set $\rho$ to be 10 times higher than the highest pole or zero of our system.   Technically we should know the zeros of the PID controller to do this, but if we {\it assume} that the zeros of a good controller will be in the neighborhood of the poles of the plant, then 10 times greater than the highest frequency plant pole/zero will also be far from the PID controller zeros.	%<h>
-
-$\rho = 10\times pz_{max}$	%<sh>
-
-where $pz_{max}$ is the highest pole or zero in the system.	%<h>
-
-Thus we will add a pole, $\rho$,  to the PID controller in our simulations as follows:	%<h>
-
-% \begin{equation}\label{PID2}
-\[
-C_{PID2}(s) = \frac{\rho(K_Ps+K_i + K_Ds^2)}{s(s+\rho)} = \frac{\rho K_D(s^2 + \frac{K_P}{K_D}s + \frac{K_I}{K_D})}{s(s+\rho)}
-\]
-% \end{equation}
-
-Now $C_{PID2}$ is proper
-because it has the same number of poles and zeros, two.  Thus, Scilab can simulate it and it is also physically realizable.	%<h>
-
-
-
-
-
-
-
-
-
 %%%%** Section 5
-\section{Manual Design of PID controller}\label{manualPIDdesign}
+\subsubsection{Manual Design of PID controller}\label{manualPIDdesign}
 % \section{}
 
-In this section we will design PID control gains through a ``manual'' method.  Specifically we will find the values of $K_P, K_I, K_D$ for a given plant and a set of performance specifications, including control effort.  Although fully hand methods are discussed in standard textbooks, our ``manual'' method uses the computer to speed Root Locus plotting and analysis.   With all but the simplest plants, hand methods are not accurate enough for real design.  Hand methods are still valuable to give a starting point for more accurate computer design methods discussed in the next chapter.
+In this section we will design PID control gains through a ``manual'' method.  Specifically we will find the values of $K_P, K_I, K_D$ for a given plant and a set of performance specifications, including control effort.  Although fully hand methods are discussed in standard textbooks, our ``manual'' method uses the computer to speed Root Locus plotting and analysis.   With all but the simplest plants, hand methods are not aCCurate enough for real design.  Hand methods are still valuable to give a starting point for more aCCurate computer design methods discussed in the next chapter.
 
-The computer optimization method of the next chapter will eventually find a great design (i.e. $K_P,K_I,K_D$ values), and can take more performance criteria into account, but it will go significantly faster with an initial starting guess.   Unfortunately there is no ``typical'' range of PID parameter values which could be used as a standard starting range so to get the most utility from computer methods we should generate the rough initial design manually.
+The computer optimization method of the next chapter will eventually find a great design (i.e. $K_P,K_I,K_D$ values), and can take more performance criteria into aCCount, but it will go significantly faster with an initial starting guess.   Unfortunately there is no ``typical'' range of PID parameter values which could be used as a standard starting range so to get the most utility from computer methods we should generate the rough initial design manually.
 
 
 %%%%** Section 5.1
-\subsection{Deriving $K_P, K_I, K_D$ from controller zeros}\label{Kpderive}
+\subsubsection{Deriving $K_P, K_I, K_D$ from controller zeros}\label{Kpderive}
 
 Using the root locus technique we'll get insights about where to place
 the two poles of the PID controller.
@@ -875,6 +813,10 @@ To keep things simple we will use two simplified PID controllers:
 \[
 C_1(s) = K \qquad   C_2(s) = \frac   {K(s+0.1)} {s}
 \]
+
+Note that $C_1(s)$ is a Constant Gain controller and $C_2(s)$ is
+a Lead-Lag controller (with the pole at the origin).
+
 % To show that they are in fact PID: $\frac   {K(s+1)} {s}  =  \frac{Ks}{s} + \frac{K}{s} = 0s + K + K/s $, so
 % \[
 % K_P=K, K_I = K, K_D=0
@@ -917,14 +859,14 @@ This root locus looks pretty close to what we had before.
 
  \begin{enumerate}
    \item We will aim for the highest possible $K$ so we pick the point a little below where the RL crosses the diagonal \%OS line:
-   about $s = -1.2+j1.2$.
+   about $s = -1.2+1.2j$.
    \item We know that all points on the RL satisfy the Magnitude Condition:
    \[
    |KCPH| = 1
    \]
    for our problem, $K$ is included in $C_2(s)$ and $H(s) =1$  so this is
    \[
-   |C_2(s)||P(s)| = 1 \to  \frac   {K|-1.2+1.2j+1|} {|-1.2+1.2j|} = 1
+   |C_2(s)||P(s)|_{(s=-1.2+1.2j)} = 1 \to  \frac   {K|-1.2+1.2j+1|} {|-1.2+1.2j|} = 1
    \]
    \item Solving for K:
    \[
@@ -935,7 +877,7 @@ This root locus looks pretty close to what we had before.
 \end{ExampleCont}
 
 %%%%** Example 12    Example 14 (as of Feb25)
-\begin{Example}
+\begin{Example}\label{ExampLargeIndustrialPlant}
 We have a large industrial machine with the following plant model:
 
 \[
@@ -980,102 +922,6 @@ C(s) = \frac{K(s+z_1)(s+z_2)}{s}
 %
 
 
-%
-% \begin{listing}
-%     \begin{minted}{python}
-%
-% <code>
-%
-%     \end{minted}
-%     \caption{Root Locus plotting (and annotation) code generated by Claude.ai.}
-%     \label{lst:RLGenByAI}
-% \end{listing}
-
-
-\begin{listing}
-    \begin{minted}{python}
-import numpy as np
-import control as ctl
-import matplotlib.pyplot as plt
-
-s=ctl.TransferFunction.s
-
-def cc(x):  # cleaner code
-    return np.conj(x)
-
-#########################################
-#          Plant
-#
-#
-p1 = -0.7+0.2j
-Pnum = (s+1)
-Pden = (s+2)*(s-p1)*(s-cc(p1))
-Plant = Pnum/Pden    # non normalized
-
-#########################################
-#          Controller
-#
-#lay out PID controller zeros
-#
-controller_Title = 'Original Attempt'
-# Original Attempt
-z1 = -6+2j
-z2 = cc(z1)
-
-# Better
-# controller_Title = 'Inproved Attempt'
-# z1=-1
-# z2=-5.5
-
-# build up the PID controller
-K=1 # initial value
-Cnum = K*(s-z1)*(s-z2)     # two zeros
-Cden = s *np.abs(z1*z2)    # pole at origin and normalization of zeros
-# place a regularization pole
-pp = -50                   # e.g. 10xz1_orig (needed to make 'proper' controller
-
-Controller = (Cnum/Cden) * (abs(pp)/(s-pp))  # adding in normalized reg. pole
-#  Note: we've set |controller(s=1)| = K
-sys = Controller * Plant
-sys.name = 'ECE 447 Example'
-
-# Krange = np.logspace(-4,4,num=500)  # don't have to set up custom range for this system
-rlplot = ctl.root_locus_plot(sys, grid=True)#, gains=Krange)
-# Add title and labels
-plt.title('Example 9.14, ' + controller_Title)
-#
-# Customize the grid
-#
-# we want the plot range to ignore regularization pole
-rmin = -5  # bottom range of all other features (poles and zeros)
-  \end{minted}
-  \caption{Root Locus plotting for Example 9.14.(Part 1)}
-  \label{ex14Listinga}
-\end{listing}
-
-
-
-\begin{listing}
-\begin{minted}{python}
-#
-#  Annotate and set ranges
-#
-plt.plot([-3,-3], [4.13,-4.13], 'o', markersize=8, label='Goal',color='r')  # Desired Pole Loc.
-# plt.plot([-3], [-4.13], 'o', markersize=8, label='Goal',color='r')  # Desired Pole Loc.
-ax1 = plt.gca()
-rlscale = np.real(abs(2*rmin))  # add room for RL to curve Left
-ax1.set_xlim([-rlscale, 1])
-yl = (1 + rlscale)/2.0
-ax1.set_ylim([-yl, yl])
-
-plt.show()
-  \end{minted}
-  \caption{Root Locus plotting for Example 9.14 (Part 2). Design goal for pole locations shown by red dots.}
-  \label{ex14Listingb}
-\end{listing}
-
-
-
 % %%%%** Example 12
 \begin{ExampleCont}
 
@@ -1090,56 +936,146 @@ The following hand drawn root locus explains why these {\it might} be good locat
 \includegraphics[width=95mm]{figs09/00823a.png}
 
 \end{ExampleCont}
+
+%   TBD:  This listing is out of date
+%       (maybe skip!)
+%
+%
+% \begin{listing}
+%     \begin{minted}{python}
+% import numpy as np
+% import control as ctl
+% import matplotlib.pyplot as plt
+%
+% s=ctl.TransferFunction.s
+%
+% def CC(x):  # cleaner code
+%     return np.conj(x)
+%
+% #########################################
+% #          Plant
+% #
+% #
+% p1 = -0.7+0.2j
+% Pnum = (s+1)
+% Pden = (s+2)*(s-p1)*(s-CC(p1))
+% Plant = Pnum/Pden    # non normalized
+%
+% #########################################
+% #          Controller
+% #
+% #lay out PID controller zeros
+% #
+% controller_Title = 'Original Attempt'
+% # Original Attempt
+% z1 = -6+2j
+% z2 = CC(z1)
+%
+% # Better
+% # controller_Title = 'Inproved Attempt'
+% # z1=-1
+% # z2=-5.5
+%
+% # build up the PID controller
+% K=1 # initial value
+% Cnum = K*(s-z1)*(s-z2)     # two zeros
+% Cden = s *np.abs(z1*z2)    # pole at origin and normalization of zeros
+% # place a regularization pole
+% pp = -50                   # e.g. 10xz1_orig (needed to make 'proper' controller
+%
+% Controller = (Cnum/Cden) * (abs(pp)/(s-pp))  # adding in normalized reg. pole
+% #  Note: we've set |controller(s=1)| = K
+% sys = Controller * Plant
+% sys.name = 'ECE 447 Example'
+%
+% # Krange = np.logspace(-4,4,num=500)  # don't have to set up custom range for this system
+% rlplot = ctl.root_locus_plot(sys, grid=True)#, gains=Krange)
+% # Add title and labels
+% plt.title('Example 9.14, ' + controller_Title)
+% #
+% # Customize the grid
+% #
+% # we want the plot range to ignore regularization pole
+% rmin = -5  # bottom range of all other features (poles and zeros)
+%   \end{minted}
+%   \caption{Root Locus plotting for Example 9.14.(Part 1)}
+%   \label{ex14Listinga}
+% \end{listing}
+%
+%
+%
+% \begin{listing}
+% \begin{minted}{python}
+% #
+% #  Annotate and set ranges
+% #
+% plt.plot([-3,-3], [4.13,-4.13], 'o', markersize=8, label='Goal',color='r')  # Desired Pole Loc.
+% # plt.plot([-3], [-4.13], 'o', markersize=8, label='Goal',color='r')  # Desired Pole Loc.
+% ax1 = plt.gca()
+% rlscale = np.real(abs(2*rmin))  # add room for RL to curve Left
+% ax1.set_xlim([-rlscale, 1])
+% yl = (1 + rlscale)/2.0
+% ax1.set_ylim([-yl, yl])
+%
+% plt.show()
+%   \end{minted}
+%   \caption{Root Locus plotting for Example 9.14 (Part 2). Design goal for pole locations shown by red dots.}
+%   \label{ex14Listingb}
+% \end{listing}
+%
+
+
+
+
 \begin{ExampleCont}
 However when we compute the root-locus using python
-(Listings \ref{ex14Listinga},\ref{ex14Listingb})
+% (Listings \ref{ex14Listinga},\ref{ex14Listingb})
 it does not pass through or close to the targets (red dots added to the plot).
 
 \begin{center}
   \includegraphics[width=95mm]{figs09/R27J16.png}
 \end{center}
 
-Also, the computed RL is {\it qualitatively } different from the had one because the two cc poles
-do not go directly to the zeros (if you move the zeros closer to the $j\omega$ axis they do).
+Also, the computed RL is {\it qualitatively } different from the manual one because the two CC poles
+do not go directly to the zeros (if you move the zeros closer to the $j\omega$ axis, they do).
 This can sometimes happen even if you follow the hand drawing rules correctly
 (though rules 5 and 6 can reduce these errors).   Either way, the RL does not hit the targets!
 
 Trying different zero locations we find better results with two real
-zeros: $s= \{-1,-5.5\}$ (Uncommenting Listing \ref{ex14Listinga} lines 30,32),
+zeros: $s= \{-1,-5.5\}$
+% (Uncommenting Listing \ref{ex14Listinga} lines 30,32),
 the new Root Locus is
 
 \begin{center}
 \includegraphics[width=115mm]{figs09/R27J17.png}
 \end{center}
 
-Note that now that at $s=-1$ we now have {\it two} zeros, one from
+Note that now  we now have {\it two} zeros at $s=-1$, one from
 the plant and one from the PID controller.   Then clicking on the root locus curve at or
-very near the target location, we find $gain = 24.8$  (let's round it to 25 - this is only a rough
-computation).  Note that the reported gain includes both the controller gain $K_D$, but also
-whatever the plant magnitude is at our selected point ($s=-3\pm4.13j$).
+very near the target location, we find $gain = 5.58$  (let's round it to 4.6
+- this is only a rough computation).
+
 
 \end{ExampleCont}
 \begin{ExampleCont}
-We can add some simple code to evaluate the plant magnitude at any value of $s$ (not shown) which
-gives, $|P(s=-3+4.13j)|=0.048$ thus
-\[
-  K_D|P(s)| = 25 \to K_D = 25/0.048 = 521
-\]
-
-With $K_D$ and our PID zeros ($\{-1, -5.5\}$) known, we use Equation \ref{PID2}
-and the technique in Section \ref{Kpderive} (below) as follows:
+With $K_D$ (4.6) and our PID zeros ($\{-1, -5.5\}$) known, we use
+Equation \ref{PID2} and the technique in Section \ref{Kpderive}
+(below) as follows:
 
 \[
-C(s) = \frac{521(s+1)(s+5.5)}{s} = \frac {521(s^2+6.5s+5.5)} {s}
+C(s) = \frac{4.6(s+1)(s+5.5)}{s} = \frac {4.6(s^2+6.5s+5.5)} {s}
 \]
 \[
 = \frac{K_D}{s} \left ( s^2+\frac{K_P}{K_D}s + \frac{K_I}{K_D} \right )
 \]
 
 \[
-K_P = 3380 \qquad K_I = 2860  \qquad K_D = 521
+K_P/4.6 = 6.5, \; K_I/4.6 = 5.5
 \]
-
+\vspace{0.15in}
+\[
+K_P = 29.9 \qquad K_I = 25.3  \qquad K_D = 4.6
+\]
 \end{ExampleCont}
 
 %%%%** Example 13
@@ -1171,8 +1107,8 @@ However, this cannot be simulated properly.   Using Section \ref{simulationPIDco
 C_1(s) = 20\frac{(s+1)(s+1)}{s(s+20)}
 \]
 
-Now we place this system into a python script similar to
-Listing \ref{ex14Listinga} and we add a little bit of code to
+Now we place this system into a python script
+and we add a little bit of code to
 draw the performance lines
 \begin{verbatim}
   # Draw performance region
@@ -1195,7 +1131,7 @@ Giving:
 \includegraphics[width=110mm]{figs09/R15J18.png}
 \end{center}
 
-Unfortunately, while some of the poles move into the region of acceptable performance\footnote{This can be seen with bigger values for {\tt a.data\_bounds}},
+Unfortunately, while some of the poles move into the region of acceptable performance\footnote{This can be seen by changing the plotting limits},
 the two origin poles will never get to the left of $\sigma = -1$!
 
 \vspace{0.2in}
@@ -1224,22 +1160,22 @@ The resulting root locus is
 
 The two origin poles are now going unstable!  Clicking the RL shows
 that the origin poles are already seriously unstable when the
-cc poles at $s=-1$ are just going below the purple $\%OS$ line
+CC poles at $s=-1$ are just going below the purple $\%OS$ line
 and not even close to the $T_S$ region.  A very bad option.
 
 Even worse, lots of further root locus experimentation did not yield {\bf any}
 controller which could be stable and have poles in the desired region!
 
-What to do??    We must be sure to consider PID controllers where one or
- more of the gains are zero.   Since we have a stability problem, we should
- take a hard look at removing the pole we added at the origin (remember,
- the plant also put one there.)
+What to do?    We must be sure to consider other controllers.
+Since we have a stability problem, we should
+seriously consider removing the pole we added at the origin
+(remember, the plant also put one there.)
 The poles at $s=0$ are good for steady state error, but make stability harder.
-We can eliminate the PID controller's  pole at zero if we get rid of the integrator in the PID controller: $K_I = 0$ but this also eliminates one zero.  Using this ``PD'' controller we have a zero and a gain as our remaining design parameters:
+We can eliminate the PID controller's  pole at zero if we get rid of the integrator in the PID controller: $K_I = 0$ but this also eliminates one zero.  Using this PD controller we have a zero and a gain as our remaining design parameters:
 \[
-C_{PD} = K_D(s+z) = K_Ds + K_P
+C_{PD} = K_D(s-z) = K_Ds + K_P
 \]
-where $K_P = \frac {z}  {K_D}$.
+where $K_P = K_D(-z)$.
 
 {\bf Try 3: }
 \[
@@ -1267,26 +1203,25 @@ The root locus is now:
 \includegraphics[width=111mm]{figs09/R15J20.png}
 
 which allows the CC poles starting from $s=-1\pm1.5j$ to move into the
-target performance zone (green circled parts of RL).   Using the mouse to
-click on the part of the RL indicated gives $5.0 < K < 6.4$.
-Using K=6.0 and allowing for plant magnitude as in the previous example,
-$|P(s=-5.4+2.8j)|=0.021$, thus
-\[
-K_D|P(s)| = 6 \to K_D = 6/0.021 = 286
-\]
-\[
-K_P/K_D = 0.1\to KP = 0.1*286 = 28.6
-\]
+target performance zone.   Using the mouse to
+click on the part of the RL indicated gives $K = K_D = 5.77$.
+
+ \[
+ K_P = -zK_D = 0.1K_D = 0.577
+ \]
 
 \[
-K_P = 28.6, K_I = 0.0,  K_D = 286
+K_P = 0.577, K_I = 0.0,  K_D = 5.77
 \]
 
-You might notice that the pole at the origin moves only slightly and arrives at the
-PD controller zero we placed at $\sigma=-1$.  This one does not lie in the performance
-region.  One way to look at this is that the pole and zero being very close to each other
-``cancel each other out'' in the closed loop response.
-This exposes a limitation of the ``$T_s, \%OS$ / s-plane region'' approach to control
+You might notice that the pole at the origin moves only slightly and
+arrives at the very close
+PD controller zero we placed at $\sigma=-0.1$.  This pole does not lie in the performance region.
+Why doesn't that matter?
+One way to look at this is that the pole and zero being very close to each other
+``cancel each other out'' in the closed loop response
+(imagine what a close pole and zero do to the Bode plot!).
+This exposes a limitation of the ``s-plane region'' approach to control
 design, which is that the regions are only truly valid with a pure second order system
 with two poles and no zeros.  For all other systems the regions are really only approximate.
 
@@ -1295,6 +1230,210 @@ will NOT make simplifying assumptions about the system dynamics or performance r
 \end{ExampleCont}
 
 
+
+%%%%** Section 4.4
+\subsection{Simulation of PID controllers}\label{simulationPIDcontrollers}
+
+%
+%
+% %%%%** Figure 7
+% \begin{figure}[h]\centering
+% \includegraphics[width=2.50in]{figs09/pid_boxa.png}
+% \caption{A Commercial PID Controller. (\$129, {\tt www.automationdirect.com})}\label{pidbox}
+% \end{figure}
+
+
+Looking again at equation (\ref{PID}), we can see from the far right hand side that the PID controller has two zeros and one pole.   A system with more zeros than poles cannot be physically realized and is called {\it improper}.   Often this condition is ignored because the plant has enough poles to make the overall forward path ($C(s)P(s)$) proper.  However, what if you would like to make and sell a PID controller box
+(search your favorite e-commerce site for "pid controller")?
+% (Figure \ref{pidbox})?
+
+We may also have this problem building a computer simulation if we define the controller in our script as a separate system and our computer simulation package    cannot simulate an improper system.
+To fix this we simply add another pole to the PID controller at a high enough frequency so that it does not affect our response.  This imediately raises two questions
+
+
+%  Solution:  Add another high frequency pole:  $\frac{a}{(s+a)}$
+
+
+\begin{enumerate}
+  \item Why doesn't a high frequency pole affect the system?
+  \item How high is ``high enough''?
+\end{enumerate}
+
+%\end{frame} %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+
+
+%\begin{frame}
+
+For question one, consider the Bode plot of the basic one-pole system	%<h>
+
+%\frametitle{Q1:  Why doesn't it effect the system?}
+
+\[
+P(s) = \rho/(s+\rho)
+\]
+
+for $\omega << \rho$, $P(j\omega) = 1$.  Its magnitude is 1 and its phase angle is 0.
+Thus for frequencies substantially below $\rho$, $P(s)$ has no effect.	%<h>
+
+%\end{frame} %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+
+
+%\begin{frame}
+%\frametitle{Q2: How high is ``high enough''?}
+
+For question two, let us set $\rho$ to be 10 times higher than the highest pole or zero of our system.   Technically we should know the zeros of the PID controller to do this, but if we {\it assume} that the zeros of a good controller will be in the neighborhood of the poles of the plant, then 10 times greater than the highest frequency plant pole/zero will also be far from the PID controller zeros.	%<h>
+
+$\rho = 10\times pz_{max}$	%<sh>
+
+where $pz_{max}$ is the highest pole or zero in the system.	%<h>
+
+Thus we will add a pole, $\rho$,  to the PID controller in our simulations as follows:	%<h>
+
+% \begin{equation}\label{PID2}
+\[
+C_{PID2}(s) = \frac{\rho(K_Ps+K_i + K_Ds^2)}{s(s+\rho)} = \frac{\rho K_D(s^2 + \frac{K_P}{K_D}s + \frac{K_I}{K_D})}{s(s+\rho)}
+\]
+% \end{equation}
+
+Now $C_{PID2}$ is proper
+because it has the same number of poles and zeros, two.  Thus, we can simulate it and it is also physically realizable.	%<h>
+
+
+
+\section{Can AI design a PID controller? (New, Spring 2025)}
+\begin{center}
+{\it This is what we all want to know right now, right? }
+\end{center}
+\vspace{0.2in}
+
+Let's try this with the design problem of Example \ref{ExampLargeIndustrialPlant}
+(Page \pageref{ExampLargeIndustrialPlant}).
+We will try a series of prompts rather than drop the problem in all at once.
+
+\paragraph{Prompt 1}
+just go ahead and write out the first part to orient Claude.ai to the
+fact we are using python, what modules we import, etc.  We thus start with:
+\begin{verbatim}
+ Could you please complete the following python code to perform the Root Locus analysis?
+\end{verbatim}
+Followed immediatly by the code of Listing \ref{lstInitialAIPrompt}.
+
+\begin{listing}
+    \begin{minted}{python}
+import numpy as np
+import control as ctl
+import matplotlib.pyplot as plt
+s=ctl.TransferFunction.s
+def cc(x):  # cleaner code
+    return np.conj(x)
+#
+#   Define the plant TF  ("Large Industrial Machine")
+#
+p1 = -0.7+0.2j
+Plant = (s+1) / ((s+2)*(s-p1)*(s-cc(p1)))
+#
+#   Define the Controller
+#
+z1 = -6+2j
+z2 = cc(z1)
+K=1
+rp = -50
+Controller = (K*np.abs(rp)*(s-z1)*(s-z2)) / (s*(s-rp)) # regularized PID controller
+#  Prompt 1: everything ABOVE here was part of Claude.ai prompt
+\end{minted}
+  \caption{Basic Python preamble code to orient an AI.}
+  \label{lstInitialAIPrompt}
+\end{listing}
+
+Claude.ai generates additional code which produces:
+
+\includegraphics[width=0.5\textwidth]{figs09/ClaudeRL_V01.png}
+
+Pretty cool!
+
+\paragraph{Prompt 2}
+Let's mark this up with performance regions.   The next prompt is:
+\begin{verbatim}
+ Thank you.   Could you revise that to add lines to the plot which
+ indicates 10% overshoot, and settling time <= 8 sec.?
+\end{verbatim}
+
+Claude.ai generates additional code which produces:
+
+\includegraphics[width=0.5\textwidth]{figs09/ClaudeRL_V02.png}
+
+(Note the relevant poles and zeros are kind of tiny and the
+red-dashed settling time line is barely visible)
+
+
+\paragraph{Prompt 3}
+Now we ask it to fix the issues identified above:
+\begin{verbatim}
+ Thank you, The overshoot line looks good but there are spurious lines
+ in the plot legend.   Also, can you change the plotting axes to
+ focus on the poles and zeros  of magnitude less than 20?
+\end{verbatim}
+
+Claude.ai generates additional code which produces:
+
+\includegraphics[width=0.5\textwidth]{figs09/ClaudeRL_V03.png}
+
+The problem here is that our specifications are equality constraints, not
+inequalities.  We need to get our ``dominant'' poles to the interesection
+of the diagonal dashed line (percent overshoot) and the vertical
+dashed red line (Ts) and it's too hard to see.
+
+\paragraph{Prompt 4}
+Now we ask it to fix the issues identified above:
+\begin{verbatim}
+  Since my performance specs are equality constraints, I want the diverging
+poles to go near or through the intersection of the Ts and percent overshoot
+lines.  Can you modify the controller for that?  Also, please further zoom to
+focus on that point.
+\end{verbatim}
+
+Claude.ai generates additional code which produces:
+
+\includegraphics[width=0.5\textwidth]{figs09/ClaudeRL_V04.png}
+
+It's very cool that Claude.ai moved the PID controller poles to
+about $-1.5\pm1.2j$ which indeed moved the RL in the right direction.
+And, since it has magnified the axes enough,
+We can see that the RL goes pretty close.
+
+Clicking the RL nearest to the target gives a gain of K=0.512.
+The RL looks non-smooth in a couple of spots.   This can be fixed
+by giving {\tt control.RootLocus} a custom gain vector, but let's skip that.
+
+(At this point, Claude gives a warning: ``{\bf Tip}: Long chats cause you to
+reach your usage limits faster,'' and it never did get around to fixing the
+extra stuff in the legend.)
+
+\paragraph{Prompt 5}
+
+Let's see how well we're doing by plotting the step response:
+
+\begin{verbatim}
+Could you add to your previous code to produce a step response for Gain = 0.512?
+Also, can you add lines indicating the percent overshoot (horizontal line) and
+the settling time spec (e.g. 2% window starting at the Ts spec)?
+\end{verbatim}
+
+Claude.ai generates additional code which produces:
+
+\includegraphics[width=0.5\textwidth]{figs09/ClaudeRL_stepResp.png}
+
+Hmm..  not so great. But we could maybe take it from here ourselves!
+
+% \begin{listing}
+%     \begin{minted}{python}
+%
+% \end{minted}\caption{CAPTION TEXT}\label{*unique label*}
+% \end{listing}
 
 
 % \section{Summary of Notation}
