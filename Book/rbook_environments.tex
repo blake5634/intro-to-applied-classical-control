@@ -40,7 +40,85 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 
-	%<*>
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%
+%    Minted package for nice python highlighting
+%
+\usepackage[chapter]{minted}  % python syntax highlight
+
+% Required packages
+
+% Configure minted styling
+\setminted[python]{
+    frame=lines,
+    framesep=2mm,
+    baselinestretch=1.0,
+    fontsize=\footnotesize,
+    linenos=true,
+    breaklines,
+    %     style=monokai,
+    style=default
+}
+\setminted[C]{
+    frame=lines,
+    framesep=2mm,
+    baselinestretch=1.0,
+    fontsize=\footnotesize,
+    linenos=true,
+    breaklines,
+    %     style=monokai,
+    style=default
+}
+
+% Configure listing to have a specific width
+\setminted{
+    numbersep=2pt,    % Distance between line numbers and code
+    xleftmargin=20pt, % Left margin (increase if line numbers still overflow)
+    xrightmargin=-2pt  % Right margin (decrease to reduce extra white space)
+}
+
+% Configure listing caption style
+\DeclareCaptionFormat{listing}{\raggedright#1#2#3}
+\captionsetup[listing]{
+    format=listing,
+    labelfont=bf,
+    font=small,
+    labelsep=period
+}
+
+%%%%%%% end of minted %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%       Claude formatting code begins here
+\definecolor{claudeBlue}{RGB}{59, 89, 152}
+\definecolor{claudeGray}{RGB}{242, 244, 248}
+
+\newcommand{\humanquery}[1]{%
+  \par\vspace{\baselineskip}%
+  \noindent%
+  \fbox{%
+    \parbox{\dimexpr\linewidth-2\fboxsep-2\fboxrule\relax}{#1}%
+  }%
+  \par\vspace{\baselineskip}%
+}
+
+\newcommand{\claudereply}[1]{%
+  \par\vspace{\baselineskip}%
+  \noindent%
+  \fcolorbox{claudeBlue}{claudeGray}{%
+    \parbox{\dimexpr\linewidth-2\fboxsep-2\fboxrule\relax}{%
+      \ttfamily\raggedright #1%
+    }%
+  }%
+  \par\vspace{\baselineskip}%
+}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% Claude formatting code ends here
+
+
+%
+%   quick type equation envir.
+%
 \def\bq{\begin{equation}}
 \def\eq{\end{equation}}
 
@@ -50,3 +128,5 @@
 
 % Laplace Transform
 \newcommand{\sL}{\mathcal{L}}
+
+

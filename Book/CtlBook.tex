@@ -13,68 +13,21 @@
 
 % Uncomment for bibliog.
 %\bibliographystyle{unsrt}
-
-\usepackage{boxedminipage}
-\usepackage{graphicx}
-\usepackage{fancyhdr}
 \usepackage{amsmath}
-\usepackage{lineno}
+\usepackage{amssymb}
+\usepackage{boxedminipage}
+\usepackage{caption}
+\usepackage{color}
+\usepackage{enumitem}
+\usepackage{fancyhdr}
+\usepackage[T1]{fontenc}
+\usepackage{framed}
+\usepackage{graphicx}
 \usepackage{hyperref}
 \usepackage{listings}
-\usepackage{color}
-\usepackage[usenames,dvipsnames,svgnames,table]{xcolor}
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%
-%    Minted package for nice python highlighting
-%
-\usepackage[chapter]{minted}  % python syntax highlight
-
-% Required packages
-\usepackage[T1]{fontenc}
+\usepackage{mdframed}
+\usepackage{tcolorbox}
 \usepackage{xcolor}
-\usepackage{minted}
-\usepackage{caption}
-
-% Configure minted styling
-\setminted[python]{
-    frame=lines,
-    framesep=2mm,
-    baselinestretch=1.0,
-    fontsize=\footnotesize,
-    linenos=true,
-    breaklines,
-    %     style=monokai,
-    style=default
-}
-\setminted[C]{
-    frame=lines,
-    framesep=2mm,
-    baselinestretch=1.0,
-    fontsize=\footnotesize,
-    linenos=true,
-    breaklines,
-    %     style=monokai,
-    style=default
-}
-
-% Configure listing to have a specific width
-\setminted{
-    numbersep=2pt,    % Distance between line numbers and code
-    xleftmargin=20pt, % Left margin (increase if line numbers still overflow)
-    xrightmargin=-2pt  % Right margin (decrease to reduce extra white space)
-}
-
-% Configure listing caption style
-\DeclareCaptionFormat{listing}{\raggedright#1#2#3}
-\captionsetup[listing]{
-    format=listing,
-    labelfont=bf,
-    font=small,
-    labelsep=period
-}
-
-%%%%%%% end of minted %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 % tikz package for block diagrams
 \usepackage{tikz}
@@ -93,15 +46,6 @@
 \input{pagedim.tex}
 % \input{pagedimsmall.tex}
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%
-%         Page format Mods HERE
-%
-%Mod's to page size for this document
-\addtolength\textwidth{0cm}
-\addtolength\oddsidemargin{0cm}
-\addtolength\headsep{0cm}
-\addtolength\textheight{0cm}
 %\linespread{0.894}   % 0.894 = 6 lines per inch, 1 = "single",  1.6 = "double"
 
 %\pagestyle{fancy}
@@ -116,23 +60,23 @@
 %%%%%%%%%%%%%%%%%%%%
 \input{rbook_environments.tex}
 
-\begin{document}
-
 \setpagewiselinenumbers        %  Line numbers for edits to drafts.
 \modulolinenumbers[5]
 
 
 \frontmatter
 
+\begin{document}
+
 \title{Introduction to Applied Classical Control}
 
 \author{Blake Hannaford}
 
+\maketitle
+
 \date{\today\\(C) Copyright 2012-2025, Blake Hannaford.\\
 \href{http://creativecommons.org/licenses/by-sa/4.0/}{Creative Commons Attribution-ShareAlike 4.0 International License}.
  }
-
-\maketitle
 
 \tableofcontents
 
@@ -160,6 +104,8 @@
 \appendix
 %
 \input{Apdxa_complex_nums.tex}
+
+\input{Apdxb_ClaudePID_Design.tex}
 
 \backmatter
 %\bibliography{brl}
