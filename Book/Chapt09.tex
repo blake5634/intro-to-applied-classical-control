@@ -638,7 +638,7 @@ most common are:
 Name &  Transfer Function & Notes \\\hline
 Constant Gain   & $C(s) = K$     & Very simple! \\\hline
 Lead-Lag & $C(s) = \frac{K(s+z)}{(s+p)}$  & Gain with one added pole and zero. Pole can reduce SSE, zero can increase stability.\\\hline
-PID &   $C(s) = \frac {K(s+z1)(s+z2)}  {s} $ & ``Proportional-Integral-Derivative," three parameters to tune: pole at origin allows zero steady state error, zeros can ``pull'' plant poles where you want them. (usually requires a ``regularization" pole.)\\\hline
+PID &   $C(s) = \frac {K(s+z1)(s+z2)}  {s} $ & ``Proportional-Integral-Derivative,'' three parameters to tune: pole at origin allows zero steady state error, zeros can ``pull'' plant poles where you want them. (usually requires a ``regularization'' pole.)\\\hline
 PD  &   $C(s) = K(s+z1)$  & Removes the integral term from PID.
 Can increase stability relative to PID.  Also
 may require regularization.\\\hline
@@ -1143,7 +1143,7 @@ c1 = pp * ((s+4)*(s+4))/(s*(s+pp));
 Sys = syslin('c', c1*p); //    loop gain system
 clf();
 evans(Sys,2000);   // experiment with gain range (200)
-a1=get("current_axes");          //get the handle of the newly created axesctl
+a1=get(''current_axes'');          //get the handle of the newly created axesctl
 a1.data_bounds=[-5,1, -3,3];
 sgrid;  // helps for the % overshoot performance line
 } % end of query (frmlry \end{verbatim}
@@ -1244,7 +1244,7 @@ will NOT make simplifying assumptions about the system dynamics or performance r
 
 
 Looking again at equation (\ref{PID}), we can see from the far right hand side that the PID controller has two zeros and one pole.   A system with more zeros than poles cannot be physically realized and is called {\it improper}.   Often this condition is ignored because the plant has enough poles to make the overall forward path ($C(s)P(s)$) proper.  However, what if you would like to make and sell a PID controller box
-(search your favorite e-commerce site for "pid controller")?
+(search your favorite e-commerce site for "pid controller'')?
 % (Figure \ref{pidbox})?
 
 We may also have this problem building a computer simulation if we define the controller in our script as a separate system and our computer simulation package    cannot simulate an improper system.
@@ -1333,7 +1333,7 @@ s=ctl.TransferFunction.s
 def cc(x):  # cleaner code
     return np.conj(x)
 #
-#   Define the plant TF  ("Large Industrial Machine")
+#   Define the plant TF  (''Large Industrial Machine'')
 #
 p1 = -0.7+0.2j
 Plant = (s+1) / ((s+2)*(s-p1)*(s-cc(p1)))

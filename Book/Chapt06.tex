@@ -12,7 +12,7 @@ Be able to
     \item Explain the precise meaning of a block in a signal flow block diagram and
     perform basic block diagram transformations.
     \item  Derive the end-to-end closed-loop gain of a system with negative feedback.
-    \item Explain the ``loop gain" of a system with negative or positive feedback.
+    \item Explain the ``loop gain'' of a system with negative or positive feedback.
     \item Define Sensitivity Analysis and be able to numerical compute sensitivity of
     a defined performance parameter to a system parameter.
     \item Define Disturbance Rejection and explain how Disturbance Rejection depends on
@@ -107,7 +107,7 @@ b(t) = \mathcal L^{-1} \left \{ \frac{A(s)(s+10)}{(s+0.1)(s+100)}  \right \}
 \end{ExampleSmall}
 
 One consequence of these definitions, is that there is no influence of the output of a block on its input.
-Put another way, there is no ``loading" of an output by any number of subsequent inputs.
+Put another way, there is no ``loading'' of an output by any number of subsequent inputs.
 
 
 \subsection{Transformations}
@@ -149,10 +149,10 @@ Can be used to manipulate block diagrams as shown in Figure \ref{blocktransforms
 \caption{The closed loop negative feedback system.}\label{closedloopnegfeedbackblockdiag}
 \end{figure}
 
-One block diagram has supreme importance in control systems design (Figure \ref{closedloopnegfeedbackblockdiag}).  This is called the ``closed loop negative feedback system."   As implied by its name, the connections of the diagram form a loop, the loop contains a minus sign, and the output is ``fed back" to be subtracted from the input.
+One block diagram has supreme importance in control systems design (Figure \ref{closedloopnegfeedbackblockdiag}).  This is called the ``closed loop negative feedback system.''   As implied by its name, the connections of the diagram form a loop, the loop contains a minus sign, and the output is ``fed back'' to be subtracted from the input.
 
 Even though this diagram is fairly simple, it is slightly more subtle to figure out an equivalent single block.  In other words, can we figure out an expression for $Y(s)/X(s)$ from the block diagram of Figure \ref{closedloopnegfeedbackblockdiag}?
-The key is identifying the output of the summation and giving it the name, $E(s)$, which stand for error.  This term is called ``error" because it is the difference between input and output.  For example, if the closed loop negative feedback system were used to model a temperature control system, and the input was 68 degrees but the output (room temperature) was 72 degrees, then (with the frequently used assumption that $H=1$) the error would be -4 degrees.  Thus
+The key is identifying the output of the summation and giving it the name, $E(s)$, which stand for error.  This term is called ``error'' because it is the difference between input and output.  For example, if the closed loop negative feedback system were used to model a temperature control system, and the input was 68 degrees but the output (room temperature) was 72 degrees, then (with the frequently used assumption that $H=1$) the error would be -4 degrees.  Thus
 \[
 E(s) = X(s)-Y(s)H(s)
 \]
@@ -470,7 +470,7 @@ Y = \frac{G}{1+GH}X  + \frac{G}{1+GH}D = \frac{G}{1+GH}(X+D)
 
 In this case the disturbance and the input are treated exactly the same. There is no disturbance rejection at all.  In retrospect this makes sense since it would be impossible for the controller to distinguish between the disturbance and the desired input.
 
-Now we consider a case in which ``$G$" is split into two systems and the disturbance is injected between the two (Figure \ref{disturbancebetweenCP}).  As mentioned above,  this is an important case where $G$ consists of a controller coupled to a ``plant" such as an industrial machine or a vehicle.
+Now we consider a case in which ``$G$'' is split into two systems and the disturbance is injected between the two (Figure \ref{disturbancebetweenCP}).  As mentioned above,  this is an important case where $G$ consists of a controller coupled to a ``plant'' such as an industrial machine or a vehicle.
 
 
 \begin{figure}\centering
@@ -642,7 +642,7 @@ $$
 \angle A(j\omega) = 180^\circ
 $$
 This would have the effect of changing the sign on the feedback loop and causing ``positive
- feedback" also known as instability.
+ feedback'' also known as instability.
 
 
 Suppose on the other hand that $A$ is real (i.e. $\angle A = 0$) but we add a term of $H=-1$ to the feedback loop (Figure \ref{NyquistLoop}, Right).  In both of these cases the total angle around the loop (the angle of the loop gain) is $180^\circ$.    Analyzing the closed loop gain

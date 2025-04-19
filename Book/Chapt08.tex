@@ -143,7 +143,7 @@ of AI generated results - they are not (yet?) a substitute for understanding the
 
 \clearpage
 \section{Summary of System Setup in Python}
-{\tt python.control} supports three ways that you can create a ctl.LTI object (LTI = ``Linear Time Invariant").
+{\tt python.control} supports three ways that you can create a ctl.LTI object (LTI = ``Linear Time Invariant'').
 
 \subsubsection{1.) Polynomial Vectors}
 Here, {\tt python.control} requires multiplying out zeros and  poles and encoding
@@ -159,7 +159,7 @@ Not too hard.  Once this is done we give them to python directly e.g.
     syst = ctl.TransferFunction(num,den) # note two separate parameters
 \end{verbatim}
 
-\subsubsection{2.) The ``$s$ is a transfer function" Trick}
+\subsubsection{2.) The ``$s$ is a transfer function'' Trick}
 Python control transfer function objects are quite smart and they can be added,
 subtracted, multiplied, and divided with each other and with constants.
 Plain old $s$ could be a transfer function so in fact we can build up interesing
@@ -217,7 +217,7 @@ x = a^T
 where
 \[ a = [1, 2, 3] \;, x = \begin{bmatrix} 1\\2\\3 \end{bmatrix}
 \]
-and be fine with it.   Numpy needs vectors to be ``two-dimensional" so that it
+and be fine with it.   Numpy needs vectors to be ``two-dimensional'' so that it
 can tell the difference between row vectors and column vectors.
 
 Here are some quick helper functions to always initialize vectors with your
@@ -307,7 +307,7 @@ Example  4.\ref{suspensionstatespace}.
 % \end{center}
 
 
-In lines 7 to 11 we define our helper functions to make it easier to set up ``official"
+In lines 7 to 11 we define our helper functions to make it easier to set up ``official''
 row and column vectors in numpy.
 
 In lines 13 to 17 we enter mechanical parameters for our car suspension.

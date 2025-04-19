@@ -150,7 +150,7 @@ With the new controller, we have changed the SSE for ramp input from $\infty$ to
 
 \subsection{Steady State Error Summary}
 
-We've seen examples of how changing the system type or changing the input can make a big difference in the amount of steady state error.  You might even notice a pattern in the examples above relating the ``input type" (the power of $s$ in the Laplace transform of the input signal) and the system type to the nature of the SSE.  To see this relationship, let's take a closer look at Example \thechapter.\ref{ExIntegwithRamp}. 
+We've seen examples of how changing the system type or changing the input can make a big difference in the amount of steady state error.  You might even notice a pattern in the examples above relating the ``input type'' (the power of $s$ in the Laplace transform of the input signal) and the system type to the nature of the SSE.  To see this relationship, let's take a closer look at Example \thechapter.\ref{ExIntegwithRamp}. 
 
 Writing out the limit again without canceling any terms, 
 \[
@@ -434,7 +434,7 @@ To fix this we simply add another pole to the PID controller at a high enough fr
 
 \begin{enumerate}
   \item Why doesn't a high frequency pole affect the system?
-  \item How high is ``high enough"?
+  \item How high is ``high enough''?
 \end{enumerate}
 
 %\end{frame} %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -461,7 +461,7 @@ Thus for frequencies substantially below $\rho$, $P(s)$ has no effect.	%<h>
 
 
 %\begin{frame}
-%\frametitle{Q2: How high is ``high enough"?}
+%\frametitle{Q2: How high is ``high enough''?}
 
 For question two, let us set $\rho$ 10 times higher than the highest pole or zero of our system.   Technically we should know the zeros of the PID controller to do this, but if we {\it assume} that the zeros of a good controller will be in the neighborhood of the poles of the plant, then 10 times greater than the highest frequency plant pole/zero will also be far from the PID controller zeros.	%<h>
 
@@ -497,7 +497,7 @@ because it has the same number of poles and zeros, two.  Thus, Scilab can simula
 
 Control effort is the level of output needed by the controller to achieve the step response.  All other things being equal, a controller which achives the specs with lower control effort is better.  Often there is a limited maximum effort that a given system can output.  For example, a DC motor has a maximum torque that it is capable of. In this case, it is meaningless to have a settling time that is very fast if that requires 10 times more torque that the motor has available.  Often, controller gains can be found to meet {\bf any} $T_S$ and $\%OS$ spec if control effort limits are ignored.	%<h>
 
-% ``Control Effort", $U$,  = output of controller (into plant)
+% ``Control Effort'', $U$,  = output of controller (into plant)
 
 Computing control effort is easy.  Consider the system below which has a controller, plant and feedback.	%<h>
 
@@ -554,10 +554,10 @@ where $T_{max}$ defines a time window that makes sense for our application.	%<h>
 \section{Manual Design of PID controller}
 % \section{}
 
-In this section we will design PID control gains through a ``manual" method.  Specifically we will find the values of $K_P, K_I, K_D$ for a given plant and a set of performance specifications, including control effort.  Although this method uses the computer to speed Root Locus plotting, it is designed to give a starting point for more accurate design methods discussed below in which 
+In this section we will design PID control gains through a ``manual'' method.  Specifically we will find the values of $K_P, K_I, K_D$ for a given plant and a set of performance specifications, including control effort.  Although this method uses the computer to speed Root Locus plotting, it is designed to give a starting point for more accurate design methods discussed below in which 
 we will rely on computerized search-based optimization to design controller parameters.  
 
-Although the optimization search is effective and can take more performance criteria into account, the search can go significantly faster with an initial starting guess.   Unfortunately there is no ``typical" range of PID parameter values which could be used as a standard starting range.  
+Although the optimization search is effective and can take more performance criteria into account, the search can go significantly faster with an initial starting guess.   Unfortunately there is no ``typical'' range of PID parameter values which could be used as a standard starting range.  
 
 Although manual design of PID controllers is possible (see most of the textbooks), there is no reason that we cannot use the computer to speed the manual calculation.   In particular, we will use the root locus command to guide our PID design into roughly the neighborhood where we expect solutions to reside. 
 
@@ -597,7 +597,7 @@ C(s) = \frac{K(s+z_1)(s+z_2)}{s}
  \item Make the assumption that the two complex conjugate poles closest to the origin are dominant (false!).
  \item Draw the s-plane and draw the region(s) corresponding to the performance specifications.
  \item Plot the poles and zeros of the plant on the s-plane.
- \item Place two zeros in places such that they will ``pull" the root locus through the target region\footnote{Assuming the plant poles do not already meet the specs(!)}. Use Scilab to plot the Root Locus (``{\tt evans(sys)}" command)
+ \item Place two zeros in places such that they will ``pull'' the root locus through the target region\footnote{Assuming the plant poles do not already meet the specs(!)}. Use Scilab to plot the Root Locus (``{\tt evans(sys)}'' command)
   \item If the root locus goes through the target region, use the mouse to find the value of $K$ at the target location.
   \item Use the chosen $z_1, z_2$ and $K$ values to derive  $K_P, K_I, K_D$ (see Section \ref{Kpderive})
   \item If the root locus does NOT go through the target region, go back to step 4 and try again. 

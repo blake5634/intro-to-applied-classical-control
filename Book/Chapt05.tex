@@ -13,7 +13,7 @@ Be able to
     solve the step response of a 2nd order system.
     \item Explain how the location of poles of a 2nd order system in the $s$-plane
     affects the envelope and oscillation frequency of the step response.
-    \item Explain the meaning of ``steady state sinusoidal response".
+    \item Explain the meaning of ``steady state sinusoidal response''.
     \item Evaluate the steady state sinusoidal response magnitude of a transfer function
     at a specified frequency $\omega$.
     \item Evaluate the steady state sinusoidal response phase of a transfer function
@@ -23,7 +23,7 @@ Be able to
     \item Use dB to rapidly compute  the steady state sinusoidal response magnitude of a transfer function
     at a specified frequency $\omega$.
 
-    \item Hand sketch a Bode asymptotic magnitude plot with ``$\pm3dB$" corrections.
+    \item Hand sketch a Bode asymptotic magnitude plot with ``$\pm3dB$'' corrections.
     \item Hand sketch a Bode asymptotic phase plot with smooth approximations,
     and explain relationships between the Bode magnitude and phase plots.
     \item Make detailed corrections to asymptotic Bode plots for systems containing complex conjugate poles and zeros.
@@ -47,7 +47,7 @@ create very accurate plots with the computer for detailed analysis.
 
 \section{The basic 2nd order dynamical system}
 
-A dynamical system is said to be ``second order" if the highest power of $s$ in its denominator  is 2.  An example of such a system is
+A dynamical system is said to be ``second order'' if the highest power of $s$ in its denominator  is 2.  An example of such a system is
 
 \[
 G(s) = \frac1{(s-a)(s-b)} = \frac {1}{s^2 -(a+b)s+ab}
@@ -59,7 +59,7 @@ $a$ and $b$ are roots of the polynomial in the denominator.  When $s$ equals a r
 G(a) = G(b) = \infty
 \]
 
-Because $G(s)$ goes up to infinity at these locations, $a,b$,  in the complex plane, we call $a$ and $b$ ``poles" of the transfer function
+Because $G(s)$ goes up to infinity at these locations, $a,b$,  in the complex plane, we call $a$ and $b$ ``poles'' of the transfer function
 $G(s)$.
 
 \newpage
@@ -156,11 +156,11 @@ There are lots of ways we could express the simple polynomial in the denominator
 \[
 G(s) = \frac{1}{s^2+us+v} \qquad (u = -(a+b),\quad v= ab)
 \]
-Now let's introduce a parameter $\omega_n$ (pronounced ``omega-n"):
+Now let's introduce a parameter $\omega_n$ (pronounced ``omega-n''):
 \[
 \omega_n  = \sqrt{v} = \sqrt{ab}
 \]
-and another one, $\zeta$ (``zeta"):
+and another one, $\zeta$ (``zeta''):
 \[
 \zeta = \frac{u}{2\sqrt{v}} = \frac{-(a+b)}{2\sqrt{ab}}
 \]
@@ -208,7 +208,7 @@ u(t) = \left \{ \begin{array}{cc} 0 & t< 0 \\ 1 & t >= 0 \end{array} \right .
 
 The Laplace transform of the step input is $U(s) = \frac{1}{s}$.
 
-The response to  a step input determines what the system will do when we ``change our minds" about what the output should be.  For example, you walk into a room and turn the thermostat from $50^\circ$ to $68^\circ$ or you press ``Resume" on your cruise control.
+The response to  a step input determines what the system will do when we ``change our minds'' about what the output should be.  For example, you walk into a room and turn the thermostat from $50^\circ$ to $68^\circ$ or you press ``Resume'' on your cruise control.
 
 
 When we take a 2nd order transfer function of the form $G(s) = \frac{M}{(s+a)(s+b)}$, and multiply it by the step input, we get the output
@@ -232,7 +232,7 @@ It can be shown that for a 2nd order system with a pair of complex conjugate pol
 y(t) = A_0-|A_1|e^{-\zeta\omega_n t} (\cos({\omega_dt +\phi}))
 \eq
 
-In this response, the exponential term {\it multiplies } the sinusoid term.  Since the sinusoid cannot exceed the range $-1<=sin(\omega t)<=1$, the response will be bounded by the exponential and we will call it the ``envelope" since it ``contains" the sinusoidal part of the response.
+In this response, the exponential term {\it multiplies } the sinusoid term.  Since the sinusoid cannot exceed the range $-1<=sin(\omega t)<=1$, the response will be bounded by the exponential and we will call it the ``envelope'' since it ``contains'' the sinusoidal part of the response.
 Let's look at some examples of this function.  For $\omega_n = 0.4$, and $\zeta=.124$ (corresponding to the poles: $s = -0.05\pm0.4j$), we get the step response shown in Figure \ref{typicalstep}
 
 
@@ -375,10 +375,10 @@ is driven by an interrupted  sinusoidal function
 x(t) = \sin(1.25t)(u(t)-u(t-100))
 \]
 
-Recall that $u(t)$, is the unit step function we learned when studying single sided Laplace Transform analysis with zero initial conditions.  The second term, $-u(t-100)$, when combined with $u(t)$, ``Turns off" the sinusoid at $t=100$ because for $t>100$, $u(t)-u(t-100) = 0$.
+Recall that $u(t)$, is the unit step function we learned when studying single sided Laplace Transform analysis with zero initial conditions.  The second term, $-u(t-100)$, when combined with $u(t)$, ``Turns off'' the sinusoid at $t=100$ because for $t>100$, $u(t)-u(t-100) = 0$.
 Numerically solving this system on the computer gives a response (below, right) which changes amplitude dramatically at both the turn ON transient ($t=0$) and the turn OFF transient ($t=100$), but settles to a constant sinusoidal output (the {\it steady state} response) for $80< t < 100$.  Note that if the input sinusoid continued forever instead of shutting off at $t=100$, the steady state response would also continue forever.
 
-It is also worth noting that the frequency of the response changes when the input turns off.   This is because the steady state response is a ``forced" response (i.e. of the same mathematical form as the input), while the turn off transient is a ``natural" response, i.e. determined by the $\omega_n, \zeta$ of the system.
+It is also worth noting that the frequency of the response changes when the input turns off.   This is because the steady state response is a ``forced'' response (i.e. of the same mathematical form as the input), while the turn off transient is a ``natural'' response, i.e. determined by the $\omega_n, \zeta$ of the system.
 
 
 \includegraphics[width=3.in]{figs05/sinusoid_input_stepa.png}
@@ -600,7 +600,7 @@ We consider $s=j\omega$ and there are three values of $\omega$ which are relevan
   \item  $\omega >> |p|$
 \end{enumerate}
 
-Ranges 1 and 3 are ``asympotic" because they become more and more true as $|\omega| \to 0$ or $|\omega| \to \infty$. Value 2 is an exact value  so we can easily compute an ``anchor point" for the graph.
+Ranges 1 and 3 are ``asympotic'' because they become more and more true as $|\omega| \to 0$ or $|\omega| \to \infty$. Value 2 is an exact value  so we can easily compute an ``anchor point'' for the graph.
 For each region, as we plug in $s=j\omega$, we can approximate $|G(j\omega)|$ as
 
 \begin{enumerate}
@@ -633,7 +633,7 @@ It's important to note a couple of things.
   \item As $\omega$ gets greater than $a$, the magnitude drops with frequency according to
   $$ M = -dB(\omega) $$
 
-In log-log coordinates, $-dB(\omega)$ is a straight line with a slope of -1.  When we say ``slope of -1", we mean the magnitude drops a factor of 10 for every factor of 10 increase in $\omega$.   We express this slope as $\frac{-20dB}{\mathrm{decade}}$. The term ``decade" refers to an order of magnitude change of frequency.
+In log-log coordinates, $-dB(\omega)$ is a straight line with a slope of -1.  When we say ``slope of -1'', we mean the magnitude drops a factor of 10 for every factor of 10 increase in $\omega$.   We express this slope as $\frac{-20dB}{\mathrm{decade}}$. The term ``decade'' refers to an order of magnitude change of frequency.
 
 \end{enumerate}
 
@@ -774,7 +774,7 @@ Thus, the quickest way to draw the Bode Asymptotic Magnitude plot is to start fr
 as log frequency increases, to add in a component of slope as $\omega$ gets to each pole or zero.
 
 
-\subsection{``Cartoon" Bode Magnitude Plot}
+\subsection{``Cartoon'' Bode Magnitude Plot}
 It is useful at this stage to make a cartoonish version of the Bode Magnitude plot using only
 our knowledge of the order of the features (from low to high frequency). This can be done in
 seconds.  Suppose
@@ -937,7 +937,7 @@ Just as we can add the Bode Asymptotic Magnitude plots of several poles and zero
 Draw the Bode Asymptotic Phase Plot for the system of Example \thechapter \ref{firstBodeMagexample},
 $G_4(s) = \frac  {(s+0.1)}  {(s+2)(s+25)}$
 
-For $\omega < 0.1$ the two poles and  zero each contributes $0^\circ$.  The zero will begin first and contribute $+90^\circ$, then, as $\omega$ increases, the  poles will each contribute $-90^\circ$.   Starting from the left at $\phi=0^\circ$, and drawing only the ``step function" asymptotes,
+For $\omega < 0.1$ the two poles and  zero each contributes $0^\circ$.  The zero will begin first and contribute $+90^\circ$, then, as $\omega$ increases, the  poles will each contribute $-90^\circ$.   Starting from the left at $\phi=0^\circ$, and drawing only the ``step function'' asymptotes,
 
 
 \includegraphics[width=5.5in]{figs05/00758a.png}
@@ -990,7 +990,7 @@ First, we note that there is a single pole at $s=0$.    In order to find the ver
 |G(j0.001)| \approx  {-10dB} + 60dB + 39dB - 54dB = 35dB
 \]
 
-The slope at this frequency is going to be $-20dB/$decade (Figure \ref{bodepolesatorigin}, Left) because the non-zero poles and zero do not contribute to the slope at $\omega = 10^{-3}$.    The magnitude will go down from there and the slope will change as the poles and zero become ``active".   Plotting from the point $\{0.001, 35dB\}$ with slope -20$dB$/dec, and continuing with increasing $\omega$ we get
+The slope at this frequency is going to be $-20dB/$decade (Figure \ref{bodepolesatorigin}, Left) because the non-zero poles and zero do not contribute to the slope at $\omega = 10^{-3}$.    The magnitude will go down from there and the slope will change as the poles and zero become ``active''.   Plotting from the point $\{0.001, 35dB\}$ with slope -20$dB$/dec, and continuing with increasing $\omega$ we get
 
 \includegraphics[width=5.0in]{figs05/00966.png}
 

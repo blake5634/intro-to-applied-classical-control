@@ -273,7 +273,7 @@ Great work. Especially nice that you called out anti-windup! Could you modify to
 \section*{Response: Anti-Windup}
 
 \begin{claude}
-Thank you for noticing my inclusion of anti-windup protection - it's indeed a crucial practical consideration that's often overlooked in academic controller design. In real systems, actuator saturation is almost inevitable during aggressive maneuvers, and without anti-windup protection, the integral term can accumulate excessively ("wind up") during saturation, leading to significant overshoot and oscillations once the system comes out of saturation.
+Thank you for noticing my inclusion of anti-windup protection - it's indeed a crucial practical consideration that's often overlooked in academic controller design. In real systems, actuator saturation is almost inevitable during aggressive maneuvers, and without anti-windup protection, the integral term can accumulate excessively (''wind up'') during saturation, leading to significant overshoot and oscillations once the system comes out of saturation.
 
 The modified simulation provides a more focused view of how the controller performs during the most important initial phase of the response, where we can clearly see the control effort saturation effects and the resulting system behavior.
 

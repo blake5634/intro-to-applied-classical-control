@@ -34,13 +34,13 @@ if you push the accelerator of a car to a specific angle from the floor boards, 
 depending on external factors such as load, wind, or whether you are driving up a mountain.   Temperature control of a room
 might depend on the outside temperature, sunshine, etc.   The most widely used approach to these problems is to
 return a measurement of the {\it actual } quantity (speed, temperature, etc.) back to the controller and change the
-commanded input based on the {\it error} between desired and actual quantities.    This is termed ``negative feedback"
+commanded input based on the {\it error} between desired and actual quantities.    This is termed ``negative feedback''
 because of the subtraction inherent in computing the error.
 
 Design of a control system is a multi-stepped process which first requires a detailed analysis of the dynamics of
 the system being controlled (Figure \ref{fig_control_design_flow}).  The process starts with identification of parts belonging
-to the physical system (which we will later call the ``plant"), and proceeds to making a schematic model of
-how the parts are interconnected.   The parameters of this model (called ``lumped" parameters because each element
+to the physical system (which we will later call the ``plant''), and proceeds to making a schematic model of
+how the parts are interconnected.   The parameters of this model (called ``lumped'' parameters because each element
 occupies a point in space like a point-mass), are quantities like mass, resistance, spring constant, capacitance, etc.
 From the lumped physical model, we derive differential equations using laws such as Kirchoff's laws or Newton's laws.
 In many real-world systems, the differential equations are non-linear, but many more mathematical techniques are available
@@ -74,7 +74,7 @@ The highest derivative, $N$, is referred to as the {\it order} of the LODE.  For
 \[
 f(t) = 0.273\frac{d^3}{dt^3}x(t) + 6.73\frac{d^2}{dt^2}x(t) - 0.001\frac{d}{dt}x(t) + 14.7x(t)
 \]
-is a third-order LODE.   Often we introduce some shorthand by omitting the time dependence ``$(t)$", and by using the dot notation for time derivatives:
+is a third-order LODE.   Often we introduce some shorthand by omitting the time dependence ``$(t)$'', and by using the dot notation for time derivatives:
 \[
 \dot{x} = \frac{d}{dt}x(t)  \qquad \ddot{x} = \frac{d^2}{dt^2}x(t)
 \]
@@ -121,7 +121,7 @@ We will extensively use Laplace Transforms to manipulate the differential equati
 \[
 \sL \{f(t)\} = F(s) =  \int_{0}^{\infty} e^{-st}f(t)dt
 \]
-where $s$ is a complex variable, $s=\sigma + j \omega$.  Technically this is the ``one sided" Laplace Transform because the integral extends only to positive $t$.
+where $s$ is a complex variable, $s=\sigma + j \omega$.  Technically this is the ``one sided'' Laplace Transform because the integral extends only to positive $t$.
 The inverse of the Laplace Transform is
 \[
 f(t) = \sL^{-1}F(s) = \frac{1}{2\pi j} \lim_{T\to\infty} \int_{\sigma - j T}^{\sigma + jT}F(s) e^{st}ds
@@ -240,7 +240,7 @@ Here we have implicitly assumed zero initial conditions.
 \end{ExampleSmall}
 
 
-Let's apply the Laplace Transform to the initial LODE above.  First, we will modify the LODE to include a ``Forcing Function" on the right hand side.  A forcing function is typically a physical input to the system such as an applied voltage or force.
+Let's apply the Laplace Transform to the initial LODE above.  First, we will modify the LODE to include a ``Forcing Function'' on the right hand side.  A forcing function is typically a physical input to the system such as an applied voltage or force.
 
 \[
 \dot{x} + Px = f(t)
@@ -255,7 +255,7 @@ X(s) (s+P) = F(s)
 \[
 \frac{X(s)}{F(s)} = \frac {1}  {(s+P)}
 \]
-Here we have derived a ratio called the ``Transfer Function" between position and the forcing function.  Our solution to the LODE was
+Here we have derived a ratio called the ``Transfer Function'' between position and the forcing function.  Our solution to the LODE was
 \[
 x(t) =  e^{pt} =  e^{-Pt}
 \]
@@ -263,7 +263,7 @@ If we rewrite this using the solution, $p = -P$, then our transfer function beco
 \[
 \frac{X(s)}{F(s)} = \frac {1}  {(s-p)}
 \]
-We call $p$ the ``pole" of this transfer function because the transfer function goes to infinity when $s=p$.
+We call $p$ the ``pole'' of this transfer function because the transfer function goes to infinity when $s=p$.
 
 
 
@@ -627,7 +627,7 @@ Plotting using the computer:
 \includegraphics[width=3.5in]{figs01/linearizeattwopointsa.png}
 \end{center}
 
-The blue line is $f(x)$, the green line is $\hat{f}_{1a}(x)$ and the red line is $\hat{f}_{1b}(x)$.  The linear approxmations are reasonably accurate in the neighborhood of their operating points ($x = -6, +1$), but become very bad as we move away.  The size of the ``neighborhood" for which a degree of accuracy can be obtained depends on the function and the selected operating point.
+The blue line is $f(x)$, the green line is $\hat{f}_{1a}(x)$ and the red line is $\hat{f}_{1b}(x)$.  The linear approxmations are reasonably accurate in the neighborhood of their operating points ($x = -6, +1$), but become very bad as we move away.  The size of the ``neighborhood'' for which a degree of accuracy can be obtained depends on the function and the selected operating point.
 
 \end{ExampleSmall}
 
@@ -732,10 +732,10 @@ This LODE is a linearized version of our system which is valid in the neighborho
 
 
 \subsection{Range of Approximation}
-We have seen that linearization ``works" ``in the neighborhood" of the linearization point.   Here we will dive deeper into what
-we mean by ``works" and ``neighborhood".
+We have seen that linearization ``works'' ``in the neighborhood'' of the linearization point.   Here we will dive deeper into what
+we mean by ``works'' and ``neighborhood''.
 
-First we must define our requirement for accuracy (i.e. how much error we can have while the approximation still ``works").
+First we must define our requirement for accuracy (i.e. how much error we can have while the approximation still ``works'').
 Often this is dictated by some external requirement.  For example,
 \begin{quotation}
 The linearized model shall have less than 10\% error.
@@ -747,7 +747,7 @@ $f(x)$, about the point $x = x_0$ then
 \]
 % We choose $f(x_0)$ as the denominator since it defines the scale for our local function.
 
-Second, we must define ``neighborhood".    By this we mean the range of $x$ values for which the approximation is good enough (i.e. ``works").   Suppose we have
+Second, we must define ``neighborhood''.    By this we mean the range of $x$ values for which the approximation is good enough (i.e. ``works'').   Suppose we have
 \[
 x_{min} < x_0 < x_{max}
 \]
@@ -762,7 +762,7 @@ and
 \frac   {|f(x_{max})-\hat{f}(x_{max})| } {f(x_{max})} = 0.10
 \]
 
-Assuming that $f(x)$ changes slowly, we can call the ``neighborhood"
+Assuming that $f(x)$ changes slowly, we can call the ``neighborhood''
 \[
 x_{min} < x < x_{max}
 \]
@@ -783,7 +783,7 @@ f_1(x) = 0.4x^2 -0.1x^3 + 3\sin(x)
 \hat{f}_{1a} =  -39.48-12.72x \qquad \hat{f}_{1b} =  0.703+2.121x
 \]
 
-If the accuracy requirement is 5\%, which linearization $a$ or $b$ has a bigger ``neighborhood"?
+If the accuracy requirement is 5\%, which linearization $a$ or $b$ has a bigger ``neighborhood''?
 
 
 Our approach will be to compute numerically values of $f(x)$ and $\hat{f}(x)$ and look for the error dropping below 5\%
@@ -826,7 +826,7 @@ and for $f_{1b}$
 \[
 0.70 < x < 1.30 = 0.6
 \]
-So $f_{1a}$ has a bigger ``neighborhood".    However we are usually forced to pick the linearization point from
+So $f_{1a}$ has a bigger ``neighborhood''.    However we are usually forced to pick the linearization point from
 an application requirement so in the real world we can't just choose our linearization point according to how well linearization fits. For example, if a model of room climate control requires linearization, we MUST linearize about $T=70^\circ F$ or something close to that because we have to operate in the range of human comfort.
 \end{minipage}
 

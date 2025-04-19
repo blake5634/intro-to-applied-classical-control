@@ -22,7 +22,7 @@ The highest derivative, $N$, is referred to as the {\it order} of the LODE.  For
 \[
 f(t) = 0.273\frac{d^3}{dt^3}x(t) + 6.73\frac{d^2}{dt^2}x(t) - 0.001\frac{d}{dt}x(t)
 \]
-is a third-order LODE.   Often we introduce some shorthand by omitting the time dependence ``$(t)$", and by using the dot notation for time derivatives:
+is a third-order LODE.   Often we introduce some shorthand by omitting the time dependence ``$(t)$'', and by using the dot notation for time derivatives:
 \[
 \dot{x} = \frac{d}{dt}x(t)  \qquad \ddot{x} = \frac{d^2}{dt^2}x(t)
 \]
@@ -68,7 +68,7 @@ We will extensively use Laplace Transforms to manipulate the differential equati
 \[
 \sL \{f(t)\} = F(s) =  \int_{0}^{\infty} e^{-st}f(t)dt
 \]
-where $s$ is a complex variable, $s=\sigma + j \omega$.  Technically this is the ``one sided" Laplace Transform because the integral extends only to positive $t$.
+where $s$ is a complex variable, $s=\sigma + j \omega$.  Technically this is the ``one sided'' Laplace Transform because the integral extends only to positive $t$.
 The inverse of the Laplace Transform is
 \[
 f(t) = \sL^{-1}F(s) = \frac{1}{2\pi j} \lim_{T\to\infty} \int_{\sigma - j T}^{\sigma + jT}e^{sT}ds
@@ -186,7 +186,7 @@ Here we have implicitly assumed zero initial conditions.
 \end{ExampleSmall}
 
 
-Let's apply the Laplace Transform to the initial LODE above.  First, we will modify the LODE to include a ``Forcing Function" on the right hand side.  A forcing function is typically a physical input to the system such as an applied voltage or force.
+Let's apply the Laplace Transform to the initial LODE above.  First, we will modify the LODE to include a ``Forcing Function'' on the right hand side.  A forcing function is typically a physical input to the system such as an applied voltage or force.
 
 \[
 \dot{x} + Px = f(t)
@@ -201,7 +201,7 @@ X(s) (s+P) = F(s)
 \[
 \frac{X(s)}{F(s)} = \frac {1}  {(s+P)}
 \]
-Here we have derived a ratio called the ``Transfer Function" between position and the forcing function.  Our solution to the LODE was
+Here we have derived a ratio called the ``Transfer Function'' between position and the forcing function.  Our solution to the LODE was
 \[
 x(t) =  e^{pt} =  e^{-Pt}
 \]
@@ -209,7 +209,7 @@ If we rewrite this using the solution, $p = -P$, then our transfer function beco
 \[
 \frac{X(s)}{F(s)} = \frac {1}  {(s-p)}
 \]
-We call $p$ the ``pole" of this transfer function because the transfer function goes to infinity when $s=p$.
+We call $p$ the ``pole'' of this transfer function because the transfer function goes to infinity when $s=p$.
 
 
 
@@ -533,7 +533,7 @@ Plotting using Scilab:
 \includegraphics[width=3.5in]{figs01/linearizeattwopointsa.png}
 \end{center}
 
-The blue line is $f(x)$, the green line is $\hat{f}_{1a}(x)$ and the red line is $\hat{f}_{1b}(x)$.  The linear approxmations are reasonably accurate in the neighborhood of their operating points, but become very bad as we move away.  The size of the ``neighborhood" for which a degree of accuracy can be obtained depends on the function and the selected operating point.
+The blue line is $f(x)$, the green line is $\hat{f}_{1a}(x)$ and the red line is $\hat{f}_{1b}(x)$.  The linear approxmations are reasonably accurate in the neighborhood of their operating points, but become very bad as we move away.  The size of the ``neighborhood'' for which a degree of accuracy can be obtained depends on the function and the selected operating point.
 
 \end{ExampleSmall}
 

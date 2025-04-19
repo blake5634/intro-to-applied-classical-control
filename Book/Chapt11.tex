@@ -109,7 +109,7 @@ Equivalently,
 $f_N \geq  2b$, then the continuous time signal {\it can be reconstructed perfectly} from the discrete time signal.
 \end{quotation}
 
-$f_N$ is called the ``Nyquist Rate".   Although this theorem is commonly applied to signals (such as music)
+$f_N$ is called the ``Nyquist Rate''.   Although this theorem is commonly applied to signals (such as music)
 we will also use $f_N$ to decide how to sample control systems.
 
 \paragraph{Sampling Safety}
@@ -118,7 +118,7 @@ energy beyond $\frac{1}{2}f_N$  that will corrupt our control system?    First, 
 (a low-pass filter) to block energy below $\frac{1}{2}f_N$.  But analog filters do not
 block ALL energy above their ``cutoff-frequency''.
 
-Engineers use ``rules-of-thumb" to add a safety factor to the Nyquist rate.   Here are two of them:
+Engineers use ``rules-of-thumb'' to add a safety factor to the Nyquist rate.   Here are two of them:
 
 First, we can assume that the system has low-pass filters.  The magnitude response of a low pass filter keeps going down with higher frequencies.
 Thus if we sample even faster than the Nyquist rate, there will be even lower signal energy below that new rate.
@@ -427,7 +427,7 @@ Now that we have our controller in Z-transform form, we need one more step befor
 %\begin{frame}
 %\frametitle{Conversion of discrete transfer function to digital filter}
 
-First, we ``unwrap" the transfer function so that it is now the Z transform of a digital filter.  Unwrapping is actually a simple step.  For example, using our first example above,
+First, we ``unwrap'' the transfer function so that it is now the Z transform of a digital filter.  Unwrapping is actually a simple step.  For example, using our first example above,
 \[
 C(z) = \frac{F(z)}{E(z)} = \frac{50}{12}\frac{(z+1)}{(z+0.6667)}
 \]
@@ -546,7 +546,7 @@ The code runs in an infinite loop (line 10) and executes the controller over and
 
 \begin{itemize}
   \item If the continous time TF is stable then the discrete time version will be stable.
-  \item The DT controller will have the same ``features"  of its frequency response (number and frequency order of poles and zeros) as the CT controller.
+  \item The DT controller will have the same ``features''  of its frequency response (number and frequency order of poles and zeros) as the CT controller.
   \item Frequencies of the poles and zeros will in general be shifted.
   \item For frequencies much less than the Nyquist rate ($f_N$), the approximation will be very accurate.
 \end{itemize}
@@ -559,7 +559,7 @@ To make sure the discrete time controller is accurate, make sure that $T<<\pi/pz
 C_1(s) = \frac{500(s+10)}{(s+1)(s+100)}
 \]
 For this controller, $pz = 100rad/sec$.   This is about 16$Hz$.
-We need to double this to account for Nyquist sampling and THEN multiply by 10 to make the frequencies of the poles ``much less" than the Nyquist rate.
+We need to double this to account for Nyquist sampling and THEN multiply by 10 to make the frequencies of the poles ``much less'' than the Nyquist rate.
 
 Thus a suitable sampling frequency would be $16\times2\times10 = 320$ samples/second.  We would convert $C_1(s)$ to discrete time using $T=0.003125 = 1/320 sec$).
 

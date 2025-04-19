@@ -18,7 +18,7 @@ Be able to
 Translation refers to motion in a straight line.   We will first consider systems which only contains elements moving along a single direction.  Sometimes it is useful to think of this direction as a set of different but parallel axes, but this distinction does not change the physics. We only consider such systems which operate in an inertial frame such as the surface of the earth (to a good approximation at least) or inside
 a vehicle moving at constant speed and direction.
 
-% We will view the system as consisting of two types of elements:  ``active" and ``passive".  The passive elements can store or dissipate energy but cannot generate any.   The active
+% We will view the system as consisting of two types of elements:  ``active'' and ``passive''.  The passive elements can store or dissipate energy but cannot generate any.   The active
 
 We will analyze systems consisting of
 \begin{itemize}
@@ -102,10 +102,10 @@ In this conversion we have used lots of knowledge about cars including the follo
  \end{itemize}
 
 
-None of this knowlege is required to excel at control systems design with one exception, {\it The control system designer must have enough knowlege of the application system or access to enough model validation data to make sure that the simplified model is good enough for all application requirements. } To the extent that these ``facts" are true, our model is accurate, and to the extent that this model is an oversimplification, our model will not work.
+None of this knowlege is required to excel at control systems design with one exception, {\it The control system designer must have enough knowlege of the application system or access to enough model validation data to make sure that the simplified model is good enough for all application requirements. } To the extent that these ``facts'' are true, our model is accurate, and to the extent that this model is an oversimplification, our model will not work.
 
 
-\begin{quotation}``It can scarcely be denied that the supreme goal of all theory is to make the irreducible basic elements as simple and as few as possible without having to surrender the adequate representation of a single datum of experience." \\
+\begin{quotation}``It can scarcely be denied that the supreme goal of all theory is to make the irreducible basic elements as simple and as few as possible without having to surrender the adequate representation of a single datum of experience.'' \\
 {\it Albert Einstein}
 \end{quotation}
 
@@ -115,7 +115,7 @@ None of this knowlege is required to excel at control systems design with one ex
 \section{Constitutive Relations}
 Constitutive Relations are basic equations that define our system components by relating one variable to another.  For example,
 a resistor relates voltage to current by Ohm's Law, $V=IR$ or a damper relates force to velocity, $F=B\dot{x}$.   Using the
-analogy between force and voltage, and velocity to current, we can classify variables as ``through" or ``across" types.  Specifically
+analogy between force and voltage, and velocity to current, we can classify variables as ``through'' or ``across'' types.  Specifically
 
 \vspace{0.25in}
 \begin{tabular}{l|c|l}
@@ -150,7 +150,7 @@ Equation \ref{D'Alembert} is refered to as an Equation of Motion (EOM).
 
 $F$ indicates external forces imposed on the mass from sources other than springs and dampers in the system such as an actuator.  If the translational system is vertical, the force of gravity would be one such force, $F=Mg$.
 
-The signs in equations of motion can be tricky.   There is really no ``correct" sign for each term,
+The signs in equations of motion can be tricky.   There is really no ``correct'' sign for each term,
 because the equation is valid if you multiply both sides by $-1$.   However if we stick with the
 following rules, we can write equations of motion in a consistent way so that we can easily keep
 signs straight:
@@ -158,7 +158,7 @@ signs straight:
 \begin{itemize}
 
   \item The positive term in each subtraction associated with $B$ and $K$ must be the displacement of the mass for which the current EOM is being written.
-  \item Keep all position sign conventions consistent.  For example, all displacments positive ``to the right" or positive ``facing up".
+  \item Keep all position sign conventions consistent.  For example, all displacments positive ``to the right'' or positive ``facing up''.
   \item Keep the sign convention of the external applied force the same as for the displacements and keep it alone on the right-hand-side.
 
 \end{itemize}
@@ -192,7 +192,7 @@ M\ddot{x} + B\dot{x} + Kx = f(t)
 
 
 \begin{ExampleSmall}\label{example2dampers}
-Here we have still a single mass, but multiple dampers are connected.   Note that it makes no difference if the ``ground" symbol is located to the left or right of the mass, it still represents $x=0, \dot{x}=0$.
+Here we have still a single mass, but multiple dampers are connected.   Note that it makes no difference if the ``ground'' symbol is located to the left or right of the mass, it still represents $x=0, \dot{x}=0$.
 
 
 
@@ -458,7 +458,7 @@ G(s) = \frac {X(s)}{F(s)} = \frac {1}{Ms^2 + (B_1+B_2)s + K }
 \end{ExampleSmall}
 
 
-We will find it useful to {\it normalize} each transfer function before further analysis.   This means that we will manipulate each polynomial in $s$ so that the coefficient of  highest power of $s$ is 1\footnote{Known as a ''monic" polynomial.}.    This is accomplished by just dividing through by the coefficient of the highest power of $s$ as a final step.
+We will find it useful to {\it normalize} each transfer function before further analysis.   This means that we will manipulate each polynomial in $s$ so that the coefficient of  highest power of $s$ is 1\footnote{Known as a ''monic'' polynomial.}.    This is accomplished by just dividing through by the coefficient of the highest power of $s$ as a final step.
 
 
 \begin{ExampleSmall}
@@ -575,7 +575,7 @@ Normalize the denominator.
 %
 \begin{ExampleCont}
   %
-Note what we have done under ``Collect Variables" above is to simply collect terms according to the motion variables in a systematic
+Note what we have done under ``Collect Variables'' above is to simply collect terms according to the motion variables in a systematic
 way.  Specifically we can stay organized by filling
 out a table re-arranging the EOMs as follows:\vspace{0.3in}
 

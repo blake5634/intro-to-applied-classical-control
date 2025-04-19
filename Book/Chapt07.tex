@@ -102,7 +102,7 @@ the {\it closed loop gain},
 \[
 G_{CL}(s) = \frac{Y(s)}{X(s)} = \frac {K/(s+3)} {1+K/(s+3)} = \frac {K} {(s+3+K)}
 \]
-As engineers, we need to fiddle with the loop gain, but the ``customer" only cares that their cruise control is accurate, stable, and rejects disturbances etc.
+As engineers, we need to fiddle with the loop gain, but the ``customer'' only cares that their cruise control is accurate, stable, and rejects disturbances etc.
 
 While the loop gain has a known pole: $s=-3$, the pole of the closed loop gain depends on $K$, $s=-(3+K)$.   For this very simple system therefore it is easy to find the closed loop pole.   Not only that, we know where the pole goes as $K$ changes from $0\to\infty$, it moves to the left along the real line (Figure \ref{movingsimplepole}).
 
@@ -235,7 +235,7 @@ Using python by default enter the system with $K=1$ (Listing \ref{lst:BasicRLExa
 %   sys = ctl.TransferFunction(K/denom)
 %   figRL = plt.Figure()
 %   ax = plt.gca()
-%   plt.title("Root Locus Diagram: Example 7.1")
+%   plt.title(''Root Locus Diagram: Example 7.1'')
 %   ctl.root_locus_plot(sys,ax=ax)
 %   plt.grid()
 %   plt.show()
@@ -243,7 +243,7 @@ Using python by default enter the system with $K=1$ (Listing \ref{lst:BasicRLExa
 
 \includegraphics[width=3.5in]{figs07/B47H33.png}
 
-This plot shows first the three ``open loop poles" as X's, all on the negative
+This plot shows first the three ``open loop poles'' as X's, all on the negative
 real axis.  Lines show the path of the poles as $K\to\infty$. Notice that the
 angled lines cross the imaginary axis, at about $\pm3.5j$,
 a result consistent with the computation of Section \ref{FeedbackStabilitySection}.
@@ -267,7 +267,7 @@ for that gain.
     sys = ctl.TransferFunction(K/denom)
     figRL = plt.Figure()
     ax = plt.gca()
-    plt.title("Root Locus Diagram: Example 7.1")
+    plt.title(''Root Locus Diagram: Example 7.1'')
     ctl.root_locus_plot(sys,ax=ax)
     plt.grid()
     plt.show()
@@ -289,7 +289,7 @@ for that gain.
     sys = ctl.TransferFunction(num/denom)
     figRL = plt.Figure()
     ax = plt.gca()
-    plt.title("Root Locus Diagram: Example 7.2")
+    plt.title(''Root Locus Diagram: Example 7.2'')
     ctl.root_locus_plot(sys,ax=ax)
     plt.grid()
     plt.show()
@@ -306,7 +306,7 @@ for that gain.
 
 Use the computer to plot a Root Locus diagram for the system above.
 
-Here we have two blocks around the loop.  $C$ which represents a controller, and $P$ which represents a plant.  The closed loop system does not care how many blocks are in the loop, just the ``loop gain" which is the product of all blocks around the loop.
+Here we have two blocks around the loop.  $C$ which represents a controller, and $P$ which represents a plant.  The closed loop system does not care how many blocks are in the loop, just the ``loop gain'' which is the product of all blocks around the loop.
 
 \[
 G(s) = CPH(s) = C(s)P(s) = \frac {K(s+4)(s+5)}   {(s+1+3j)(s+1-3j)}
@@ -334,7 +334,7 @@ This time the closed loop poles migrate toward the two zeros in the controller. 
 \section{Root Locus Steps}
 
 Evans figured out a set of rules, based on the mathematical properties of the closed loop characteristic polynomial, that allow us to sketch the Root Locus diagram quickly.
-Recall that the ``loop gain" is the product of all transfer functions around the loop.  For a simple system like that of Example \thechapter.\ref{contplantrootlocus}, the loop gain is $KC(s)P(s)H(s)$ (where we have {\it assumed} that the controller has a constant gain term $K$ and separated it out).  Now we solve the closed loop gain using Equation \ref{hsblackeqn}.
+Recall that the ``loop gain'' is the product of all transfer functions around the loop.  For a simple system like that of Example \thechapter.\ref{contplantrootlocus}, the loop gain is $KC(s)P(s)H(s)$ (where we have {\it assumed} that the controller has a constant gain term $K$ and separated it out).  Now we solve the closed loop gain using Equation \ref{hsblackeqn}.
 \[
 \frac{Y(s)}{X(s)} = \frac  {KC(s)P(s)}   {1+KC(s)P(s)H(s)}
 \]
@@ -411,9 +411,9 @@ Each of the following Root Locus Drawing Rules is the answer to a FAQ.
 \begin{tabular}{p{2.5in}|p{2.5in}|c}
 Question			&  Answer			& Reason	\\ \hline \hline
 Fact 1. What is true for any value of $s$ on the root locus?
-				&  $\angle{CPH(s)} = \pi, 3\pi, 5\pi \dots$, ``Angle Condition" &     \\ \hline
+				&  $\angle{CPH(s)} = \pi, 3\pi, 5\pi \dots$, ``Angle Condition'' &     \\ \hline
 Fact 2. What is $k$ for a value of $s$ on the RL?  &
-$|KCPH(s)| = 1$ so $ K = 1/|CPH(s)|$. ``Magnitude Condition"                          &     \\ \hline\hline
+$|KCPH(s)| = 1$ so $ K = 1/|CPH(s)|$. ``Magnitude Condition''                          &     \\ \hline\hline
 Rule 1. Where do branches of the RL go as $k \to \infty$?  &
 From poles of $CPH(s)$ to zeros of $CPH(s)$ or they diverge to $|s| = \infty$         & M     \\ \hline
 Rule 2. How many branches diverge to  $|s| = \infty$?      &
@@ -436,7 +436,7 @@ $\theta_d = \pi-\Sigma\angle\mathrm{poles} + \Sigma\angle\mathrm{zeros} $       
 {\bf Notes:}
 
 Reason codes:
-A = ``angle condition", M = ``magnitude condition", P = theory of polynomials.
+A = ``angle condition'', M = ``magnitude condition'', P = theory of polynomials.
 
 Rules 6 and 7 are from pre-computer days and no longer needed (in my opinion).
 
@@ -628,7 +628,7 @@ G(s) = C(s)P(s) = \frac {K(s+4)(s+5)} {(s+1+3j)(s+1-3j)}
 \vtop{\vskip-2ex \hbox{\includegraphics[width=2.75in]{figs07/00474a.png} }} \\
 \end{tabular}
 
-Interpretation: Adding a second zero ``pulls" the RL even more to the left --- makes it even more
+Interpretation: Adding a second zero ``pulls'' the RL even more to the left --- makes it even more
 stable.
 
 (Compare to Example \thechapter.\ref{contplantrootlocus}).
