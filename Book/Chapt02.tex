@@ -35,7 +35,7 @@ Some properties of the various elements are summarized in Table \ref{TransElemen
  Name             &  Physical Realization     &   Symbol    &  Equation              & Units and Notes   \\ \hline
   Inertia         &  Point Mass               &   $M$ \raisebox{-\totalheight}{\includegraphics[width=0.6in]{figs02/00728aa.png}}     &  $f(t) = M\ddot{x}$    & $kg$, $\ddot{x}$ is with respect to the inertial frame.  \\ \hline
   Stiffness       &  Massless Spring          &   $B$ \raisebox{-\totalheight}{\includegraphics[width=1.0in]{figs02/00728ba.png}}    &  $f(t) = K{x}$         & $N\;m^{-1}$, $f$ is same on both sides.  Assume zero rest length \\ \hline
-  Damping         &  Shock Absorber           &   $K$ \raisebox{-\totalheight}{\includegraphics[width=1.0in]{figs02/00728ca.png}}   &  $f(t) = B\dot{x}$     & $N\;sec^{-1}\;m^{-1}$, This is a linear model for friction.     \\ \hline
+  Damping         &  Shock Absorber           &   $K$ \raisebox{-\totalheight}{\includegraphics[width=1.0in]{figs02/00728ca.png}}   &  $f(t) = B\dot{x}$     & $N\;sec\;m^{-1}$, This is a linear model for friction.     \\ \hline
 \end{tabular}\caption{}\label{TransElementsTable}
 \end{table}
 
@@ -150,7 +150,10 @@ Equation \ref{D'Alembert} is refered to as an Equation of Motion (EOM).
 
 $F$ indicates external forces imposed on the mass from sources other than springs and dampers in the system such as an actuator.  If the translational system is vertical, the force of gravity would be one such force, $F=Mg$.
 
-The signs in equations of motion can be tricky.   There is really no ``correct" sign for each term, because the equation is valid if you multiply both sides by $-1$.   However if we stick with the following rules, we can write equations of motion in a consistent way so that we can easily keep signs straight:
+The signs in equations of motion can be tricky.   There is really no ``correct" sign for each term,
+because the equation is valid if you multiply both sides by $-1$.   However if we stick with the
+following rules, we can write equations of motion in a consistent way so that we can easily keep
+signs straight:
 
 \begin{itemize}
 
@@ -222,7 +225,7 @@ Springs and dampers in {\it series}   can be combined like parallel resistors:
 \end{figure}
 
 
-\hrule
+
 {\it Proof:}
 Consider two springs in series.
 The force, $f$ is the same throughout all elements of a serial chain, and both springs independently obey Hooke's Law:
@@ -242,7 +245,6 @@ The total change in length due to the applied force, $f$, is
 \bq
 K_T = \frac{f}{\Delta x} = \frac {1}  {1/K_1 + 1/K_2} = \frac  {K_1K_2} {K_1+K_2}
 \eq
-\hrule
 
 An almost identical proof can be made for series connected dampers.
 
@@ -313,9 +315,83 @@ Note that each EOM for mass $i$ always begins with $M_i\ddot{x}_i$ and that in t
 \end{ExampleSmall}
 
 
+%%%%%%%%%%%%%%%%%%%  The above is exact equivalent of  Electrical Circuit Analysis
 
 
+\subsection{Electrical Circuit analysis is the same thing}
+A student in Electrical Engineering might feel unfamiliar working
+on masses, springs, and dampers, but the similarity runs very deep
+between electrical circuits composed of inductance-capacitance-resistance and mass-spring-damper systems.
 
+In electrical circuits, Kirchov's Voltage Law (KVL) is
+directly analogous to d'Alembert's principle which we use
+to derive mechanical equations of motion.
+
+
+\vspace{0.25in}
+\begin{center}
+% \begin{tabular}{p{2.5in}|p{2.5in}}
+\begin{tabular}{l|l}
+Mechanical & Electrical \\\hline
+KVL  & d'Alembert's principle \\
+$\sum V_i =0$ (around a loop)  & $\sum F_i = 0$ (on a mass) \\
+% The sum of all voltage drops around a loop is zero  &
+%         The sum of all forces applied to a mass is zero \\
+Force & Voltage \\
+Velocity & Current \\
+Mass   & Inductance \\
+Spring  & Capacitance$^{-1}$ \\
+Damping & Resistance \\
+Parallel & Series \\
+Series   & Parallel \\
+\end{tabular}
+\end{center}
+\vspace{0.25in}
+
+We won't go into the subtleties here but the following example is provided to illustrate how similar (actually identical) they are.
+
+\begin{Example}\label{Examp:ElectricCkt}
+Find the ``Equations of Motion'' for this electric circuit:
+
+\begin{center}
+\includegraphics[width=0.4\textwidth]{figs01/Q87C16.png}
+\includegraphics[width=0.4\textwidth]{figs01/Q87C17.png}\\
+Electrical circuit (Left) and the corresponding mechanical system (Right).
+\end{center}
+\vspace{0.1in}
+Applying KVL
+to the two current loops (and ignoring the mechanical system)
+we get two LODE's:
+
+\beq
+L\frac{di_1}{dt} + (i_1-i_2)R + \frac{1}{C_1}\int_0^t(i_1-i_2)dt - v(t) =0
+\eeq
+\beq
+\frac{1}{C_2}\int_0^ti_2dt + \frac{1}{C_1}\int_0^t(i_2-i_1)dt + (i_2-i_1)R = 0
+\eeq
+
+Taking the LaPlace Transform (and assuming zero initial conditions),
+
+\beq
+I_1(s) Ls + (I_1(s)  -I_2(s))(R+\frac{1}{C_1s}) = V(s)
+\eeq
+\beq
+I_2(s) (\frac{1}{C_2s})+(I_2(s)  -I_1(s))(R+\frac{1}{C_1s})
+\eeq
+
+
+Collecting terms we get two ``Equations of Motion'':
+
+\beq\label{Ckt01}
+I_1(s)(Ls + R + \frac{1}{C_1s}) + I_2(s)(-R -\frac{1}{C_1s}) = V(s)
+\eeq
+\beq\label{Ckt02}
+I_1(s)(-R-\frac{1}{C_1s}) + I_2(s)(R + \frac{1}{C_1s} + \frac{1}{C_2s}) = 0
+\eeq
+\end{Example}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Conversion to Transfer Function}
 
 EOMs are {\it Linear Ordinary Differential Equations}, LODEs.  As such, we can easily apply the Laplace Transform.
@@ -335,7 +411,7 @@ and physically this corresponds to the system being at rest and having no kineti
 We will use the Laplace transform to solve for a {\it Transfer Function}.   Transfer functions are ratios between the Laplace Transforms of two physical variables.  Examples:
 
 \[
-\frac{X_2(s)}{F(s)} \qquad
+\frac{X_2(s)}{F(s),} \qquad
 \frac{X_1(s)}{X_2(s)} \qquad \mathrm{etc.}
 \]
 
@@ -395,8 +471,72 @@ G(s) = \frac {X(s)}{F(s)} = \frac {1/M}{s^2 + \frac{B_1+B_2}{M}s + \frac{K}{M} }
 \]
 \end{ExampleSmall}
 
+\begin{Example}
+Let's continue the electrical example of Example \thechapter.\ref{Examp:ElectricCkt} by turning the
+EOM's into the transfer function
+\[
+G(s) = \frac{I_2(s)}{V(s)}
+\]
 
-\section{Examples}
+With equations \ref{Ckt01} and \ref{Ckt02}, we can solve for $I_2(s)$ as follows:
+
+Using eqn \ref{Ckt02},
+\[
+I_1(s) (R+\frac{1}{C_1s}) = I_2(s)\left(R+ \left ( \frac{C_1C_2}{C_1+C_2}\right)^{-1} \frac{1}{s}\right)
+\]
+
+\noindent
+for more compact notation, let
+\[
+C_{12} = \frac{C_1C_2}{C_1+C_2}
+\]
+giving
+
+\[
+I_1(s) \left(R+\frac{1}{C_1s}\right) = I_2(s)\left(R+ \frac{1}{C_{12}s}\right) \quad \to \quad
+I_1(s) = I_2(s) \frac  {(R+\frac{1}{C_{12}s})}  {(R+\frac{1}{C_{1}s})}
+\]
+
+Substituting into equation \ref{Ckt01},
+\[
+I_2(s)\left [ \frac{(1+\frac{1}{RC_{12}s})(Ls+R+\frac{1}{C_1s})}{(1+\frac{1}{C_1s})}-R -\frac{1}{C_1s} \right]  = V(s)
+\]
+
+Getting the desired ratio:
+
+\[
+\frac {I_2(s)} {V(s)}  = \frac{1} { \frac {(R+\frac{1}{C_{12}s})(Ls+R+\frac{1}{C_1s})} {(R+\frac{1}{C_1s}))} -R -\frac{1}{C_1s}     }
+\]
+
+... skipping a few steps ...
+
+\[
+= \frac  {   (1+\frac{1}{RC_1s})  }  { Ls + R+ \frac{1}{C_1s} + \frac{L}{C_{12}s} + \frac {1}  {RC_{12}C_1s^2} -R -\frac{2}{C_1s}- \frac {1}  {RC_1^2s^2} }
+\]
+\[
+= \frac {\frac{1}{s} ( s + \frac{1}{RC_1})  }
+        {Ls + \frac{1}{s}(\frac{1}{C_{12}} - \frac{1}{C_1}) + \frac{L}{RC_{12}} + \frac{1}{s^2}(\frac{1}{RC_{12}C_1}-\frac{1}{RC_1^2})}
+\]
+multiply top and bottom by $s^2$:
+\[
+= \frac{s(s+\frac{1}{RC_1})}
+       { Ls^3 + \frac{L}{RC_{12}}s^2+\frac{1}{C_{12}}s+\frac{1}{RC_{12}C_1} - \frac{1}{RC_1^2}    }
+\]
+Finally:
+\[
+\frac {I_2(s)} {V(s)}  =  \left(\frac{1}{L}\right)
+        \frac  {  s^2+\frac{1}{RC_1}s }
+        { s^3 + \frac{1}{RC_{12}}s^2 + \frac{1}{LC_{12}}s +
+        \frac{C_1-C_{12}}{LRC_{12}C_1^2}     }
+\]
+
+Where the transfer function is now expressed as a ratio of monic
+polynomials times the constant $1/L$.
+At this point we can just implement  this in our favorite software
+based on our known numerical  parameter values.
+\end{Example}
+
+\section{More Examples}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \begin{Example}\label{3MassExample}
@@ -413,7 +553,7 @@ G(s) = \frac{X_{out}(s)}{X_{in}(s)}
 \]
 Normalize the Denominator of the solution.
 
-\includegraphics[width=6.25in]{figs02/00729a.png}
+\includegraphics[width=5.5in]{figs02/00729a.png}
 
 \end{Example}
 
@@ -589,7 +729,7 @@ dampers as in Figure \ref{complexDynSystem}.
 
 
 \begin{figure}\centering
-\includegraphics[width=90mm]{figs02/00933a.png}
+\includegraphics[width=120mm]{figs02/00933a.png}
 \caption{A system with 4 masses and numerous springs and dampers connecting them.}
 \label{complexDynSystem}
 \end{figure}

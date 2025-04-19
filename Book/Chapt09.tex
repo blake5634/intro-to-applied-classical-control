@@ -403,13 +403,13 @@ and
 \begin{equation}\label{Tr_non_lin}
 T_r \approx \frac{1}{\omega_n}(2.23\zeta^2 - 0.78\zeta + 1.12)
 \end{equation}
-We can use the non-linear equation (eqn \ref{Tr_non_lin}) if more aCCuracy is required.
+We can use the non-linear equation (eqn \ref{Tr_non_lin}) if more accuracy is required.
 In practice however, settling time, $T_s$ is a more practical specification for use in design and $T_r$ is less often used.
 
 
 \subsubsection{Overshoot, \%OS}
 
-Overshoot is expressed as a percentage of the input amplitude.   In some applications a brief tansient overshoot is aCCeptable.  In other applications, (think of a elevator controller) overshoot is unaCCeptable\footnote{There are other techniques called Trajectory Generators, beyond the scope of this chapter, which can be used to eliminate overshoot.}.
+Overshoot is expressed as a percentage of the input amplitude.   In some applications a brief tansient overshoot is acceptable.  In other applications, (think of a elevator controller) overshoot is unacceptable\footnote{There are other techniques called Trajectory Generators, beyond the scope of this chapter, which can be used to eliminate overshoot.}.
 
 The analytical calculation of overshoot from second order systems is somewhat involved.  A few computational results gives a lookup table (Table \ref{percentOStable}) in which overshoot depends on the damping ratio, $\zeta$ (Chapter \ref{2ndOrderTransientChapter}), or
 equivalently the angle formed by the complex conjugate poles ($\theta = \cos^{-1}(\zeta)$.)
@@ -458,7 +458,7 @@ but at the same time, based on Table \ref{percentOStable}, the angle the pole ma
 
 
 
-Sometimes specifications are expressed in terms of inequalities.  For example, if the specification is $T_s \leq 0.25$, then any pole location to the left of $\sigma  = -0.25$ meets the specification.  In drawing inequality performance specs in the $s$ plane, we shade the region which the poles should NOT oCCupy to meet the spec.   Two inequality specifications generate a region in the $s$-plane which the poles must be in to meet the specifications (Figure \ref{splaneregion}).
+Sometimes specifications are expressed in terms of inequalities.  For example, if the specification is $T_s \leq 0.25$, then any pole location to the left of $\sigma  = -0.25$ meets the specification.  In drawing inequality performance specs in the $s$ plane, we shade the region which the poles should NOT occupy to meet the spec.   Two inequality specifications generate a region in the $s$-plane which the poles must be in to meet the specifications (Figure \ref{splaneregion}).
 
 
 %%%%** Figure 5
@@ -669,7 +669,7 @@ C(s) =& {K_P + K_I/s + K_Ds}\\
 
 All three depend on three positive real gains for the engineer to design: $K_P, K_I, K_D$.
 Lower order forms of the PID
-controller with one or no zeros are also possible aCCording to setting one of the three gains to
+controller with one or no zeros are also possible according to setting one of the three gains to
 zero (such as the ``PD'' and ``PI'' controllers).
 The zeros of the PID controller depend on all three gains as you can see from comparing the 3rd
 and 4th forms in Equation \ref{eq4FormsPID}.
@@ -747,9 +747,9 @@ Some alternate forms of the PID controller are given in of Equation \ref{PID2}. 
 \subsubsection{Manual Design of PID controller}\label{manualPIDdesign}
 % \section{}
 
-In this section we will design PID control gains through a ``manual'' method.  Specifically we will find the values of $K_P, K_I, K_D$ for a given plant and a set of performance specifications, including control effort.  Although fully hand methods are discussed in standard textbooks, our ``manual'' method uses the computer to speed Root Locus plotting and analysis.   With all but the simplest plants, hand methods are not aCCurate enough for real design.  Hand methods are still valuable to give a starting point for more aCCurate computer design methods discussed in the next chapter.
+In this section we will design PID control gains through a ``manual'' method.  Specifically we will find the values of $K_P, K_I, K_D$ for a given plant and a set of performance specifications, including control effort.  Although fully hand methods are discussed in standard textbooks, our ``manual'' method uses the computer to speed Root Locus plotting and analysis.   With all but the simplest plants, hand methods are not accurate enough for real design.  Hand methods are still valuable to give a starting point for more accurate computer design methods discussed in the next chapter.
 
-The computer optimization method of the next chapter will eventually find a great design (i.e. $K_P,K_I,K_D$ values), and can take more performance criteria into aCCount, but it will go significantly faster with an initial starting guess.   Unfortunately there is no ``typical'' range of PID parameter values which could be used as a standard starting range so to get the most utility from computer methods we should generate the rough initial design manually.
+The computer optimization method of the next chapter will eventually find a great design (i.e. $K_P,K_I,K_D$ values), and can take more performance criteria into account, but it will go significantly faster with an initial starting guess.   Unfortunately there is no ``typical'' range of PID parameter values which could be used as a standard starting range so to get the most utility from computer methods we should generate the rough initial design manually.
 
 
 %%%%** Section 5.1
