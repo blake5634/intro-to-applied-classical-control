@@ -20,7 +20,12 @@ The student will be able to:
 
 %%%%** Section 1
 \section{Overview}
-  In this chapter, we will describe a procedure to convert a continuous time transfer function (such as a controller you might design on  the  computer) into a line of code you could build into a software application. 	%<*h>
+Tustin's method (aka \href{https://en.wikipedia.org/wiki/Bilinear_transform}{the Bilinear Transform}) lets us convert a controller designed in the continuous time
+LaPlace domain to an equivalent (over a certain bandwidth) discrete time
+controller.  In order to implement a controller in a digital platform such as a
+microcontroller or FPGA, we must have it expressed in discrete time.
+
+In this chapter, we will describe a procedure to convert a continuous time transfer function (such as a controller you might design on  the  computer) into a line of code you could build into a software application. 	%<*h>
 
 In the following, it will help if you have been exposed to some discrete time signals and systems theory (the Z-Transform), but full knowledge of Z-transforms is not required to calculate this conversion.
 Our procedure will boil down to the following process for converting your continous time controller
@@ -509,33 +514,33 @@ This is essentially the line of computer code which defines our controller!  	%<
 double e, x, f;    // define our system loop variables
 double ys;         // this will be our sensed y for feedback
 double en1, fn1;   //  these will be e(n-1) etc.
-double T=1.0;      // sampling time in seconds.
-double t, t1;      // variables for keeping track of time.
+int T=1000;      // sampling time in milli seconds.
+int t, t1;      // variables for keeping track of time.
 en1 = fn1 = 0.0;   // we have to start them with something!
 // loop forever
 while(1)  {
   t = get_current_time();
   x = get_command_input();  // get our input from somewhere
   ys = read_sensor();       // get feedback from our system
-  e  = x-ys;                // compute error (H=1)
+  en  = x-ys;                // compute error (H=1)
 
   f = 4.1667 * (en+en1) - 0.6667*fn1;   // compute controller output
 
   output_to_plant(f);       // send controller output to plant
-  en1 = e;                  // store previous values of e, f
+  en1 = en;                  // store previous values of e, f
   fn1 = f;
   t1 = get_current_time();
   wait(T-(t-t1));           // wait for next sample time
   }
 \end{minted}
 \caption{Example of a pseudocode application which implements a discrete time controller.}
-\label{lst:basicTustin}
+\label{lst:DigitalControlLoop}
 \end{listing}	%<*>
 
 %\end{frame}
 
 	%<*h>
-The code runs in an infinite loop (line 10) and executes the controller over and over.  First, we note the current time and store it in {\tt t}.  We get the controller input, for example from a user interface or a trajectory generator, in line 12.   Then we read a sensor to measure the actual output {\tt ys} (line 13).  After we compute the error, we are ready to compute the controller output (line 16) using the equation we derived above.  Note that the coefficients in line 16 are specific to $T=1.0$ and will be wrong if we arbitrarily change {\tt T} in the code.   After we put the controller output out to the plant (line 18) we store the current values of {\tt e, f} in the previous values for use in the next cycle.   Finally, we figure out how much time has elapsed between lines 11 and 23, and use that to derive the correct argument for a {\tt wait(t)} function so that our timing is accurate.
+The code runs (Listing \ref{lst:DigitalControlLoop}) in an infinite loop (line 10) and executes the controller over and over.  First, we note the current time and store it in {\tt t}.  We get the controller input, for example from a user interface or a trajectory generator, in line 12.   Then we read a sensor to measure the actual output {\tt ys} (line 13).  After we compute the error, we are ready to compute the controller output (line 16) using the equation we derived above.  Note that the coefficients in line 16 are specific to $T=1.0$ and will be wrong if we arbitrarily change {\tt T} in the code.   After we put the controller output out to the plant (line 18) we store the current values of {\tt e, f} in the previous values for use in the next cycle.   Finally, we figure out how much time has elapsed between lines 11 and 23, and use that to derive the correct argument for a {\tt wait(t)} function so that our timing is accurate.
 	%<*>
 
 %%%%** Section 5

@@ -133,7 +133,7 @@ is easier to draw).
 There is still only one EOM but it has the  additional spring element:
 
 \[
-J\ddot{\theta} + B(\dot{\theta}-0) + K(\theta-0 = \tau(t)
+J\ddot{\theta} + B(\dot{\theta}-0) + K(\theta-0) = \tau(t)
 \]
 or
 \[
@@ -220,8 +220,8 @@ This gives
 \tau_2 = \frac{1}{n} \tau_1
 \]
 
-%%%%** Section 4.1.1
-\subsubsection{Simplification of Geared Systems}
+%%%%** Section 4.1
+\subsection{Simplification of Geared Systems}
 
 We can use the properties of gear transmission of rotation and torque to simplify the process of writing EOM.
 
@@ -246,7 +246,15 @@ or
 \tau_1 = Bn^2\dot{\theta}_1
 \]
 
-Suppose the system ``beyond'' the gears had some mass and spring in addition to the damper of Figure \ref{dampergears}. The argument above would be very similar:
+
+%%%%** Figure
+\begin{figure}\centering
+\includegraphics[width=3.0in]{figs03/J14R59.png}
+\caption{A mass, spring, and damper driven by a set of gears.}\label{dampermassspringgears}
+\end{figure}
+
+
+Suppose the system ``beyond'' the gears had some mass and spring in addition to the damper of Figure \ref{dampergears} as shown in Figure \ref{dampermassspringgears}. The argument above would be very similar:
 
 We have
 \[
@@ -271,12 +279,12 @@ The EOM becomes
 \]
 This is the EOM of a simpler system (Figure \ref{simplifiedgearsys}).
 
-
+%%            TBD:   new modified system for this
 
 %%%%** Figure 4
 \begin{figure}\centering
   \includegraphics[width=2.25in]{figs03/00746a.png}
-  \caption{Simplified equivalent system of the system in Figure \ref{dampergears}}\label{simplifiedgearsys}
+  \caption{Simplified equivalent system of a system modified from  Figure \ref{dampergears}}\label{simplifiedgearsys}
 \end{figure}
 
 
@@ -385,7 +393,9 @@ Such systems contain a combination of rotating and translating elements and they
 \end{figure}
 
 
-Consider the rack and pinion shown in Figure \ref{basicrotarylinear}.  Assume the gear can rotate about it's fixed axis and the rack is free to slide back and forth in the $x$ direction.  The force applied by the rack to the gear must be
+Consider the rack and pinion shown in Figure \ref{basicrotarylinear}.  Assume the gear can rotate about
+its fixed axis and the rack is free to slide back and forth in the $x$ direction.
+The force applied by the rack to the gear must be
 \[
 F = \tau/r
 \]

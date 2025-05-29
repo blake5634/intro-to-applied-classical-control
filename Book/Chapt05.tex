@@ -1,10 +1,10 @@
-%
+% %
 %
 %
 
 \chapter{Transient Response and Frequency Response}\label{2ndOrderTransientChapter}
 
-This chapter starts with fairly detailed analaysis of second order linear systems and the concepts of magnitude and frequency of steady state sinusoidal response.  Computer techniques easily create highly accurate frequency response plots.   We then develop   techniques for hand drawing reasonably accurate frequency responses.   While the hand techniques initially seem rather involved, after performing a few practice problems (and checking the results on the computer) they can be executed very rapidly with low effort.
+This chapter starts with fairly detailed analysis of second order linear systems and the concepts of magnitude and frequency of steady state sinusoidal response.  Computer techniques easily create highly accurate frequency response plots.   We then develop   techniques for hand drawing reasonably accurate frequency responses.   While the hand techniques initially seem rather involved, after performing a few practice problems (and checking the results on the computer) they can be executed very rapidly with low effort.
 
 \section{Problem Statement and Learning Objectives}
 Be able to
@@ -183,19 +183,23 @@ Using the properties of complex numbers, and the fact above, it is simple to sho
 \omega_n = \sqrt{Re(a)^2 + Im(a)^2} = |a| = |b|
 \]
 \[
-\zeta = -Re(a)/\omega_n = \cos\left(\arctan\left(\frac{Im(a)}{-Re(a)}\right)\right)
+\theta = \tan^{-1}\left(\frac{\omega}{\sigma}\right)= \tan^{-1}\left(\frac{Im(a)}{-Re(a)}\right)
+\]
+\[
+\zeta = \cos(\theta)
 \]
 
 If we plot these points on the complex plane (Figure \ref{ccpoleszeta}) we can see why these parameters give a different view from the poles:
-they represent the poles $e.g. p$ in polar coordinates.
+they represent the poles in polar coordinates.
 
-\[ \angle p = \cos^{-1}(\zeta) \quad |p| = \omega_n
+\[ \angle a = \cos^{-1}(\zeta), \quad |a| = \omega_n
 \]
 
 
 \begin{figure}\centering
  \includegraphics[width=4.25in]{figs05/00733a.png}
-\caption{Complex conjugate poles in the complex plane can be represented in Cartesian Coordinates ($r+jm$) or polar coordinates $\{\zeta, \omega_n\}$}\label{ccpoleszeta}
+\caption{Complex conjugate poles in the complex plane can be represented in Cartesian Coordinates
+($\sigma+j\omega$) or polar coordinates $\{\zeta, \omega_n\}$}\label{ccpoleszeta}
 \end{figure}
 
 \subsection{Pole Location and Step Response}
@@ -226,10 +230,10 @@ and further,  the inverse transform of each term in the partial fraction expansi
 y(t) = A_0 +  A_1e^{at} + A_2e^{bt}   \qquad (t>= 0)
 \eq
 
-It can be shown that for a 2nd order system with a pair of complex conjugate poles, $\{a,b\}$, this solution takes the form
+It can be shown (see Example 1.s\ref{Ex:2ndOrderInvTrans}) that for a 2nd order system with a pair of complex conjugate poles, $\{a,b\}$, $A_1=A_2^*$, $|A_1| = |A_2|$, and that this solution takes the form
 
 \bq\label{eqnDampedSinStep}
-y(t) = A_0-|A_1|e^{-\zeta\omega_n t} (\cos({\omega_dt +\phi}))
+y(t) = A_0-|A_1|e^{-\zeta\omega_n t} (2\cos({\omega_dt +\phi}))
 \eq
 
 In this response, the exponential term {\it multiplies } the sinusoid term.  Since the sinusoid cannot exceed the range $-1<=sin(\omega t)<=1$, the response will be bounded by the exponential and we will call it the ``envelope'' since it ``contains'' the sinusoidal part of the response.
@@ -587,7 +591,7 @@ is a log-log plot of magnitude vs. freqency, and is usually used with the Bode a
 We start by looking at a simple transfer function consisting of one pole:
 
 \[
-G(s) = \frac{1}{(s+a)}\quad ()\mathrm{here, our pole is }p=-a)
+G(s) = \frac{1}{(s+a)}\quad (\mathrm{here, our pole is }\; p=-a)
 \]
 
 In all frequency response analysis we assume that $Re(p) < 0$.  For now we assume $Im(p) = 0$.
@@ -757,7 +761,7 @@ and since we are plotting in a $dB$ scale that
 \[
 dB(|G_3(s)|) =  dB(\left |\frac {1} {(s+b)}\right |) +   dB(\left |\frac {(s+a)} {1}\right | ) +  dB( \left | \frac {1} {(s+c)}\right |  )
 \]
-In other words, we can just add the three Bode plots together.   This is a valid way to do it but is still a bit time consuming because four total plots have to be made.   To find a simpler way let's constrain the first asympotic frequency range slightly so that it is below the lowest feature, i.e.
+In other words, we can just add the three Bode plots together.   This is a valid way to do it but is still time consuming because four total plots have to be made.   To find a simpler way, let's constrain the first asympotic frequency range slightly so that it is below the lowest feature, i.e.
 
 \[
 \omega <<  \mathrm{min}(a,b,c)
@@ -774,7 +778,7 @@ Thus, the quickest way to draw the Bode Asymptotic Magnitude plot is to start fr
 as log frequency increases, to add in a component of slope as $\omega$ gets to each pole or zero.
 
 
-\subsection{``Cartoon'' Bode Magnitude Plot}
+\subsection{``Cartoon'' Bode Magnitude Plot}\label{CartoonBode}
 It is useful at this stage to make a cartoonish version of the Bode Magnitude plot using only
 our knowledge of the order of the features (from low to high frequency). This can be done in
 seconds.  Suppose
@@ -788,7 +792,7 @@ in frequency order we have:
   \item A pole at $s=1000$
 \end{enumerate}
 
-Without worrying about precise locations in the $\omega$---Magnitude plane we can immediately
+Without worrying about precise locations in the log-log plane, we can immediately
 draw:
 
 \includegraphics[width=80mm]{figs05/Q47M85.png}
@@ -801,6 +805,34 @@ This gives us the basic idea of how the graph will look.
 The quick cartoon Bode plot is useful for example, to
 determine what range of $dB$s to use on our y axis and what frequencies to use on our x axis.
 
+\begin{Example}
+Draw the ``Cartoon'' Bode magnitude plot for each of the following three transfer functions:
+
+\begin{center}
+\[
+C1(s) = \frac {(s+10)}  {(s+200)(s+3000+j5000)(s+30000-j5000)}
+\]
+(draw the slopes in order from the lowest to highest feature, adding or subtracting as you go)
+
+\includegraphics[width=0.3\textwidth]{figs05/J14R56.png}
+
+
+\[
+C2(s) = \frac {(s+1000)^2}  {(s+100)(s+500)}
+\]
+\includegraphics[width=0.3\textwidth]{figs05/J14R57.png}
+
+
+\[
+C3(s) = \frac {(s+2)}  {s(s+500)}
+\]
+\includegraphics[width=0.3\textwidth]{figs05/J14R58.png}
+\end{center}
+
+
+\end{Example}
+
+
 
 \begin{Example}\label{firstBodeMagexample}
 Hand draw the Bode Asymptotic Magnitude Plot for
@@ -809,7 +841,7 @@ Hand draw the Bode Asymptotic Magnitude Plot for
 G_4(s) = \frac  {(s+0.1)}  {(s+2)(s+25)}
 \]
 for the frequency range 0.01 --- 1000 rad/sec.  The order of poles and zeros here
-is the same as described above so the cartoon version is the same!
+is the same as described above so the cartoon version is the same as that of Section \ref{CartoonBode}.
 
 {\bf Follow these steps:}
 
@@ -830,7 +862,8 @@ Notes about the axes:
   the same on both horizontal and vertical axes.
   Verify that this property holds for the above axes (keeping in mind that $20dB = 20\log(10)$).
 
-  \item Although they are given here, it can be tricky to choose the ranges of $dB$ and $\omega$ to plot.
+  \item Although they are given here, use your cartoon and the methods below
+  to choose the ranges of $dB$ and $\omega$ to plot.
 
   For $\omega$ start with $\omega_{min} = 0.1 \min(p_i, z_i)$ (where $p_i$ and $z_i$ are your poles and zeros) and $\omega_{max} = 10 \max(p_i,z_i)$.
 
@@ -1029,7 +1062,8 @@ Let's focus in on the second order poles:
 \[
 P_2(s) =   \frac {1}{s^2 + 2\zeta\omega_n s + \omega_n^2 }
 \]
-The key idea is to analyze the asymptotes of the 2nd order poles, $P_2(s)$, as we did above,  considering the region $\omega = \omega_n$.
+The key idea is to analyze the asymptotes of the 2nd order poles, $P_2(s)$, as we did above,  considering three
+cases for the value of $\omega$:
 
 \begin{enumerate}
   \item $\omega << \omega_n$
@@ -1037,13 +1071,16 @@ The key idea is to analyze the asymptotes of the 2nd order poles, $P_2(s)$, as w
   \item $\omega >> \omega_n$
 \end{enumerate}
 
-plugging in $s=j\omega$  gives us for the magnitude:
+plugging in $s=j\omega$  we derive the magnitude for each case:
 
 \begin{enumerate}
   \item $|P_2(j\omega)| \approx \frac {1}{\omega_n^2}$ (remember $0< \zeta < 1$)
+
+
   \item $|P_2(j\omega_n)| = \frac  {1}{|j^2\omega_n^2 + 2\zeta j \omega_n^2 + \omega_n^2|}  =
                                \frac{1}{|-\omega_n^2 + 2\zeta j \omega_n^2 + \omega_n^2|} =
                                \frac{1}{2\zeta \omega_n^2}$
+
   \item $|P_2(j\omega)| \approx \frac {1}{\omega^2}$
 \end{enumerate}
 
@@ -1058,16 +1095,20 @@ For case 2 ($\omega =  \omega_n$),
 \[
 |P_2(j\omega_n)| =  \frac {1}  {2\zeta \omega_n^2} \qquad \mathrm{(also\quad a\quad constant)}
 \]
+For now, lets assume $\zeta=1$ giving
+\[
+|P_2(j\omega_n)| =  \frac {1}  {2\omega_n^2}
+\]
 
 in $dB$
 \[
-dB(| \frac {1}  {2\zeta \omega_n^2} |) =  -dB(2) -dB(\zeta) -2dB(\omega_n)
+dB(| \frac {1}  {2 \omega_n^2} |) =  -dB(2) -dB(\zeta) -2dB(\omega_n) = -2dB(\omega_n)-6dB
 \]
 
 For case 3 ($\omega >>  \omega_n$),
 
 \[
-dB(|1/\omega^2|) = -2dB(\omega)
+dB(|1/\omega^2|) = -2dB(\omega) \to \frac {-40dB}  {decade}
 \]
 
 Case 1 and case 3 correspond exactly to the system
@@ -1097,6 +1138,22 @@ dB(|P_2(j\omega_n)|) =  -dB(2) -dB(\zeta) -dB(\omega_n^2) = -6dB -(-60)db -2 dB(
 \]
 
 The magnitude is increased by $54dB$.   Thus, while the complex conjugate pole pair has two asymptotes which act just like two real poles at $\omega_n$, the behavior at $\omega \approx \omega_n$ depends on $\zeta$.
+Specifically, we can go back to the Case 2 result:
+
+\[
+|P_2(j\omega_n)| =  \frac {1}  {2\zeta \omega_n^2}
+\]
+using $dB$ and the log properties:
+\[
+|P_2(j\omega_n)| = 0dB - dB(2) - dB(\zeta) - dB(\omega_n^2)
+\]
+Notice that for $\omega<<\omega_n$, the horizontal asymptote is at $- dB(\omega_n^2)$.  Thus at
+$\omega=\omega_n$, we correct the amplitude with a peak or smooth portion based on $\zeta$ according
+to
+\[
+\mathrm{Correction}\; = -6 -dB(\zeta) = -dB(2\zeta)
+\]
+(quite simple and this is an exact result, not an approximation!)
 
 \begin{ExampleSmall}
 
@@ -1122,20 +1179,23 @@ Observations:
 
   \item As $\zeta$ approaches zero, the phase plot has a sharper transition $0^\circ \to -90^\circ$.
   \item As $\zeta$ approaches 1.0,  the phase plot acts like two real poles at $\omega = \omega_n$.
-  \item When plotting the magnitude peak by hand, just make the height roughly according to the table below (taken from these examples)
-
+  \item When plotting the magnitude peak by hand,   make the peak hight
+  \[
+  -dB(2\zeta)
+  \]
+  above or below the horizontal asymptote.   Or roughly memorize this table:
 \begin{center}
-\begin{tabular}{c|c}
-  $\zeta$    & Peak ($dB$)   \\ \hline
-  .001   &   +54$dB$    \\
-  .05    &   +20$dB$    \\
-   0.1   &   +12$dB$    \\
-  .25    &   +6$dB$     \\
-   .5    &    0$dB$     \\
-   1.0   &   -6$dB$     \\
+\begin{tabular}{c|r}
+$\zeta$  & Peak (dB) \\\hline
+0.001    &  $+54dB$ \\
+0.05     &  $+20dB$ \\
+0.1      &  $+12dB$  \\
+0.25     &  $+6dB $  \\
+0.5      &  $0dB$  \\
+1.0      &  $-6dB $ \\
 \end{tabular}\end{center}
 
-  \item  Notice also that the location  of the peak on the log $\omega$ axis
+  \item  Notice also in the computer output that the location  of the peak on the log $\omega$ axis
   shifts a bit lower than $\omega_n$ when $\zeta \to 1$.
 
 \end{enumerate}

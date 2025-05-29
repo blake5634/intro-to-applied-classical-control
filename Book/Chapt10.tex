@@ -265,13 +265,16 @@ Figure \ref{rangesat} shows a two-dimensional example in which the search has sa
 %\begin{frame}
 I have supplied two python files:
 \begin{itemize}
-  \item {\tt setup.py}
+  \item {\tt userSetup.py}
 This file contains code to initialize the simulation.  In here you define your system, define your specifications (requirements), and your initial values and search ranges.  Make a new copy of this, with a new name, for each problem you work on.
 %   \item {\tt stepperf.py}
 % This file contains functions to evaluate $T_S$ and $\%OS$.	%<h>
-  \item {\tt optigain.py}
-  This file searches for the best design according to different weight schemes and saves the best ones.  All ``best'' designs are plotted at the end of the search.  This function takes on the order of minutes to complete ($N$ is the current version number).
+  \item {\tt controlDesign447.py}
+  This file has three functions:  1) Plot the root-locus to suport a ``pseudo-manual'' initial design.
+  2) plots the step response and control effort for a given plant and controller.
+  3) Searches for the best design according to different weight schemes and saves the best ones.  All ``best'' designs are plotted at the end of the search.  This function takes on the order of minutes to complete.
 \end{itemize}
+Please see the \href{https://github.com/uw-biorobotics/controlDesigner447}{Github} for further documentation.
 
 %\end{frame}   %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
@@ -282,7 +285,7 @@ This file contains code to initialize the simulation.  In here you define your s
 % \subsection{optivis.py}
 %
 % %\begin{frame}
-% An experiental script is available to visualize the search space to make it easier to narrow your search.  {\tt optivis.py} can be substituted for {\tt optigain2.py} in your startup script to experiment with this feature.	%<h>
+% An experiental script is available to visualize the search space to make it easier to narrow your search.  {\tt optivis.py} can be substituted for {\tt controlDesign4472.py} in your startup script to experiment with this feature.	%<h>
 %
 % {\tt optivis.py }
 %
@@ -311,11 +314,11 @@ First, collect your information:
 Then follow these steps:	%<h>
 
 \begin{enumerate}
-  \item Copy the file {\tt setup.py} to a new file such as {\tt setup\_problem5.py}.
+  \item Copy the file {\tt userSetup.py} to a new file such as {\tt setup\_problem5.py}.
   \item Open the new file in a text editor or jupyter notebook.
   \item Set the simulation time where it says {\tt tmax = }.
 This is how long the step response will be simulated and it should be about 5 times your desired settling time: $tmax \approx 5T_{sd}$.
-  \item Enter the transfer function of the system you wish to control (plant) (not your PID controller) under the comment {\tt /\#plant transfer function}.
+  \item Enter the transfer function of the system you wish to control (plant) (not your PID controller) under the comment {\tt \#plant transfer function}.
   \item Identify the highest frequency pole or zero in your plant.  Multiply it by 20 and set the {\tt pp} variable to that value. This is the controller normalization pole, $pp$.
   \item Edit the desired performance specs below their comment.  Note that 5\% overshoot should be entered 1.05, and gain margin should be entered in $dB$.
   \item Enter {\tt nvals}.  This is the number of values which will be tried of each parameter.
@@ -327,62 +330,62 @@ Note that the total search time will be proportional to {\tt nvals}$^3$ so keep 
 
 
 %%%%** Section 5
-\section{Description of Software Operation}
-
-%\begin{frame}
-Please refer to the code listings for each script file.
-
-\subsection{setup.py}
-
-We start with some code which looks for a stored file ({\tt simrate\_optigain.txt}) which tells how fast
-the simulations are running on the current machine.  This is used to predict runtime for the user (If the file's
-not there, we have a default which is replaced after the first run.)
-
-Next, after setting up $s$, we define the plant transfer function.  Edit your numerator and denominator polynomials here or use the $s$ we just defined
-to write out the plant transfer function directly.
-
-Next we set up our initial values (geometric center of the search cube).
-
-After that
-we enter specifications for $T_S$({\tt tsd}), $\%OS$ ({\tt pod}), etc.   We also enter our maximum actuator output ($cu_{max})$.
-
-
-$T_{max}$ and $dt$ are set next because they depend on the details of the problem.  For example, if
-the expected $T_S$ is $0.1sec$, we should not simulate for 10 minutes.   Typically, set
-$T_{max}$ to about 4-5 times the $T_S$ specification.   Set $dt$ to have at least 100 simulation
-steps during the $0-T{max}$ interval.
-
-
-Next we enter search parameters such as the  number of values we should search.  The more values ({\tt nvals}) that we select, the more accurate our result.  However computation time is proportional to {\tt nvals}$^3$.
-Finally, we  enter the {\tt scale\_range} factor ($r$) described in Section \ref{searchrange}.
-
-
-
-\subsection{optigain.py}
-This code starts by setting up the time vector, {\tt t}, and storing the start time of the simulation run (in seconds).
-
-The function {\tt [ts, po, cu, gm, y] = costPID(plant, Kp, Ki, Kd)} accepts the plant and the three PID controller parameters, and returns the settling time, {\tt ts},  the percent overshoot, {\tt po}, the max control effort, {\tt cu}, the gain margin {\tt gm}, and the step response, {\tt y}.   {\tt y} is a vector of the same length as {\tt t} which contains the output of the control system with a unit step input, $Y(t)$.  This will be used to evaluate the cost of  each controller in the search.
-
-After definition of {\tt costPID()} (we will return to it shortly), we set up weight schemes so that we can store the ``best'' controller by several different definitions.  Each weight scheme has a name such as ``Overshoot''.
-
-After we initialize the storage and set up the limits for each parameter, we start searching in the ``Main Loop''.
-Three {\tt for} loops iterate through the 3D parameter space. For each point, we have values of {\tt Kp, Ki, Kd} to test with {\tt costPID()}.
-
-Now we'll look at the workings of {\tt costPID()}.
-After generating the new controller and the new loopgain ($CPH(s)$), we use the python {\tt ctl.margin()} function to get the gain margin from the loop gain, $CPH(s)$, which includes
-everything around the loop.
-
-Sometimes the combination of gains we have picked results in an unstable system.
-There is no point in simulating and evaluating the responses if the system is going to go unstable (because the gains have moved closed loop poles into the right half plane).
-For each set of gains, {\tt costPID}
-first determines stability by getting the characteristic polynomial, solving the roots, and then checking for any positive real parts.
-If there are any poles with positive real parts, the simulation step is skipped and artificially high-cost,
-``flag'', values (e.g. 999) are returned for the costs.
-Assuming the system is stable, then the system and control effort are simulated ({\tt csim()}) and the performance measures are computed.
-
-Now we return back from {\tt costPID} to the ``Main Loop''.   If the system was stable, the different weighted scores are compared with the stored best ones and if better they replace the previous value so that the best controller (i.e. best set of values for $K_p, K_I, K_D$) is saved for each different weighted score.
-
-Finally, the results are printed and plotted for the user.
+% \section{Description of Software Operation}
+%
+% %\begin{frame}
+% Please refer to the code listings for each script file.
+%
+% \subsection{userSetup.py}
+%
+% We start with some code which looks for a stored file ({\tt simrate\_controlDesign447.txt}) which tells how fast
+% the simulations are running on the current machine.  This is used to predict runtime for the user (If the file's
+% not there, we have a default which is replaced after the first run.)
+%
+% Next, after setting up $s$, we define the plant transfer function.  Edit your numerator and denominator polynomials here or use the $s$ we just defined
+% to write out the plant transfer function directly.
+%
+% Next we set up our initial values (geometric center of the search cube).
+%
+% After that
+% we enter specifications for $T_S$({\tt tsd}), $\%OS$ ({\tt pod}), etc.   We also enter our maximum actuator output ($cu_{max})$.
+%
+%
+% $T_{max}$ and $dt$ are set next because they depend on the details of the problem.  For example, if
+% the expected $T_S$ is $0.1sec$, we should not simulate for 10 minutes.   Typically, set
+% $T_{max}$ to about 4-5 times the $T_S$ specification.   Set $dt$ to have at least 100 simulation
+% steps during the $0-T{max}$ interval.
+%
+%
+% Next we enter search parameters such as the  number of values we should search.  The more values ({\tt nvals}) that we select, the more accurate our result.  However computation time is proportional to {\tt nvals}$^3$.
+% Finally, we  enter the {\tt scale\_range} factor ($r$) described in Section \ref{searchrange}.
+%
+%
+%
+% \subsection{controlDesign447.py}
+% This code starts by setting up the time vector, {\tt t}, and storing the start time of the simulation run (in seconds).
+%
+% The function {\tt [ts, po, cu, gm, y] = costPID(plant, Kp, Ki, Kd)} accepts the plant and the three PID controller parameters, and returns the settling time, {\tt ts},  the percent overshoot, {\tt po}, the max control effort, {\tt cu}, the gain margin {\tt gm}, and the step response, {\tt y}.   {\tt y} is a vector of the same length as {\tt t} which contains the output of the control system with a unit step input, $Y(t)$.  This will be used to evaluate the cost of  each controller in the search.
+%
+% After definition of {\tt costPID()} (we will return to it shortly), we set up weight schemes so that we can store the ``best'' controller by several different definitions.  Each weight scheme has a name such as ``Overshoot''.
+%
+% After we initialize the storage and set up the limits for each parameter, we start searching in the ``Main Loop''.
+% Three {\tt for} loops iterate through the 3D parameter space. For each point, we have values of {\tt Kp, Ki, Kd} to test with {\tt costPID()}.
+%
+% Now we'll look at the workings of {\tt costPID()}.
+% After generating the new controller and the new loopgain ($CPH(s)$), we use the python {\tt ctl.margin()} function to get the gain margin from the loop gain, $CPH(s)$, which includes
+% everything around the loop.
+%
+% Sometimes the combination of gains we have picked results in an unstable system.
+% There is no point in simulating and evaluating the responses if the system is going to go unstable (because the gains have moved closed loop poles into the right half plane).
+% For each set of gains, {\tt costPID}
+% first determines stability by getting the characteristic polynomial, solving the roots, and then checking for any positive real parts.
+% If there are any poles with positive real parts, the simulation step is skipped and artificially high-cost,
+% ``flag'', values (e.g. 999) are returned for the costs.
+% Assuming the system is stable, then the system and control effort are simulated ({\tt csim()}) and the performance measures are computed.
+%
+% Now we return back from {\tt costPID} to the ``Main Loop''.   If the system was stable, the different weighted scores are compared with the stored best ones and if better they replace the previous value so that the best controller (i.e. best set of values for $K_p, K_I, K_D$) is saved for each different weighted score.
+%
+% Finally, the results are printed and plotted for the user.
 
 
 
@@ -392,7 +395,7 @@ Finally, the results are printed and plotted for the user.
 
 (This problem is Example 9.5 from Nice, page 483).
 % The output of this example was generated before the control effort and gain margin
-% computations were added to {\tt optigain.py}.
+% computations were added to {\tt controlDesign447.py}.
 
 
 {\bf Problem: }
@@ -410,13 +413,13 @@ T_S = 0.55 \mathrm{(sec)} \qquad  \%OS = 20\% \qquad    SSE = 0
 
 {\bf Solution Procedure}
 
-Rename {\tt setup.py} to {\tt setup10p6.py} (for this example)
+Rename {\tt userSetup.py} to {\tt setup10p6.py} (for this example)
 to input the plant and the performance specifications above.
 Set the initial values of $K_P= K_I=K_D=1$
 (note {\tt K1, K2, K3 } are used in some parts of the
 code instead of $K_P, K_I, K_D$).
 
-Some initial work for this system gave a starting point of
+Let's say that some initial manual PID design work for this system gave a starting point of
  \[
  K_P = 15, K_I= 15, K_D=0.25
  \]
@@ -426,8 +429,8 @@ search range) and start close to this value: {\tt scale\_range = 5}.
 
 {\bf Search 1}
 
-Using the command line or your Jupyter Notebook, run {\tt setup10p6.py'}.
-The script will call {\tt optigain.py} to perform the search of $13^3 = 2197$
+Using the command line or your Jupyter Notebook, run {\tt setup10p6.py}.
+The script will call {\tt controlDesign447.py} to perform the search of $13^3 = 2197$
 controllers with the different values of the three gains, and finds the
 combination of gains that gives the best step response for each weight scheme.
 

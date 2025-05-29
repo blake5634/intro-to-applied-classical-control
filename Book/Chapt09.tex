@@ -1052,7 +1052,7 @@ the new Root Locus is
 
 Note that now  we now have {\it two} zeros at $s=-1$, one from
 the plant and one from the PID controller.   Then clicking on the root locus curve at or
-very near the target location, we find $gain = 5.58$  (let's round it to 4.6
+very near the target location, we find $gain = 4.58$  (let's round it to 4.6
 - this is only a rough computation).
 
 
@@ -1146,7 +1146,8 @@ evans(Sys,2000);   // experiment with gain range (200)
 a1=get(''current_axes'');          //get the handle of the newly created axesctl
 a1.data_bounds=[-5,1, -3,3];
 sgrid;  // helps for the % overshoot performance line
-} % end of query (frmlry \end{verbatim}
+}
+\end{verbatim}
 
 \end{ExampleCont}
 
@@ -1191,7 +1192,8 @@ Modifying the code a bit:
   Cnum = K*(s-z1)
   Cden = 1.0
   pp = -20
-} % end of query (frmlry \end{verbatim}
+}
+\end{verbatim}
 
 
 \end{ExampleCont}
@@ -1244,7 +1246,7 @@ will NOT make simplifying assumptions about the system dynamics or performance r
 
 
 Looking again at equation (\ref{PID}), we can see from the far right hand side that the PID controller has two zeros and one pole.   A system with more zeros than poles cannot be physically realized and is called {\it improper}.   Often this condition is ignored because the plant has enough poles to make the overall forward path ($C(s)P(s)$) proper.  However, what if you would like to make and sell a PID controller box
-(search your favorite e-commerce site for "pid controller'')?
+(search your favorite e-commerce site for ``pid controller'')?
 % (Figure \ref{pidbox})?
 
 We may also have this problem building a computer simulation if we define the controller in our script as a separate system and our computer simulation package    cannot simulate an improper system.
@@ -1324,7 +1326,7 @@ fact we are using python, what modules we import, etc.  We thus start with:
 (which is followed immediately in the same prompt with the
 code of Listing \ref{lstInitialAIPrompt}).} % end of query (frmlry \end{verbatim}
 
-\begin{listing}
+\begin{listing}[b]
     \begin{minted}{python}
 import numpy as np
 import control as ctl

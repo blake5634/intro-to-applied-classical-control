@@ -2,7 +2,7 @@
 %
 %
 
-\chapter{Complex Numbers and Logs Review}
+\chapter{Math Fundamentals Review}
 
 \section{Problem Statement and Learning Objectives}
 This appendix contains quizes to determine if you need to review complex numbers and/or logarithms, as well as some material to support that review.
@@ -11,10 +11,11 @@ Be able to
 \begin{itemize}
     \item Pass the Complex Number quiz below.
     \item Pass the Logarithms quiz below. 
+    \item Pass the Matrix-Vector multiplication quiz.
 \end{itemize}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\section{Complex Number Quiz}\label{ComplexNumberReview}
+\section{Complex Number Quiz}\label{ComplexNumberQuiz}
 Take this quiz then check your answers on Page \pageref{CN_answers}.  Use only the following functions on your calculator (or fewer as instructed):
 
 \[
@@ -204,6 +205,109 @@ It should be {\bf easy for you to get exact answers}.  If not, then you need to 
 
 
 
+\newpage
+\section{Matrix Basics}\label{LinearAlgebraBasics}
+
+Source: ``Introduction to Matrices and Determinants," F. Max Stein, 1967.
+
+Assume $A$ is a square matrix.
+
+
+\paragraph{Matrix Multiplication}
+Conceptual Definition:
+\begin{quotation}
+A {\it matrix} is a mapping of a vector from one space to another which preserves straight lines.  The matrix thus represents a linear transformation.
+\end{quotation}
+
+Algebraic Definition:
+
+If $A$ is a 3x3 matrix and $B$ is a 3x1 vector,
+
+\[
+AB =
+\left[
+\begin{array}{ccc}
+a_{11}	& a_{12} & a_{13} \\
+a_{21}  & a_{22} & a_{23} \\
+a_{31}  & a_{32} & a_{33} \\
+\end{array}
+\right]
+\times
+\left[
+\begin{array}{c}
+b_1 \\ b_2 \\ b_3
+\end{array}
+\right]
+= \left[
+\begin{array}{c}
+a_{11}b_1 + a_{12}b_2 + a_{13}b_3 \\
+a_{21}b_1 + a_{22}b_3 + a_{23}b_3 \\
+a_{31}b_1 + a_{32}b_3 + a_{33}b_3
+\end{array}
+\right]
+\]
+
+The rule is to multiply {\bf row by column} and add component wise.   This can also be written:
+
+\[
+AB_i = \sum_{j=1}^N  a_{ij}b_j
+\]
+
+(Did you know that Albert Einstein invented the idea of dropping the $\sum$ and the subscripts to simplify the notation of matrix multiplication?)
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Matrix-Vector Quiz}\label{ComplexNumberReview}
+
+Carry out the following Matrix-Vector multiplications:
+\begin{enumerate}
+  \item \[
+  \begin{bmatrix} 2 & 6 \\ 1 & 5 \end{bmatrix}
+  \begin{bmatrix} 3\\3 \end{bmatrix} = X_1
+  \]
+
+  \item
+  \[
+  \begin{bmatrix}
+  3.127 & 4.68 & 2.7 \\
+  -7.2 & 1.26 & 0.87 \\
+  2.6 & 3.25 & -4.7 \end{bmatrix}
+  \begin{bmatrix}
+  16 \\ -7 \\ 8
+  \end{bmatrix}  = X_2
+  \]
+  (you may program this in Python)
+
+
+  \item
+  \[
+  \begin{bmatrix}
+  a&b&c \\
+  d&e&f \\
+  g&h&i \end{bmatrix}
+  \begin{bmatrix}
+  r\\s\\t
+  \end{bmatrix}  = X_3
+  \]
+  \item  Convert the following set of linear equations to matrix form (note the $x_i$
+  subscripts are not in order!):
+
+\[
+\begin{aligned}
+  14x_1-3x_2+17x_3=&5\\
+  2x_2+4.7x_3-5.3x_1=-4\\
+  6x_3+2.6x_1+6.8x_2=12
+\end{aligned}
+\]
+
+\end{enumerate}
+
+%%  End of matrix quiz
+
+
+
+
+
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \newpage
 \section{Complex Number Quiz Answers}\label{CN_answers}
@@ -255,6 +359,36 @@ using {\it angles add, magnitudes multiply}, $a*b = 3*2e^{j\frac{\pi}{2}} = 6e^j
 
 \end{enumerate}
 
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\section{Matrix Vector Multiplication Quiz Answers}\label{Matrix_answers}
+
+
+\begin{enumerate}
+
+  \item
+  \[
+  X_1 = \begin{bmatrix}24\\16 \end{bmatrix}
+  \]
+
+  \item
+  \[
+  X_2 = \begin{bmatrix}38.87 \\-117.06\\-18.75 \end{bmatrix}
+  \]
+
+  \item
+  \[
+  X_3 = \begin{bmatrix}ar+bs+ct \\dr+es+ft\\gr+hs+it \end{bmatrix}
+  \]
+
+  \item
+  \[
+    \begin{bmatrix}14&-3&17\\-5.3&2&4.7\\2.6&6.8&6 \end{bmatrix}
+    \begin{bmatrix}x_1\\x_2\\x_3\end{bmatrix} =
+    \begin{bmatrix}5\\-4\\12\end{bmatrix}
+  \]
+\end{enumerate}
 
 
 % \section{Summary of Notation}

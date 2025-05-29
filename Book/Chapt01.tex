@@ -149,8 +149,16 @@ $\ddot{f}(t)$ & $s^2{\cal L}(f)-sf(0)-\dot{f}(0)$
 \end{tabular}
 
 (Where
-$u(t) = \{ 0, t\le 0; 1, t > 0$,
-$\dot{f}(t) = \frac{df(t)}{dt}$, $\ddot{f}(t) = \frac{d^2f(t)}{dt^2}$)
+\[
+  \begin{aligned}
+    u(t) =&  0, t \le 0\\
+         =&  1, t > 0\\
+    \dot{f}(t) =& \frac{df(t)}{dt}\\
+    \ddot{f}(t) =& \frac{d^2f(t)}{dt^2}\\
+  \end{aligned}
+\]
+)
+
 \caption{Table of some commonly used Laplace Transform pairs.}\label{LaplaceTransformTable}
 \end{table}
 
@@ -414,7 +422,7 @@ system parameters such as $M,B,K,J,$ etc are real numbers.}, there are further s
 
 
 %%%%** Example 5
-\begin{Example}
+\begin{Example}\label{Ex:2ndOrderInvTrans}
 
 Find
 \[
@@ -579,15 +587,18 @@ Consider a nonlinear function, $f(x)$.  The linearized version of $f(x)$, $\hat{
 \hat{f}(x) = f(x_0) + \frac{d}{dx}f(x_0) (x-x_0)
 \]
 
-$\hat{f}(x)$ is a linear function of $x$ which is most accurate in the neighborhood of $x_0$.   It is also the  first two terms of a Taylor series expansion of $f(x)$.   It is very helpful to visualize this process graphically by plotting the linearized function on top of the original function (Figure \ref{locallinearizationSketch}).
+$\hat{f}(x)$ is a linear function of $x$ which is most accurate in the neighborhood of $x_0$.
+It is also the  first two terms of a Taylor series expansion of $f(x)$.   It is very helpful to
+visualize this process graphically by plotting the linearized function on top of the original
+function (Figure \ref{loclinSketch}).
 
-\begin{figure}\label{locallinearizationSketch}
+\begin{figure}
   \includegraphics[width=105mm]{figs01/Q75B05.png}
-  \caption{Illustration of a linearized version of a non-linear function at an operating point.}
+  \caption{Illustration of a linearized version of a non-linear function at an operating point.}\label{loclinSketch}
 \end{figure}
+
+
 \clearpage
-
-
 
 \subsection{Linearization Examples}
 %%%%** Example 7

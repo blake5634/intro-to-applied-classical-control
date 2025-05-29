@@ -282,7 +282,7 @@ K(x_1-x_2) = f
 0\ddot{x_2} + K(x_2-x_1) + B(\dot{x}_2-\dot{x}_3) = 0
 \]
 \[
-B(\dot{x}_3-\dot{x}_2) = 0
+B(\dot{x}_3-\dot{x}_2) = f
 \]
 
 
@@ -311,7 +311,8 @@ By applying Equation \ref{D'Alembert} to each mass,
 (M_2) \qquad M_2\ddot{x}_2 + B(\dot{x}_2-\dot{x}_1)  = 0
 \]
 
-Note that each EOM for mass $i$ always begins with $M_i\ddot{x}_i$ and that in the $B,K$ terms of EOM$_i$, $x_i$ is always taken positive.
+Note that each EOM for mass $i$ always begins with $M_i\ddot{x}_i$ and that in the $B$ and
+$K$ terms of the  $i^{th}$ EOM, $x_i$ is always taken positive.
 \end{ExampleSmall}
 
 
@@ -648,7 +649,7 @@ G(s) = \left( \frac {B} {M_1M_2}\right) \frac{s+K/M}
 
 Check for errors using dimensional analysis:
 We  ignore the normalizing term $\frac{B}{M_1M_2}$ because it is outside the additions.  It could be right or wrong, but
-dimensional analysis won't help us with this particular term.
+dimensional analysis won't help us with this particular term in the same simple way.
 
 
 {\bf Numerator:}
@@ -719,6 +720,12 @@ $1/kg^2$  & $kg^2/\mathrm{sec}^4$	& $= \frac{1}{\mathrm{sec}^4} = \mathrm{sec}^{
 
 \end{Example}
 
+Remember: dimensional agreement is a {\it necessary} but {\it not sufficient} condition
+for correctness.  If your solution fails dimensional analysis, you have definitely found
+an error but when it passes, there still could be another type of error.
+
+
+
 \section{More complex problems}
 The structure we have added to the EOMs in Example 2.\ref{ExampleCarSuspensionTF}, as well as the
 use of dimensional analysis for easy debugging of your equations, makes it easier than you
@@ -748,7 +755,7 @@ M_2\ddot{x}_2 + B_2(\dot{x}_2-\dot{x}_1)+B_1\dot{x}_2+K_1x_2 = 0
 M_3\ddot{x}_3 + B_4\dot{x}_3+K_3(x_3-x_1)+K_4(x_3-x_4)=0
 \]
 \[
-M_4\ddot{x}_4+B_5\dot{x}_4+K_4(x_4-x_3)+k_5x_4 = f(t)
+M_4\ddot{x}_4+B_5\dot{x}_4+K_4(x_4-x_3)+K_5x_4 = f(t)
 \]
 
 
