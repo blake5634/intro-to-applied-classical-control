@@ -1,0 +1,119 @@
+%% Default Latex document template
+%%
+%%  blake@rcs.ee.washington.edu
+
+\documentclass[letterpaper]{book}
+
+%
+%  Build command:
+% pdflatex -shell-escape  CtlBook.tex
+%
+% (-shell-escape option is required for minted code listing highlighting)
+
+\input{accessibility.tex}
+
+
+% Uncomment for bibliog.
+%\bibliographystyle{unsrt}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{boxedminipage}
+\usepackage{caption}
+\usepackage{color}
+\usepackage{enumitem}
+\usepackage{fancyhdr}
+\usepackage[T1]{fontenc}
+\usepackage{framed}
+\usepackage{graphicx}
+\usepackage{hyperref}
+\usepackage{listings}
+\usepackage{mdframed}
+\usepackage{tcolorbox}
+\usepackage{xcolor}
+
+% tikz package for block diagrams
+\usepackage{tikz}
+\usetikzlibrary{arrows,calc,patterns,decorations.pathmorphing,decorations.markings}
+\tikzset{>=latex} % blockier style arrow heads
+
+
+\newcommand{\grad}{\bigtriangledown}
+\newcommand{\pd}{\partial}
+\newcommand{\br}{\epsilon \mathcal{R}}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%
+%  Set Up Margins
+\input{pagedim.tex}
+% \input{pagedimsmall.tex}
+
+%\linespread{0.894}   % 0.894 = 6 lines per inch, 1 = "single'',  1.6 = "double''
+
+%\pagestyle{fancy}
+\lhead{Chapter \thechapter}
+%\chead{CENTER HEADER}
+\rhead{\today}
+%\lfoot{Hannaford, U. of Washington}
+%\rfoot{\today}
+\cfoot{\thepage/\pageref{LastPage}}
+
+
+%%%%%%%%%%%%%%%%%%%%
+\input{rbook_environments.tex}
+
+\setpagewiselinenumbers        %  Line numbers for edits to drafts.
+\modulolinenumbers[5]
+
+
+\frontmatter
+
+\begin{document}
+
+
+\title{Introduction to Applied Classical Control}
+
+\author{Blake Hannaford}
+
+\maketitle
+
+\date{\today\\(C) Copyright 2012-2025, Blake Hannaford.\\
+\href{http://creativecommons.org/licenses/by-sa/4.0/}{Creative Commons Attribution-ShareAlike 4.0 International License}.
+ }
+
+\tableofcontents
+
+\input{Preface.tex}
+
+
+\mainmatter
+
+% \linenumbers
+
+\newpage
+% \input{447cal.tex}
+\input{Chapt01.tex}   % Introduction: LODE & LT  review
+\input{Chapt02.tex}   % Translational Dynamics
+\input{Chapt03.tex}   % Rotational Dynamics
+\input{Chapt04.tex}   % Introduction to State Space
+\input{Chapt05.tex}   % Frequency Response and 2nd Order Systems
+\input{Chapt06.tex}   % Feedback
+\input{Chapt07.tex}   %  Root Locus
+\input{Chapt08.tex}   % Introduction to Scilab
+\input{Chapt09.tex}   % Closed Loop Control
+\input{Chapt10.tex}   % Search and Optimization with Scilab
+\input{Chapt11.tex}   % Conversion to Discrete Time: Tustin's method
+
+\appendix
+%
+\input{Apdxa_complex_nums.tex}
+
+\input{Apdxb_ClaudePID_Design.tex}
+
+\backmatter
+%\bibliography{brl}
+\label{LastPage}
+
+
+\end{document}
+

@@ -269,9 +269,11 @@ then we need at least $n-1$ poles at the origin in the combined controller and p
 
 %%%%** Example 5
 \begin{ExampleSmall}
-Now we'll consider a general system with a gain factor, $K$, and $n$ poles at the origin in the controller, as well as a general input (i.e. $X(t) = Bt^m$) where $m=1$ means a ramp input, $m=2$ means a parabolic input, etc.
+Now we'll consider a general system with a gain factor, $K$, and $n$ poles at the origin in the controller,
+as well as a general input (i.e. $x(t) = Bt^{m-1},\; X(s) = B/s^m $) where, $m=1$ means a step input, $m=2 $ means a ramp input, $m=3$ means a parabolic input, etc.  $n$ is the System Type.
+
 \[
-C = \frac{K}{s^n} \qquad P = \frac{50}{s+10} \qquad H = 1 \qquad x(t) = Bt^m \qquad X(s) = \frac{B}{s^m}
+C = \frac{K}{s^n}, \qquad P = \frac{50}{s+10}, \qquad H = 1, \qquad x(t) = Bt^{m+1}, \qquad X(s) = \frac{B}{s^m}
 \]
 
 \[
@@ -338,7 +340,7 @@ In this section we will describe some ways to measure the performance of system 
 
 
 %%%%** Section 3.1
-\subsection{Transient Performance Specifications}
+\subsection{Transient Performance Specifications}\label{SPlaneRegionsSpecifications}
 
 The transient performance of second order systems (systems having 2 poles) is fairly easy to characterize.  We develop intuition about the relationship of pole locations to time response from these second order systems.  Although practical systems are usually higher order and we use computer techniques to fully understand their dynamics, the relationship between time domain performance and 2nd order poles is important to learn.
 
@@ -652,6 +654,11 @@ Our design process (below) works for them all.
 
 \subsection{PID Controller Basics}
 
+\begin{figure}\centering
+\includegraphics[width=2.0in]{figs09/inkbirdPIDController.png}
+\caption{Commercial PID temperature controller module.  \$39.95 on Amazon.com (May 2025).}\label{PIDControllerBox}
+\end{figure}
+
 The Proportional-Integral-Derivative (PID) controller is a class of controllers which has
 two zeros and one pole at the origin.  The PID controller is the most common controller in industry BY FAR.   Design of the PID controller consists of deciding on the desired
 location of the two zeros and a single gain term, $K_D$.
@@ -767,25 +774,65 @@ Let
 PC(s) = \left ( s^2+ \frac{K_P}{K_D}s + \frac{K_I}{K_D} \right )
 \].
 
+First, from our specifications, we must define the regions of the $s$-plane where second order
+response satisfies our requirements (Section \ref{SPlaneRegionsSpecifications}).   Recall that
+the performance target could be a region (inequality requirements) or a point (equality requirements).
+
+Assuming that we use a PID controller, we focus on the form:
+
+\[
+C_{PID} = \frac {K(s+z_1)(z+z_2)}  {s}
+\]
+
+Our {\bf design} will consist of numerical values for the three parameters, $K, z_1, z_2$.
+
+For the two zeros, we will guess places for them based on
+the intuition (developed in this chapter's exercises and examples)
+that zeros ``pull" loop gain poles towards themselves (often helpfully to the left on the complex plane).
+
+Once we have chosen the zeros (which could be two real zeros or CC zeros), and we place the
+required pole at $s=0$, we rely on Root Locus analysis to choose $K$.
+
+
 Suppose that zero locations we like are
 \[
 z_i = (s + 1.7 \pm 0.5j)
 \]
-and that the result of step 5 above yields $K_D = 1.85$.   Multiplying out gives
+
+Now we plot the root locus by hand or using software.  Assuming the root locus goes through at least
+one location {\it inside} our performance region, we can find $K=K_D$ by
+1) choosing a point, $p_d$ on the root locus we like,
+2) solving the magnitude condition:
 \[
-PC(s) = (s + 1.7 + 0.5j)(s + 1.7 - 0.5j)  = s^2 + 3.4s + 3.14
+\left | KCPH(s) \right|_{s=p_d} =1
+\]
+by
+2a) plugging in and using
+\[
+\left | CPH(s) \right|_{s=p_d} =\frac {1}  {K}
+\]
+or 2b)
+when the computer is used, clicking on the desired point in the root locus graph to read off $K$
+(where that feature is supported).
+
+
+Suppose solving or clicking as above gives $K_D = 1.85$.
+Multiplying out gives
+\[
+C(s) = \frac{(s + 1.7 + 0.5j)(s + 1.7 - 0.5j)}{s}  = \frac{s^2 + 3.4s + 3.14}{s}
 \]
 Therefore,
 \[
-C(s) = 1.85 PC(s) \frac{1}{s} = 1.85(s^2 + 3.4s + 3.14)\frac{1}{s}
+C_{PID}(s) = 1.85 KC(s) \frac{1}{s} = 1.85(s^2 + 3.4s + 3.14)\frac{1}{s}
 \]
 \[
-C(s) = 1.85s + 6.29 + \frac {5.809} {s} = 6.29 + \frac {5.809} {s} + 1.85s
+C_{PID}(s) = 1.85s + 6.29 + \frac {5.809} {s} = 6.29 + \frac {5.809} {s} + 1.85s
 \]
 Giving us
 \[
-K_P = 3.4\times 1.85 = 6.29   \qquad  K_I = 3.14\times1.85 = 5.809 \qquad K_D = 1.85
+K_P  = 6.29   \qquad  K_I =  5.809 \qquad K_D = 1.85
 \]
+
 
 \subsection{The PD Controller}
 A common special case of the PID controller is when we turn off the
@@ -839,6 +886,8 @@ T_s \leq 8sec \quad \%OS \leq 10\%
 Initially trying $C_1(s)$, draw the root locus and the performance lines:
 
 \includegraphics[width=100mm]{figs09/01108.png}
+(Note that the angle of the diagonals is $54^\circ$ corresponding to the $\%OS$ lookup table, and the
+shaded region {\it does not} meet our specs.)
 
 Although   there are clearly some values of $K$ which will satisfy the specs, the system is NOT type 1.
 To get type 1, we have to add a factor of $1/s$.
@@ -866,16 +915,19 @@ This root locus looks pretty close to what we had before.
    \]
    for our problem, $K$ is included in $C_2(s)$ and $H(s) =1$  so this is
    \[
-   |C_2(s)||P(s)|_{(s=-1.2+1.2j)} = 1 \to  \frac   {K|-1.2+1.2j+1|} {|-1.2+1.2j|} = 1
+   |C_2(s)||P(s)|_{(s=-1.2+1.2j)} = 1 \to
+     \left | \frac   {K(s+0.1)} {s} \frac  {1}   {(s+1)(s+2)(s+10)}  \right |_{(s=-1.2+1.2j)}=1
    \]
-   \item Solving for K:
    \[
-   K = |0.2+1.2j|/|-1.2+1.2j| = 1.22/1.7 = 0.718
+   \frac   {|-1.2+1.2j+0.1|} {|-1.2+1.2j||-0.2+1.2j||0.8+1.2j||8.8+1.2j} = \frac {1}  {K}
+   \]
+   \item Solving for K (using python):
+   \[
+   K = 16.24
    \]
 
  \end{enumerate}
 \end{ExampleCont}
-
 %%%%** Example 12    Example 14 (as of Feb25)
 \begin{Example}\label{ExampLargeIndustrialPlant}
 We have a large industrial machine with the following plant model:
@@ -933,7 +985,7 @@ In this example, we make an initial try of PID controller zeros at $s=-6\pm2j$ (
 The following hand drawn root locus explains why these {\it might} be good locations for the
  zero.
 
-\includegraphics[width=95mm]{figs09/00823a.png}
+\includegraphics[width=120mm]{figs09/00823a.png}
 
 \end{ExampleCont}
 
@@ -1246,7 +1298,9 @@ will NOT make simplifying assumptions about the system dynamics or performance r
 
 
 Looking again at equation (\ref{PID}), we can see from the far right hand side that the PID controller has two zeros and one pole.   A system with more zeros than poles cannot be physically realized and is called {\it improper}.   Often this condition is ignored because the plant has enough poles to make the overall forward path ($C(s)P(s)$) proper.  However, what if you would like to make and sell a PID controller box
-(search your favorite e-commerce site for ``pid controller'')?
+\footnote{Search your favorite e-commerce site for ``pid controller'' (Figure \ref{PID})}?
+It needs to be realizable all by itself!
+
 % (Figure \ref{pidbox})?
 
 We may also have this problem building a computer simulation if we define the controller in our script as a separate system and our computer simulation package    cannot simulate an improper system.
