@@ -763,18 +763,23 @@ The computer optimization method of the next chapter will eventually find a grea
 \subsubsection{Deriving $K_P, K_I, K_D$ from controller zeros}\label{Kpderive}
 
 Using the root locus technique we'll get insights about where to place
-the two poles of the PID controller.
+the two poles of the PID controller.  We'll outline the procedure below without a specific plant
+and we'll repeat the procedure with a specific plant in the upcoming examples.
 
-There are several forms of the PID controller including:
+There are several identical  forms of the PID controller including:
 \[
-C(s) = K_D \left ( s^2+ \frac{K_P}{K_D}s + \frac{K_I}{K_D} \right ) \frac{1}{s}
+C_{PID}(s) = K_D \left ( s^2+ \frac{K_P}{K_D}s + \frac{K_I}{K_D} \right ) \frac{1}{s}
 \]
-Let
-\[
-PC(s) = \left ( s^2+ \frac{K_P}{K_D}s + \frac{K_I}{K_D} \right )
-\].
+which is also
+\begin{equation}\label{eq:PIDform2}
+C_{PID}(s) = K_D \left ( s + \frac{K_P}{K_D} + \frac{K_I}{K_D}\frac {1}  {s}  \right ) = K_Ds+K_P+\frac{K_I}{s}
+\end{equation}
+% Let
+% \[
+% PC(s) = \left ( s^2+ \frac{K_P}{K_D}s + \frac{K_I}{K_D} \right )
+% \].
 
-First, from our specifications, we must define the regions of the $s$-plane where second order
+First, in the design process, from our specifications we must define the regions of the $s$-plane where second order
 response satisfies our requirements (Section \ref{SPlaneRegionsSpecifications}).   Recall that
 the performance target could be a region (inequality requirements) or a point (equality requirements).
 
@@ -784,51 +789,50 @@ Assuming that we use a PID controller, we focus on the form:
 C_{PID} = \frac {K(s+z_1)(z+z_2)}  {s}
 \]
 
-Our {\bf design} will consist of numerical values for the three parameters, $K, z_1, z_2$.
+At the end, our {\bf design} will consist of numerical values for the three parameters, $K, z_1, z_2$.
 
-For the two zeros, we will guess places for them based on
+For the two zeros, we will initially {\it guess} places for them based on
 the intuition (developed in this chapter's exercises and examples)
-that zeros ``pull" loop gain poles towards themselves (often helpfully to the left on the complex plane).
+that zeros will ``pull'' the closed-loop poles towards themselves (often helpfully to the left on the complex plane).
 
-Once we have chosen the zeros (which could be two real zeros or CC zeros), and we place the
+Once we have chosen the zeros (two real zeros or a pair of CC zeros), and we place the
 required pole at $s=0$, we rely on Root Locus analysis to choose $K$.
 
-
-Suppose that zero locations we like are
+To start off, let's assume we studied a plant and that zero locations we like are
 \[
 z_i = (s + 1.7 \pm 0.5j)
 \]
+(again, we'll develop intuition on this shortly).
 
-Now we plot the root locus by hand or using software.  Assuming the root locus goes through at least
-one location {\it inside} our performance region, we can find $K=K_D$ by
+Now we plot the root locus and plot the performance regions by hand or using software.
+Assuming the root locus goes through at least
+one location {\it inside} our performance region,
 1) choosing a point, $p_d$ on the root locus we like,
-2) solving the magnitude condition:
+2) finding $K=K_D$ by solving the magnitude condition:
 \[
 \left | KCPH(s) \right|_{s=p_d} =1
 \]
-by
+We solve this by either:
 2a) plugging in and using
 \[
-\left | CPH(s) \right|_{s=p_d} =\frac {1}  {K}
+K = \frac{1}{\left | CPH(s) \right|_{s=p_d}}
 \]
-or 2b)
-when the computer is used, clicking on the desired point in the root locus graph to read off $K$
-(where that feature is supported).
+or 2b) plotting by computer and clicking on the desired point in the root locus graph to read off $K$.
 
 
 Suppose solving or clicking as above gives $K_D = 1.85$.
-Multiplying out gives
+Multiplying out the two CC PID zeros gives
 \[
 C(s) = \frac{(s + 1.7 + 0.5j)(s + 1.7 - 0.5j)}{s}  = \frac{s^2 + 3.4s + 3.14}{s}
 \]
 Therefore,
 \[
-C_{PID}(s) = 1.85 KC(s) \frac{1}{s} = 1.85(s^2 + 3.4s + 3.14)\frac{1}{s}
+C_{PID}(s) = 1.85 C(s)   = 1.85(s^2 + 3.4s + 3.14)\frac{1}{s}
 \]
 \[
 C_{PID}(s) = 1.85s + 6.29 + \frac {5.809} {s} = 6.29 + \frac {5.809} {s} + 1.85s
 \]
-Giving us
+Matching coefficients with Equation \ref{eq:PIDform2} gives us
 \[
 K_P  = 6.29   \qquad  K_I =  5.809 \qquad K_D = 1.85
 \]

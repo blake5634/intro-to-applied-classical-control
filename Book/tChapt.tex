@@ -7,15 +7,21 @@
 % Uncomment for bibliog.
 %\bibliographystyle{unsrt}
 
-\usepackage{boxedminipage}
-\usepackage{graphicx}
-\usepackage{fancyhdr}
 \usepackage{amsmath}
-\usepackage{lineno}
+\usepackage{amssymb}
+\usepackage{boxedminipage}
+\usepackage{caption}
+\usepackage{color}
+\usepackage{enumitem}
+\usepackage{fancyhdr}
+\usepackage[T1]{fontenc}
+\usepackage{framed}
+\usepackage{graphicx}
 \usepackage{hyperref}
 \usepackage{listings}
-\usepackage{color}
-\usepackage[usenames,dvipsnames,svgnames,table]{xcolor}
+\usepackage{mdframed}
+\usepackage{tcolorbox}
+\usepackage{xcolor}
 
 \newcommand{\grad}{\bigtriangledown}
 \newcommand{\pd}{\partial}
@@ -59,9 +65,9 @@
 
 
 \begin{document}
-
-\setpagewiselinenumbers        %  Line numbers for edits to drafts.
-\modulolinenumbers[5]
+%
+% \setpagewiselinenumbers        %  Line numbers for edits to drafts.
+% \modulolinenumbers[5]
 
 
 \frontmatter
@@ -78,10 +84,10 @@
 
 \mainmatter
 
-\linenumbers
+% \linenumbers
 
 
-\setcounter{chapter}{0}
+\setcounter{chapter}{8}
 
 %   \input{Chapt01.tex}   % Introduction: LODE & LT  review
 % \input{Chapt02.tex}   % Translational Dynamics
