@@ -783,10 +783,12 @@ First, in the design process, from our specifications we must define the regions
 response satisfies our requirements (Section \ref{SPlaneRegionsSpecifications}).   Recall that
 the performance target could be a region (inequality requirements) or a point (equality requirements).
 
-Assuming that we use a PID controller, we focus on the form:
+Assuming that we use a PID controller, we can place two zeros in the $s$-plane to get the plant's root
+locus to move where we want it (we also add the PID controller's required pole at ($s=0$).
+Thus we focus on the form:
 
 \[
-C_{PID} = \frac {K(s+z_1)(z+z_2)}  {s}
+C_{PID} = \frac {K_D(s+z_1)(s+z_2)}  {s}
 \]
 
 At the end, our {\bf design} will consist of numerical values for the three parameters, $K, z_1, z_2$.
@@ -823,12 +825,9 @@ or 2b) plotting by computer and clicking on the desired point in the root locus 
 Suppose solving or clicking as above gives $K_D = 1.85$.
 Multiplying out the two CC PID zeros gives
 \[
-C(s) = \frac{(s + 1.7 + 0.5j)(s + 1.7 - 0.5j)}{s}  = \frac{s^2 + 3.4s + 3.14}{s}
+C(s) = \frac{K_D(s + 1.7 + 0.5j)(s + 1.7 - 0.5j)}{s}  = \frac{1.85(s^2 + 3.4s + 3.14)}{s}
 \]
-Therefore,
-\[
-C_{PID}(s) = 1.85 C(s)   = 1.85(s^2 + 3.4s + 3.14)\frac{1}{s}
-\]
+Multiplying and rearranging,
 \[
 C_{PID}(s) = 1.85s + 6.29 + \frac {5.809} {s} = 6.29 + \frac {5.809} {s} + 1.85s
 \]
@@ -954,11 +953,11 @@ It is decreed that we shall use a PID controller, but we have no initial values 
 
 To approach the manual design, we will use the root locus method to analyze performance of PID controllers.  Because we need to plot zeros and poles of the controller,  the most useful form of the PID controller (for this design method) is:
 \[
-C(s) = \frac{K(s+z_1)(s+z_2)}{s}
+C(s) = \frac{K_D(s+z_1)(s+z_2)}{s}
 \]
 (we can convert this to $K_P, K_I, \mathrm{and} K_D$ using Equation \ref{PID2}.)
 
-\subsubsection*{Problem Statement: }  Find values of $K, z_1, z_2$ (or equivalently $K_P, K_I, K_D$) that can be reasonably expected to meet the specifications.
+\subsubsection*{Problem Statement: }  Find values of $K_D, z_1, z_2$ (or equivalently $K_P, K_I, K_D$) that can be reasonably expected to meet the specifications.
 
 \subsubsection*{Solution method}
 \begin{enumerate}
@@ -969,7 +968,7 @@ C(s) = \frac{K(s+z_1)(s+z_2)}{s}
 
   \item Use the computer to plot the Root Locus.
   \item If the root locus goes through the target region, use the mouse to find the value of $K$ at the target location.
-  \item Use the chosen $z_1, z_2$ and $K$ values to derive  $K_P, K_I, K_D$ (see Section \ref{Kpderive})
+  \item Use the chosen $z_1, z_2$ and $K_D$ values to derive  $K_P, K_I, K_D$ (see Section \ref{Kpderive})
   \item If the root locus does NOT go through the target region, go back to step 4 and try again.
 \end{enumerate}
 %
