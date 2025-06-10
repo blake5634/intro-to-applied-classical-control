@@ -3,7 +3,7 @@
 ### Blake Hannaford
 
 
-(Initial Github distribution: August 2019. )
+(rev.s Spring 2025)
 
 [Read the book PDF Here.](./CtlBook.pdf)
 
