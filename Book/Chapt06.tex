@@ -13,8 +13,8 @@ Be able to
     perform basic block diagram transformations.
     \item  Derive the end-to-end closed-loop gain of a system with negative feedback.
     \item Explain the ``loop gain'' of a system with negative or positive feedback.
-    \item Define Sensitivity Analysis and be able to numerical compute sensitivity of
-    a defined performance parameter to a system parameter.
+    \item Define Sensitivity Analysis and be able to numerically compute sensitivity of
+    a defined performance measure to a system parameter.
     \item Define Disturbance Rejection and explain how Disturbance Rejection depends on
     loop gain.
     \item Compute and Bode Plot  Disturbance Rejection for disturbances at various locations in the system.
@@ -249,7 +249,7 @@ a model of the system will be $p_i$.   With these definitions, we define
 Sensitivity of performance measure $i$ to parameter $j$, about the current
 values, ${p_{j0}},{P_{i0}}$, as
 
-\begin{equation}
+\begin{equation}\label{Sij_Def}
 S_{ij} = \frac {\Delta P_i}{\Delta p_j } \frac{p_{j0}}{P_{i0}}
 \end{equation}
 This is like a derivative, but it is normalized by the values of the parameter and performance measure.
@@ -263,11 +263,14 @@ Although sensitivity can be derived analytically, we will concentrate here on us
 \begin{ExampleSmall}\label{sensexample}
 \includegraphics[width=3.5in]{figs06/00772a.png}
 
-One aspect of performance is the gain or magnitude ratio, $\left |\frac{Y}{X} \right|$.  Find the sensitivity of $P_i = \left |\frac{Y}{X} \right|$ to the parameter $G$.   In other words, compute sensitivity for
+One aspect of performance is the gain or magnitude ratio, $\left |\frac{Y}{X} \right|$.
+Find the sensitivity of $P_i = \left |\frac{Y}{X} \right|$ to the parameter $G$ around
+the value $P_{i0}=G=80$.   In other words, compute sensitivity for
 \[
 P_i = \left |\frac{Y}{X} \right| \qquad p_j = G
 \]
 Choose $\Delta = 10\%$.  We'll tabulate values of $G$, $H$, and $P_i$ in order to compute $S_{ij}$.
+First, we compute $P_i$ for two values of $G$ which are separated by $10\%$.
 
 \vspace{0.2in}
 \begin{tabular}{ccr} \hline
@@ -277,11 +280,12 @@ Choose $\Delta = 10\%$.  We'll tabulate values of $G$, $H$, and $P_i$ in order t
 \end{tabular}
 
 \vspace{0.2in}
-Now we compute $\Delta P_i$ by subtracting the numerical results (note that we need to use 6 significant figures to get a non-zero result).
+Now we compute $\Delta P_i$ by subtracting the numerical results
+(note that we needed to use 6 significant figures to get a non-zero result).
 \[
 \Delta P_i = 0.24929 - 0.24922 = 0.00007 = 7.0\times10^{-5}
 \]
-Therefore,
+Then, using eqn. \ref{Sij_Def},
 \[
 S_{ij} = \frac{7\times10^{-5}/0.24922}{8/80} = 2.81\times10^{-3} = 0.3\%
 \]
@@ -367,7 +371,7 @@ Some frequently encountered disturbances include:
 \begin{itemize}
   \item Electrical Noise (additive)
   \item Unmodeled mechanical effects such as non-linear friction, or effects of temperature on mechanical parameters.
-  \item Parameter value changes
+%   \item Parameter value changes
   \item Vibrations
   \item Unmodeled flexibility or mechanical resonance.
 \end{itemize}
@@ -388,7 +392,8 @@ Notice that this can be broken down into a linear part ($Kx$) and nonlinear part
 
 
 
-This computer plot shows the nonlinear spring given by the equation above and $K=1.5$ and also (in green) a linear fit:
+This computer plot shows the nonlinear spring given by the equation above and $K=1.5$ and also
+a linear fit (in green):
 \[
 f(x) = 2.7x
 \]
@@ -435,7 +440,7 @@ and sketch the BAMP of $GH(j\omega)$ and $\frac{Y(j\omega)}{D(j\omega)}$.
 \]
 and
 \[
-GH(s) = \frac{1000}{(s+1500)}
+GH(s) = \frac{1000}{(s+500)}
 \]
 
 
@@ -444,7 +449,7 @@ GH(s) = \frac{1000}{(s+1500)}
 
 The disturbance rejection is -9.5$dB$ for frequencies below about 100 rad/sec.   There is
 little or no disturbance rejection above about 1000 (which is the point where loop gain
-magnitude is 1.0). (margin values in paren represent computer results for $GH(s)$.)
+magnitude is 1.0).
 
 \end{ExampleSmall}
 
@@ -495,7 +500,8 @@ Y(1+G_1G_2H) = G_2D + G_1G_2X
 \[
 Y = \frac{G_2D}{1+G_1G_2H}  +  \frac{G_1G_2X}{1+G_1G_2H}
 \]
-Considering the case of a large loop gain, $G_1G_2H >> 1$, we have the situation where the disturbance is reduced by $G_1H$, which can be more or less disturbance rejection than reduction by $G_1G_2H$.
+Considering the case of a large loop gain, $G_1G_2H >> 1$, we have the situation where the disturbance is reduced by $G_1H$, which could be more or less disturbance rejection than reduction by $G_1G_2H$
+depending on the magnitudes of $G_1$ and $G_2$.
 
 
 
@@ -533,7 +539,7 @@ y(t) = 0.2u(t) + 20e^{-101t}
 
 \includegraphics[width=3.5in]{figs06/stepdisturba.png}
 
-The disturbance is reduced by about a factor of 100!   Note however that the second term is a transient arising from the step input of the disturbance.  Although this transient is over very quickly ($e^{-101t}$) it has a significant amplitude (20).   Disturbance rejection cannot react instantly!
+The disturbance is reduced by about a factor of 100! ($0.2u(t)$ compared to $20u(t)$).  Note however that the second term is a transient arising from the step input of the disturbance.  Although this transient is over very quickly ($e^{-101t}$) it has a significant amplitude (20).   Disturbance rejection cannot react instantly!
 
 
 \end{ExampleSmall}
@@ -563,17 +569,17 @@ G(s) =  \frac  {K}  {(s+1)(s+2)(s+3)}
 \]
 where $K$ is a positive real constant (we refer to terms like $K$ as a {\it gain}) and $H=1$.
 Clearly $G(s)$ is stable since the poles are $s=\{-1, -2, -3\}$.
-But what about when we consider the closed loop gain
-\[
-\frac{Y(s)}{X(s)} =  \frac{\frac{K}{(s+1)(s+2)(s+3)}}  {1+ \frac  {K}  {(s+1)(s+2)(s+3)}}
+But what about when we consider the closed loop gain?
+\[ =  \frac{\frac{K}{(s+1)(s+2)(s+3)}}  {1+ \frac  {K}  {(s+1)(s+2)(s+3)}}
 \]
-?
+
 \noindent
-Multiplying through by the poles of $G(s)$ we get
+Multiplying through by the poles of $G(s)$ we get the closed-loop transfer function
 \[
-= \frac {K}  {(s+1)(s+2)(s+3) + K}
+\frac{Y(s)}{X(s)}= \frac {K}  {(s+1)(s+2)(s+3) + K}
 \]
-The denominator $(s+1)(s+2)(s+3) + K$ is called the characteristic equation and it has different roots than the poles of $G(s)$.   For our closed loop transfer function, the poles are solutions to
+The denominator $(s+1)(s+2)(s+3) + K$ is called the characteristic equation and it has different roots than the poles of $G(s)$.   Multiplying out the poles of $G(s)$,  the poles of the closed loop transfer function
+are solutions to
 \[
 s^3+6s^2+11s+6 +K = 0
 \]
@@ -613,7 +619,7 @@ K=100.0
 
 \end{verbatim}
 
-Notice two main points:
+Notice four main things:
 
 \begin{itemize}
   \item When $K=0$ (first line) the closed loop poles are the same as the open loop poles.
@@ -623,7 +629,7 @@ Notice two main points:
 \end{itemize}
 
 
- From these observations we can conclude that the system is stable for gains below 60 but unstable for gains above that.  While this is a simple analysis to perform with the computer, in the early days of control engineering,  predicting stability of a closed loop system
+ From these computations we can conclude that the system is stable for gains below 60 but unstable for gains above that.  While this is a simple analysis to perform with the computer, in the early days of control engineering,  predicting stability of a closed loop system
  was a major challenge because of the lack of practical manual methods for solving polynomials above order 2.
  This was true even when each block was fully and accurately modeled.
  In response, some clever manual  techniques were developed for stability analyis and some of those are still important today, especially during design.
@@ -636,7 +642,7 @@ Notice two main points:
 
 The following is a very basic derivation of closed loop stability.  It applies only to systems whos blocks have only poles with negative real parts or poles at the origin.
 
-Consider the closed loop system of Figure \ref{NyquistLoop}, Left.  Recall that any function of $s$ has a complex value which in turn has an angle and magnitude.  Suppose we look at the steady state sinusoidal domain ($s=j\omega$, see Section \ref{FrequencyResponseSection}) and further suppose that for some $\omega$,
+Consider the closed loop system of Figure \ref{NyquistLoop} (Left).  Recall that any function of $s$ has a complex value which in turn has an angle and magnitude.  Suppose we look at the steady state sinusoidal domain ($s=j\omega$, see Section \ref{FrequencyResponseSection}) and further suppose that for some $\omega$,
 
 $$
 \angle A(j\omega) = 180^\circ
@@ -645,7 +651,10 @@ This would have the effect of changing the sign on the feedback loop and causing
  feedback'' also known as instability.
 
 
-Suppose on the other hand that $A$ is real (i.e. $\angle A = 0$) but we add a term of $H=-1$ to the feedback loop (Figure \ref{NyquistLoop}, Right).  In both of these cases the total angle around the loop (the angle of the loop gain) is $180^\circ$.    Analyzing the closed loop gain
+Suppose on the other hand that $A$ is real (i.e. $\angle A = 0$) but we add a term of $H=-1$
+(also $\angle{H} = 180^\circ$) to the feedback loop (Figure \ref{NyquistLoop}, Right).
+In both of these cases the total angle around the loop (the angle of the loop gain) is $180^\circ$.
+Analyzing the closed loop gain
 \[
 Y = A(X-(-Y)) = AX + AY
 \]
@@ -666,15 +675,17 @@ for the case $A=1$,
 \end{figure}
 
 Lets expand $A(s) = C(s)P(s)$ to represent the combination of controller ($C(s)$) and
-plant ($P(s)$). Then, if the loop gain is $M(s) = C(s)P(s)H(s)$, a condition on the loop gain for instability is
+plant ($P(s)$). Then, if the loop gain is $CPH(s) = C(s)P(s)H(s)$,
+a condition on the loop gain for instability of the closed loop system is
 \[
-\left | M(j\omega) \right | = 1, \qquad \angle M(j\omega) = 180^\circ
+\left | CPH(j\omega) \right | >= 1, \qquad \angle CPH(j\omega) >= 180^\circ
 \]
 
 Using the BAMP we should be able to detect this combination.
 
+\clearpage
 \begin{ExampleSmall}\label{bodestabilityexample}
-A system has the open loop transfer function ($GH(s)$):
+A system has the open loop transfer function ($CPH(s)$):
 \[
 G(s) = \frac {3.9\times 10^4} {(s+1)(s+22)(s+100)}
 \]
@@ -720,7 +731,7 @@ Carefully drawing the Bode gain and phase plots by hand:
 \includegraphics[width=110mm]{figs06/01063.png}
 
 Using pencil and paper we get Gain and Phase margins of 0.  This means the system is right on the edge.  Certainly with
-the limited precision of pencil work, we would be safe to consider this unstable.
+the limited precision of pencil work, we would be safer to consider this unstable.
 Using python.control's {\tt  margin()} command we get more precisely:
 \[
 GM = 0.69dB \qquad PM = 2.0^\circ

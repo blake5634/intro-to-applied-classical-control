@@ -373,6 +373,174 @@ Solving, using the techniques in Chapter 2:
 \end{ExampleCont}
 
 
+% Problem 447 M17 P3 Sp25
+
+\begin{Example}\label{GearTransformV1}
+
+Consider this geared system:
+
+\includegraphics[width=4.0in]{figs03/R21J34.png}
+
+We note that our gear ratio, $N= 100/25 = 4$.
+
+
+\noindent
+{\bf Part 1:}
+Eliminate the gears and draw the transformed system:
+
+\noindent {\bf Solution: }  Eliminating the gears and changing parameter values {\it after} the gears we get:
+
+\includegraphics[width=4.0in]{figs03/R21J35.png}
+
+where
+\[
+\begin{array}{rl}
+N =& \frac{100}{25} = 4\\
+J_T = & J_1+\hat{J}_2 = J_1+N^2J_2 \\
+\hat{B}_2 =& N^2B_2\\
+\hat{K}_2 =& N^2K_2\\
+\hat{J}_3=&N^2J_2\\
+\hat{B}_3=&N^2B_3\\
+\hat{K}_3=&N^2K_3\\
+\hat{\theta}_2 =& N^{-1}\theta_2 = \theta_2/4
+\end{array}
+\]
+
+\end{Example}
+
+\begin{ExampleCont}
+
+\noindent
+{\bf Part 2:}
+Write the EOM(s)
+
+\noindent {\bf Solution: }
+
+EOM1:
+\[
+J_T\ddot{\theta}_1 + \hat{B}_2\dot{\theta}_1+\hat{K}_2(\theta_1-\hat{\theta}_2) = \tau
+\]
+EOM2:
+\[
+\hat{J}_3\ddot{\hat{\theta}}_2+\hat{B}_3 \dot{\hat{\theta}}_2 + \hat{K}_2(\hat{\theta_2}-{\theta}_1)+\hat{K}_3(\hat{\theta}_2)=0
+\]
+
+
+\noindent
+{\bf Part 3:}
+Substitute to eliminate all ``hats", and $N$'s in your answer
+% (in other words, substitute numbers for hats and $N$ terms.)
+
+
+\noindent {\bf Solution: }
+
+EOM1:
+\[
+(J_1+16J_2)\ddot{\theta}_1 + 16B_2\dot{\theta}_1 + 16K_2(\theta_1-\frac{1}{4}\theta_2) = \tau
+\]
+EOM2:
+\[
+16J_3\frac{1}{4}\ddot{\theta}_2+16B_3\frac{1}{4}\dot{\theta}_2
++16K_2(\frac{1}{4}\theta_2-\theta_1) + 16K_3(\frac{1}{4}\theta_2) = 0
+\]
+or equivalently (for EOM2):
+\[
+J_3\ddot{\theta}_2 + B_3\dot{\theta}_2+K_2\theta_2-4K_2\theta_1 +K_3\theta_2= 0    % divide through by 4
+\]
+
+(a similar simplification is of course possible for EOM1.)
+\end{ExampleCont}
+
+
+
+\begin{Example}
+
+Nick Baroody (Sp25) proposed an alternate method, which can be easier in some problems.
+
+Consider the same system as the first diagram in Example \thechapter.\ref{GearTransformV1}.
+
+\noindent
+{\bf Part 1:}
+Eliminate the gears and draw the transformed system. As an alternate transformation-based method,
+leave $J_2, K_2, B_2, J_3, K_3, B_3$ as they are and transform only $J_1$ into the $\theta_2$ variables!
+
+\noindent {\bf Solution:}
+This time our gear ratio is inverted:
+\[
+N = 25/100 = 1/4
+\]
+and we have only one transform,
+\[
+\hat{J_1} = n^2 J_1 = \frac{1}{16} J_1
+\]
+We also need to transform $\tau_1, \theta_1$ according to
+\[
+\hat{\tau}_1 = n\tau_1 = \tau_1/4    \quad \mathrm{and} \quad  \hat{\theta}_1 = 1/n\theta_1 = 4\theta_1
+\]
+
+Our first mass is therefore
+\[
+J_T = J_2 + \hat{J}
+\]
+
+and the transformed system is
+
+\includegraphics[width=4.0in]{figs03/R21J35rev.png}
+
+
+\noindent
+{\bf Part 2:}
+Write the EOM(s)
+\noindent Writing the  EOM's for the above figure,
+
+
+
+
+\noindent {\bf Solution: }
+
+\noindent Inertia $J_T$:
+\[
+J_T \ddot{\hat{\theta}}_1 + B_2 \dot{\hat{\theta}}_1 + K_2(\hat{\theta}_1 - \theta_2) = \hat{\tau}
+\]
+
+\noindent Inertia $J_3$:
+\[
+J_3 \ddot{\theta}_2 + B_3 \dot{\theta}_2 + K_2(\theta_2 - \hat{\theta_1}) + K_3 \theta_2 = 0
+\]
+
+
+\noindent
+{\bf Part 3:}
+Substitute to eliminate all ``hats", and $N$'s in your answer
+
+
+
+
+\noindent {\bf Solution: }
+
+\noindent $J_T$:
+\[
+\left(\frac{1}{16} J_1 + J_2\right)  4 \ddot{\theta}_1 + B_2  4 \dot{\theta}_1 + K_2\left(4 \theta_1 - \theta_2\right) = \frac{1}{4} \tau
+\]
+\[
+\left(  J_1 + 16J_2\right)\ddot{\theta}_1 + 16 B_2  \dot{\theta}_1 + 16 K_2\left( \theta_1 - \frac14 \theta_2\right) =  \tau
+\]
+%
+% \[
+% \left(J_1 + 16 J_2\right) \ddot{\theta}_1 + 16 B_2 \dot{\theta}_1 + 16 K_2\left(\theta_1 - 4\theta_2\right) = \tau
+% \]
+
+
+\noindent $J_3$:
+\[
+J_3 \ddot{\theta}_2 + B_3 \dot{\theta}_2 + K_2(\theta_2 - 4\theta_1) + K_3 \theta_2 = 0
+\]
+
+Note: These are the same EOMs as the earlier method of Example \thechapter.\ref{GearTransformV1}
+
+\end{Example}
+
+
 %%%%** Section 5
 \section{Rotary to Linear Motion}
 

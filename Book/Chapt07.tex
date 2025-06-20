@@ -363,7 +363,7 @@ The following Root Locus drawing rules derive from either the Magnitude Conditio
   \item RL Starts (when $K=0$) at the roots of $CPH(s)$ so start out by  plotting these poles and zeros (as x's and o's).
   \item Find which parts of the real line contain parts of the RL.  For each point on the real axis, if the total number of poles and zeros to right is ODD, that part is ON the RL. Conversely, if the total number of poles and zeros to the right is EVEN, that segment is OFF the RL.
   \item The number of asymptotes (diverging branches which go out to infinity)  is $n_p-n_z$, where $n_p$ is the number of loop gain poles and $n_z$ is the number of zeros.
-  \item If $n_p-n_z \neq 0$, the place where the asympototes intersect the real line is:
+  \item If $n_p-n_z \neq 0$, the place where the asymptotes intersect the real line is:
  $$
  \sigma_a = \frac{\Sigma\mathrm{poles}- \Sigma\mathrm{zeros}}{n_p-n_z}
  $$.
@@ -402,28 +402,56 @@ knowing only the {\it open loop} poles and zeros.
 \vspace{0.35in}	%<h>
 
 %\end{frame}  %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+We have three fundamental facts about the points on the root locus:
+
+\begin{tabular}{p{2.5in}|p{2.5in}|c}
+Question			&  Answer			& Reason	\\ \hline \hline
+Fact 1. What is true for any value of $s$ on the root locus?
+				&  $\angle{CPH(s)} = \pi, 3\pi, 5\pi \dots$, ``Angle Condition'' &  (see below)   \\ \hline
+Fact 2. What is $k$ for a value of $s$ on the RL?  &
+$|KCPH(s)| = 1$ so $ K = 1/|CPH(s)|$. ``Magnitude Condition''                          & (see below) \\ \hline\hline
+Fact 3. Where do branches of the RL go as $k \to \infty$?  &
+From poles of $CPH(s)$ to zeros of $CPH(s)$ or they diverge to $|s| = \infty$         & M     \\ \hline
+\end{tabular}
+
+\vspace{0.25in}	%<h>
 
 
 Each of the following Root Locus Drawing Rules is the answer to a FAQ.
+It is recommended to first plot the open-loop gain poles, and then to
+draw answers to the following questions in order:
 
+
+\vspace{0.25in}	%<h>
 % Make table rows deeper
 \renewcommand\arraystretch{2.5}% Vertical Row size, 1.0 is for standard spacing)
 \begin{tabular}{p{2.5in}|p{2.5in}|c}
 Question			&  Answer			& Reason	\\ \hline \hline
-Fact 1. What is true for any value of $s$ on the root locus?
-				&  $\angle{CPH(s)} = \pi, 3\pi, 5\pi \dots$, ``Angle Condition'' &     \\ \hline
-Fact 2. What is $k$ for a value of $s$ on the RL?  &
-$|KCPH(s)| = 1$ so $ K = 1/|CPH(s)|$. ``Magnitude Condition''                          &     \\ \hline\hline
-Rule 1. Where do branches of the RL go as $k \to \infty$?  &
-From poles of $CPH(s)$ to zeros of $CPH(s)$ or they diverge to $|s| = \infty$         & M     \\ \hline
+Rule 1. What parts of the real axis contain some of the RL?          &
+A segment of the real axis has RL on it
+if the number of real poles and zeros to the right is ODD. & A     \\\hline
+
 Rule 2. How many branches diverge to  $|s| = \infty$?      &
 $n_d = n_p-n_z$.                                                                & P      \\ \hline
+
 Rule 3. What angles do the asymptotes have?                 &
 $\theta_d = \frac{\pi(1+2m)}{n_p-n_z},\quad m= 0,1,2,3\dots$                    & A      \\ \hline
-Rule 4. Where do asymptotes intersect the real axis?        &
+
+Rule 4. Where do the asymptotes intersect the real axis?        &
 $\sigma_a = \frac{\Sigma\mathrm{poles}- \Sigma\mathrm{zeros}}{n_p-n_z} $        & P      \\ \hline
-Rule 5. What parts of the real axis are ON the RL?          &
-A segment is ON the RL if the number of real poles and zeros to the right is ODD. & A     \\ \hline \hline
+\end{tabular}
+\vspace{0.25in}	%<h>
+
+The following two rules can be used to make your hand drawn root locus more accurate.
+In some case they can disambiguate certain situations.   However with the ease of computer
+plotting they are no longer frequently used.
+
+
+\vspace{0.25in}	%<h>
+% Make table rows deeper
+\renewcommand\arraystretch{2.5}% Vertical Row size, 1.0 is for standard spacing)
+\begin{tabular}{p{2.5in}|p{2.5in}|c}
+Question			&  Answer			& Reason	\\ \hline \hline
 Rule 6. At which point do branches leave or join the real axis?    &
 at real values, $s$, where $\frac{d}{ds}\frac{P(s)}{Z(s)}=0$                      & P,A    \\ \hline
 Rule 7. At what angle do branches depart from a complex pole? (or join a complex zero?) &
@@ -438,7 +466,23 @@ $\theta_d = \pi-\Sigma\angle\mathrm{poles} + \Sigma\angle\mathrm{zeros} $       
 Reason codes:
 A = ``angle condition'', M = ``magnitude condition'', P = theory of polynomials.
 
-Rules 6 and 7 are from pre-computer days and no longer needed (in my opinion).
+\paragraph{Magnitude and Angle Conditions:}  Remember that every point on the root locus is a
+pole of the closed-loop transfer function for different values of $K$.   We applied HS Black's equation
+to get the closed-loop transfer function above (Equation \ref{hsblackeqn}.  Thus the poles of
+the closed-loop transfer function satisfy the equation
+\[
+1+KC(s)P(s)H(s) = 0 \quad \mathrm{or} \quad  KC(s)P(s)H(s) = -1
+\]
+so, for every point on the RL we have the
+
+{\bf Magnitude Condition:}
+\[
+|KC(s)P(s)H(s) | = 1
+\]
+and the {\bf Angle Condition:}
+\[
+\angle{(KC(s)P(s)H(s))} = 180^\circ
+\]
 
 
 
