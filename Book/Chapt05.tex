@@ -1138,24 +1138,47 @@ dB(|P_2(j\omega_n)|) =  -dB(2) -dB(\zeta) -dB(\omega_n^2) = -6dB -(-60)db -2 dB(
 \]
 
 The magnitude is increased by $54dB$.   Thus, while the complex conjugate pole pair has two asymptotes which act just like two real poles at $\omega_n$, the behavior at $\omega \approx \omega_n$ depends on $\zeta$.
-Specifically, we can go back to the Case 2 result:
+% Specifically, we can go back to the Case 2 result:
+%
+% \[
+% |P_2(j\omega_n)| =  \frac {1}  {2\zeta \omega_n^2}
+% \]
+% using $dB$ and the log properties:
+% \[
+% |P_2(j\omega_n)| = 0dB - dB(2) - dB(\zeta) - dB(\omega_n^2)
+% \]
+% Notice that for $\omega<<\omega_n$, the horizontal asymptote is at $- dB(\omega_n^2)$.  Thus at
+% $\omega=\omega_n$, we correct the amplitude with a peak or smooth portion based on $\zeta$ according
+% to
+% \[
+% \mathrm{Correction}\; = -6 -dB(\zeta) = -dB(2\zeta)
+% \]
 
+
+It's not critical to get the peak exact, just make it ``tall and skinny'' for
+$\zeta \approx 0.1$, or make the peak disappear (down to $-6dB$)
+for $\zeta \approx 1.0$, and whatever
+in between.   There is a basic lookup table in Example  \thechapter.\ref{bodeZetaComputer}
+There's an easy formula for the exact peak however.
+Doing a little more math, and looking at a generic CC pole pair:
 \[
-|P_2(j\omega_n)| =  \frac {1}  {2\zeta \omega_n^2}
+G_{pp}(s) = \frac {\omega_n^2 }  {s^2 + 2\zeta\omega_n s + \omega_n^2}
 \]
-using $dB$ and the log properties:
+to find its peak, evaluate the magnitude at $s=j\omega_n$:
 \[
-|P_2(j\omega_n)| = 0dB - dB(2) - dB(\zeta) - dB(\omega_n^2)
+| G_{pp}(s) |_{s=j\omega_n} = \left |\frac {\omega_n^2}  {j^2\omega_n^2 + 2\omega_n j\omega_n  + \omega_n^2}  \right |  = \left |\frac {\omega_n^2} {2\zeta \omega_n^2 j } \right | = \frac {1}  {2\zeta}
 \]
-Notice that for $\omega<<\omega_n$, the horizontal asymptote is at $- dB(\omega_n^2)$.  Thus at
-$\omega=\omega_n$, we correct the amplitude with a peak or smooth portion based on $\zeta$ according
-to
+Converting to dB:
 \[
-\mathrm{Correction}\; = -6 -dB(\zeta) = -dB(2\zeta)
+| G_{pp}(s=j\omega_n) |_{dB} = -6dB - dB(\zeta) = -dB(2\zeta)
 \]
+So the height of the peak (relative to wherever the Bode plot was at before the CC
+poles) is just the formula above!  A very similar trick works for complex conjugate
+zeros.
+
 (quite simple and this is an exact result, not an approximation!)
 
-\begin{ExampleSmall}
+\begin{ExampleSmall}\label{bodeZetaComputer}
 
 Use the computer to plot the BAMP of
 \[
@@ -1194,6 +1217,7 @@ $\zeta$  & Peak (dB) \\\hline
 0.5      &  $0dB$  \\
 1.0      &  $-6dB $ \\
 \end{tabular}\end{center}
+
 
   \item  Notice also in the computer output that the location  of the peak on the log $\omega$ axis
   shifts a bit lower than $\omega_n$ when $\zeta \to 1$.
