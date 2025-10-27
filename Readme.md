@@ -14,12 +14,9 @@ a 10-week course on mostly classical control in the Department of Electrical and
 
 The strategy is to focus on a minimal set of concepts, and repeated practice of related skills rather than racing through a comprehensive syllabus. 
 
-Computing is accomplished with the open source Scilab package.  Many engineering programs are based heavily 
-on Mathwork's  Matlab software but are considering open source alternatives.  Scilab has the advantage of being close in style and syntax to Matlab.
-Python may be a better overall approach, but if they do not have a prior python background, 
-and have Matlab exposure from previous courses, Scilab can save a lot of time in a 10 week course.
+Computing is accomplished with Python 3 and python control.  
 
-A basic Scilab script for optimization of PID controllers is provided for numerically driven design.   This allows 
+A basic python script for optimization of PID controllers is provided for numerically driven design.   This allows 
 non-traditional aspects of performance such as control effort (addressing actuator saturation) to be factored in. 
 Because of the small dimensionality of the controllers designed in this course, 
 ``brute-force"  optimization is employed.
